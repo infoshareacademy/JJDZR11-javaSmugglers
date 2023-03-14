@@ -1,13 +1,12 @@
 package pl.isa.javasmugglers;
 
-/**
- * Hello world!
- *
- */
+
 public class App 
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+    public static void main( String[] args ){
+        //testowe odpalenie aplikacji
+        Menu menu = new Menu();
+        System.out.println(menu.getMenu());
+        menu.userSelection(menu.getValidInput());
     }
 }
