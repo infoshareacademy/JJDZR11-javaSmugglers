@@ -33,7 +33,7 @@ public class DatabaseWriter {
             } else {
                 userList = new ArrayList<>();
             }
-            User newUser = new User(userType, userEmail, userFirstName, userLastName, userPassword);
+            User newUser = new User(userType, userFirstName, userLastName, userEmail, userPassword);
             userList.add(newUser);
             objectMapper.writeValue(userDatabase, userList);
             System.out.println("Informacje o użytkowniku zostały poprawnie dodane do bazy danych");
