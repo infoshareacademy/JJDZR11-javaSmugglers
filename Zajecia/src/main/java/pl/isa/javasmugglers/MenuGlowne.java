@@ -3,7 +3,7 @@ package pl.isa.javasmugglers;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Menu {
+public class MenuGlowne {
 
     // Metoda wyświetlająca menu w konsoli
     public String getMenu() {
@@ -44,8 +44,7 @@ public class Menu {
         switch (userSelection) {
             case 1:
                 //Tutaj wywołuję swoją metodę Błażej
-                Users newUser = new Users();
-                newUser.userInput();
+                MenuAddUser newUser = new MenuAddUser();
                 newUser.addUser();
                 break;
             case 2:
