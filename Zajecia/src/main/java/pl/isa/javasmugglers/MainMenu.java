@@ -3,7 +3,7 @@ package pl.isa.javasmugglers;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MenuGlowne {
+public class MainMenu {
 
     // Metoda wyświetlająca menu w konsoli
     public String getMenu() {

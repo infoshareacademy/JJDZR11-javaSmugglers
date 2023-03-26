@@ -5,8 +5,8 @@ public class App
 {
     public static void main( String[] args ){
         //testowe odpalenie aplikacji
-        MenuGlowne menuGlowne = new MenuGlowne();
-        System.out.println(menuGlowne.getMenu());
-        menuGlowne.userSelection(menuGlowne.getValidInput());
+        MainMenu mainMenu = new MainMenu();
+        System.out.println(mainMenu.getMenu());
+        mainMenu.userSelection(mainMenu.getValidInput());
     }
 }
