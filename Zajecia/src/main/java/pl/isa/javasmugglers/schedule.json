@@ -1,0 +1,24 @@
+{
+  "courses": [
+    {
+      "name": "Programowanie w Javie",
+      "time": "Poniedziałek 10:00-12:00",
+      "room": "B-203"
+    },
+    {
+      "name": "Matematyka",
+      "time": "Wtorek 14:00-16:00",
+      "room": "A-105"
+    },
+    {
+      "name": "Fizyka",
+      "time": "Środa 8:00-10:00",
+      "room": "C-301"
+    },
+    {
+      "name": "Bazy danych",
+      "time": "Czwartek 12:00-14:00",
+      "room": "B-101"
+    }
+  ]
+}
