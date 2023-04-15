@@ -37,8 +37,8 @@ public class UserLogin {
             for (User user1 : userListList) {
                 if ((userEmail.equals(user1.getUserEmail()) && userPassword.equals(user1.getUserPassword())) && userType.equals(user1.getUserType())) {
 
-                  i = userListList.indexOf(user1);
-                  System.out.println("Zalogowano jako " + user1.getUserFirstName() + " " + user1.getUserLastName());
+                    i = userListList.indexOf(user1);
+                    System.out.println("Zalogowano jako " + user1.getUserFirstName() + " " + user1.getUserLastName());
                     break;
                 }
 
@@ -52,9 +52,10 @@ public class UserLogin {
 
         return userListList.get(i);
     }
+
     public User loginProfessor() {
         List<User> userListList = new ArrayList<>();
-        int  i = 0;
+        int i = 0;
         try {
             byte[] mapData = Files.readAllBytes(Paths.get("Zajecia/src/main/Resources/allUsersDatabase.json"));
             User[] userArr = null;
@@ -72,18 +73,18 @@ public class UserLogin {
             for (User user1 : userListList) {
                 if ((userEmail.equals(user1.getUserEmail()) && userPassword.equals(user1.getUserPassword())) && userType.equals(user1.getUserType())) {
                     System.out.println("Zalogowano jako " + user1.getUserFirstName() + " " + user1.getUserLastName());
-                    i= userListList.indexOf(user1);
+                    i = userListList.indexOf(user1);
                     break;
                 }
 
 
             }
 
-        } catch (JsonMappingException ex) {
         } catch (IOException ex) {
+
             ex.printStackTrace();
         }
 
-    return userListList.get(i);
+        return userListList.get(i);
     }
 }

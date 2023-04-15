@@ -39,31 +39,43 @@ public class MainMenu {
         return userInput;
     }
 
+    public String loginUserP() {
+        UserLogin userLogin2 = new UserLogin();
+        String string2 = userLogin2.loginProfessor().toString();
+        File userFile2 = new File("Zajecia/src/main/Resources/UserFiles/" + string2 + ".json");
+        return userFile2.toString();
+    }
+
+    public String loginUserU() {
+        UserLogin userLogin1 = new UserLogin();
+        String string1 = userLogin1.loginStudent().toString();
+        File userFile1 = new File("Zajecia/src/main/Resources/UserFiles/" + string1 + ".json");
+        return userFile1.toString();
+    }
 
     //metoda odpalająca odpowiednie klasy w zależności od inputu użytkownika
     public void userSelection(int userSelection) {
         switch (userSelection) {
-            case 1:
+            case 1: {
                 //Tutaj wywołuję swoją metodę Błażej
                 MenuAddUser newUser = new MenuAddUser();
                 newUser.addUser();
                 break;
-            case 2:
+            }
+            case 2: {
 
                 System.out.print("Wybrano 2");
-                UserLogin userLogin1 = new UserLogin();
-                String string1 = userLogin1.loginStudent().toString();
-                File userFile1 = new File("Zajecia/src/main/Resources/UserFiles/"+ string1 +".json");
-                System.out.println(userFile1.toString());
+                final String uczenPathName = loginUserU();
+                System.out.println(uczenPathName);
                 break;
-            case 3:
+            }
+            case 3: {
 
                 System.out.print("Wybrano 3");
-                UserLogin userLogin2 = new UserLogin();
-                String string2 = userLogin2.loginProfessor().toString();
-                File userFile2 = new File("Zajecia/src/main/Resources/UserFiles/"+ string2 +".json");
-                System.out.println(userFile2.toString());
+                final String profesorPathName = loginUserP();
+                System.out.println(profesorPathName);
                 break;
+            }
         }
     }
 
