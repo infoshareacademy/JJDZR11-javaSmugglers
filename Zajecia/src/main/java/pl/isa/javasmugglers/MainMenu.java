@@ -1,5 +1,6 @@
 package pl.isa.javasmugglers;
 
+import java.io.File;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -48,12 +49,20 @@ public class MainMenu {
                 newUser.addUser();
                 break;
             case 2:
-                //Tutaj wywołują swoje metody Mikołaj i Patryk
+
                 System.out.print("Wybrano 2");
+                UserLogin userLogin1 = new UserLogin();
+                String string1 = userLogin1.loginStudent().toString();
+                File userFile1 = new File("Zajecia/src/main/Resources/UserFiles/"+ string1 +".json");
+                System.out.println(userFile1.toString());
                 break;
             case 3:
-                //Tutaj wywołuje swoją metodę Dominik
+
                 System.out.print("Wybrano 3");
+                UserLogin userLogin2 = new UserLogin();
+                String string2 = userLogin2.loginProfessor().toString();
+                File userFile2 = new File("Zajecia/src/main/Resources/UserFiles/"+ string2 +".json");
+                System.out.println(userFile2.toString());
                 break;
         }
     }
