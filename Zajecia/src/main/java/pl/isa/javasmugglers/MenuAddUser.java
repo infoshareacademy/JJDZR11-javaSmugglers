@@ -14,11 +14,14 @@ public class MenuAddUser {
 
 
     //Metoda zbierająca input użytkownika
-    public void addUser() {
+    public void addUser(MainMenu mainMenu) {
+
+        InputValidator inputValidator = new InputValidator();
+
 
         //Selekcja typu użytkownika
-        System.out.println("Proszę wybrać po przez wpisanie odpowiedniej liczby: \n" + "1. Uczniem \n" + "2. Profesorem: ");
-        if (getValidInput() == 1) this.userType = "Uczeń";
+        System.out.println("Proszę wybrać poprzez wpisanie odpowiedniej liczby: \n" + "1. Uczniem \n" + "2. Profesorem: ");
+        if (inputValidator.getValidInput(2) == 1) this.userType = "Uczeń";
         else this.userType = "Profesor";
 
         Scanner scanner = new Scanner(System.in);
@@ -41,28 +44,27 @@ public class MenuAddUser {
         DatabaseWriter newUser = new DatabaseWriter();
         newUser.addUserToDatabase(this.userType, this.userFirstName, this.userLastName,  this.userEmail, this.userPassword);
 
-    }
+        System.out.println();
+        System.out.println("Co chcesz teraz zrobić:");
+        System.out.println("1. Dodaj kolejnego użytkownika.");
+        System.out.println("2. Powrót do menu głównego.");
+        System.out.println("3. Wyjście z programu.");
+        System.out.print("Proszę wybrać opcję: ");
 
-    //Test inputu przy wyborze typu użytkownika
-    public int getValidInput() {
-        Scanner scanner = new Scanner(System.in);
-        int userInput = 0;
-        boolean isValid = false;
-
-        while (!isValid) {
-            try {
-                userInput = scanner.nextInt();
-                if (userInput >= 1 && userInput <= 2) {
-                    isValid = true;
-                } else {
-                    System.out.println("Nieprawidłowa liczba. Podaj liczbę od 1 do 2.");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Nieprawidłowe dane wejściowe. Oczekiwano liczby.");
-                scanner.nextLine();
-            }
+        switch (inputValidator.getValidInput(3)) {
+            case 1:
+                addUser(mainMenu);
+                break;
+            case 2:
+                System.out.println(mainMenu.getMenu());
+                mainMenu.userSelection(mainMenu.getValidInput());
+                break;
+            case 3:
+                System.out.println("Dziękujemy. Trwa wyłączanie programu....");
+                System.exit(0);
+                break;
         }
-        return userInput;
     }
+
 }
 
