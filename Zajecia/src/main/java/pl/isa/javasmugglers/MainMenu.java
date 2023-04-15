@@ -40,15 +40,13 @@ public class MainMenu {
     }
 
     public String loginUserP() {
-        UserLogin userLogin2 = new UserLogin();
-        String string2 = userLogin2.loginProfessor().toString();
+        String string2 = UserLogin.LoginProfessor.loginProfessor().toString();
         File userFile2 = new File("Zajecia/src/main/Resources/UserFiles/" + string2 + ".json");
         return userFile2.toString();
     }
 
     public String loginUserU() {
-        UserLogin userLogin1 = new UserLogin();
-        String string1 = userLogin1.loginStudent().toString();
+        String string1 = UserLogin.LoginStudent.loginStudent().toString();
         File userFile1 = new File("Zajecia/src/main/Resources/UserFiles/" + string1 + ".json");
         return userFile1.toString();
     }
