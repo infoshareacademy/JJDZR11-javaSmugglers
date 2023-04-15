@@ -15,11 +15,8 @@ public class User {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
     }
-    @Override
-    public String toString() {
-        return userEmail;
-    }
-        public String getUserType() {
+
+    public String getUserType() {
         return userType;
     }
 
