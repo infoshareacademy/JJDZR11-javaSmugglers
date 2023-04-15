@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DatabaseWriter {
 
@@ -42,29 +41,5 @@ public class DatabaseWriter {
             e.printStackTrace();
         }
     }
-// kod testowy do wyświetlania odpowiednich użytkowników
-/*    public void displayUsersByType(String userType) {
-        try {
-            File userDatabase = new File("src/main/Resources/" + "allUsersDatabase.json");
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            // Zakładamy, że baza danych zawsze istnieje
-            List<User> userList = objectMapper.readValue(userDatabase, new TypeReference<>() {});
-
-            List<User> filteredUserList = userList.stream()
-                    .filter(user -> user.getUserType().equalsIgnoreCase(userType))
-                    .toList();
-
-            System.out.println("Lista użytkowników typu \"" + userType + "\":");
-            for (User user : filteredUserList) {
-                System.out.println("Imię: " + user.getUserFirstName() +
-                        ", Nazwisko: " + user.getUserLastName() +
-                        ", Email: " + user.getUserEmail());
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
 }
 

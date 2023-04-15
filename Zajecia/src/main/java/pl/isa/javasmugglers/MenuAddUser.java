@@ -1,6 +1,5 @@
 package pl.isa.javasmugglers;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 

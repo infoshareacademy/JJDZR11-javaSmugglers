@@ -1,8 +1,5 @@
 package pl.isa.javasmugglers;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
-
 public class MainMenu {
 
     // Metoda wyświetlająca menu w konsoli
