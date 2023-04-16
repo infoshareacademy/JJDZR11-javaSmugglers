@@ -64,12 +64,14 @@ public class MainMenu {
 
                 System.out.print("Wybrano 2");
                 final String uczenPathName = loginUserU();
+                System.out.println(uczenPathName);
                 break;
             }
             case 3: {
 
                 System.out.print("Wybrano 3");
                 final String profesorPathName = loginUserP();
+                System.out.println(profesorPathName);
                 break;
             }
             case 4:
