@@ -92,7 +92,6 @@ public class UserLogin {
 
                 ex.printStackTrace();
             }
-            System.out.println("Nie ma takiego użytkownika");
             return userListList.get(i);
         }
     }
