@@ -1,4 +1,10 @@
-[
+[ {
+  "userType": "@@@@@@@@@@@@@@@@@@@@@@@@@@@",
+  "userFirstName": "@@@@@@@@@@@@@@@@@@@@@2",
+  "userLastName": "@@@@@@@@@@@@@@@@@@@@@@@@@@2",
+  "userEmail": "@@@@@@@@@@@@@@@@@@@@@@@@@@",
+  "userPassword": "@@@@@@@@@"
+},
   {
     "userType": "Uczeń",
     "userFirstName": "Tom",
