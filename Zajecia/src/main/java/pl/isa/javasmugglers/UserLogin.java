@@ -26,7 +26,7 @@ public class UserLogin {
             String userType;
             List<User> userListList = new ArrayList<>();
             try {
-                byte[] mapData = Files.readAllBytes(Paths.get("Zajecia/src/main/Resources/allUsersDatabase.json"));
+                byte[] mapData = Files.readAllBytes(Paths.get("src/main/Resources/allUsersDatabase.json"));
                 User[] userArr = null;
 
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -64,7 +64,7 @@ public class UserLogin {
             List<User> userListList = new ArrayList<>();
             int i = 0;
             try {
-                byte[] mapData = Files.readAllBytes(Paths.get("Zajecia/src/main/Resources/allUsersDatabase.json"));
+                byte[] mapData = Files.readAllBytes(Paths.get("src/main/Resources/allUsersDatabase.json"));
                 User[] userArr = null;
 
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -92,7 +92,7 @@ public class UserLogin {
 
                 ex.printStackTrace();
             }
-
+            System.out.println("Nie ma takiego użytkownika");
             return userListList.get(i);
         }
     }

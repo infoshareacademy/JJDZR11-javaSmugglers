@@ -25,13 +25,13 @@ public class MainMenu {
 
     public String loginUserP() {
         String string2 = UserLogin.LoginProfessor.loginProfessor().toString();
-        File userFile2 = new File("Zajecia/src/main/Resources/UserFiles/" + string2 + ".json");
+        File userFile2 = new File("src/main/Resources/UserFiles/" + string2 + ".json");
         return userFile2.toString();
     }
 
     public String loginUserU() {
         String string1 = UserLogin.LoginStudent.loginStudent().toString();
-        File userFile1 = new File("Zajecia/src/main/Resources/UserFiles/" + string1 + ".json");
+        File userFile1 = new File("src/main/Resources/UserFiles/" + string1 + ".json");
         return userFile1.toString();
     }
 
@@ -58,11 +58,6 @@ public class MainMenu {
                 System.out.println(profesorPathName);
                 break;
             }
-            case 4:
-                //Możliwość wyjścia z programu
-                System.out.println("Dziękujemy. Trwa wyłączanie programu....");
-                System.exit(0);
-                break;
             case 4:
                 //Możliwość wyjścia z programu
                 System.out.println("Dziękujemy. Trwa wyłączanie programu....");
