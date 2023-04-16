@@ -7,13 +7,20 @@ public class User {
     private String userEmail;
     private String userPassword;
 
-    public User(){}
+    public User() {
+    }
+
     public User(String userType, String userFirstName, String userLastName, String userEmail, String userPassword) {
         this.userType = userType;
         this.userFirstName = userFirstName;
         this.userLastName = userLastName;
         this.userEmail = userEmail;
         this.userPassword = userPassword;
+    }
+
+    @Override
+    public String toString() {
+        return userEmail;
     }
 
     public String getUserType() {
