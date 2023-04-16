@@ -15,12 +15,15 @@ import java.util.List;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 public class UserLogin {
-    String userEmail;
-
+    
+    
     public class LoginStudent {
 
         public static User loginStudent() {
             int i = 0;
+            String userEmail = null;
+            String userPassword = null;
+            String userType;
             List<User> userListList = new ArrayList<>();
             try {
                 byte[] mapData = Files.readAllBytes(Paths.get("Zajecia/src/main/Resources/allUsersDatabase.json"));
@@ -32,10 +35,10 @@ public class UserLogin {
                 User user = new User();
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("\nPodaj e-mail:");
-                String userEmail = scanner.nextLine();
+                userEmail = scanner.nextLine();
                 System.out.println("\nPodaj hasło:");
-                String userPassword = scanner.nextLine();
-                String userType = "Uczeń";
+                userPassword = scanner.nextLine();
+                userType = "Uczeń";
                 for (User user1 : userListList) {
                     if ((userEmail.equals(user1.getUserEmail()) && userPassword.equals(user1.getUserPassword())) && userType.equals(user1.getUserType())) {
 
@@ -51,7 +54,16 @@ public class UserLogin {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+            User checkData = new User();
+            checkData.setUserType(userListList.get(i).getUserType());
+            checkData.setUserPassword(userPassword);
+            checkData.setUserEmail(userEmail);
+            checkData.setUserLastName(userListList.get(i).getUserLastName());
+            checkData.setUserFirstName(userListList.get(i).getUserFirstName());
 
+            if (!userListList.contains(checkData)){
+                System.out.println("Błędne dane logowania.");
+            }
             return userListList.get(i);
         }
     }
@@ -59,7 +71,7 @@ public class UserLogin {
     public class LoginProfessor {
         public static User loginProfessor() {
             List<User> userListList = new ArrayList<>();
-            int i = 0;
+            int i = 4;
             try {
                 byte[] mapData = Files.readAllBytes(Paths.get("Zajecia/src/main/Resources/allUsersDatabase.json"));
                 User[] userArr = null;
@@ -79,9 +91,19 @@ public class UserLogin {
                         System.out.println("Zalogowano jako " + user1.getUserFirstName() + " " + user1.getUserLastName());
                         i = userListList.indexOf(user1);
                         break;
+
                     }
 
 
+                }
+                int j = 0;
+                for (User user2 : userListList){
+                    if (!userListList.contains(userListList.get(i))){
+                        j++;
+                        if (j == userListList.size()){
+                            System.out.println("Błędne dane uzytkownika");
+                        }
+                    }
                 }
 
             } catch (IOException ex) {
