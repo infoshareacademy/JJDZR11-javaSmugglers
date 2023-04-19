@@ -1,21 +1,0 @@
-
-u
-java:S1450"XRemove the "userEmail" field and declare it as a local variable in the relevant methods.(©’‘Ñ8àÄ¿«ø0
-y
-java:S1450	"\Remove the "userFirstName" field and declare it as a local variable in the relevant methods.(¦éÖ8áÄ¿«ø0
-}
-java:S1450
-"[Remove the "userLastName" field and declare it as a local variable in the relevant methods.(ËÀŞıÿÿÿÿ8âÄ¿«ø0
-}
-java:S1450"[Remove the "userPassword" field and declare it as a local variable in the relevant methods.(Ô‹áÇüÿÿÿÿ8âÄ¿«ø0
-t
-java:S1450"WRemove the "userType" field and declare it as a local variable in the relevant methods.(ĞÄû8âÄ¿«ø0
-U	java:S106"9Replace this use of System.out or System.err by a logger.(ƒÁ¾Ù8äÄ¿«ø0
-O
-java:S6126"2Replace this String concatenation with Text block.(ƒÁ¾Ù8äÄ¿«ø0
-U	java:S106"9Replace this use of System.out or System.err by a logger.(ÌùË¡8æÄ¿«ø0
-U	java:S106"9Replace this use of System.out or System.err by a logger.(‘çå·8çÄ¿«ø0
-U	java:S106""9Replace this use of System.out or System.err by a logger.(„ÜŒ8çÄ¿«ø0
-Z	java:S106&"9Replace this use of System.out or System.err by a logger.(ÜƒÓ×ÿÿÿÿÿ8èÄ¿«ø0
-Z	java:S106:"9Replace this use of System.out or System.err by a logger.(Ûã“´úÿÿÿÿ8ëÄ¿«ø0
-T	java:S106="9Replace this use of System.out or System.err by a logger.(»–58ëÄ¿«ø0
