@@ -1,10 +1,10 @@
-package pl.isa.javasmugglers.model;
+package pl.isa.javasmugglers.web.model;
 
 import java.sql.Date;
 
 public class Course {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String description;
     private Date startDate;
@@ -12,7 +12,7 @@ public class Course {
     private Integer professorId;
     private Integer ectsPoints;
 
-    public Course(Integer id, String name, String description, Date startDate, Date endDate, Integer professorId, Integer ectsPoints) {
+    public Course(Long id, String name, String description, Date startDate, Date endDate, Integer professorId, Integer ectsPoints) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -22,11 +22,11 @@ public class Course {
         this.ectsPoints = ectsPoints;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

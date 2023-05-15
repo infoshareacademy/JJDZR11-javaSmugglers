@@ -2,26 +2,26 @@ package pl.isa.javasmugglers.model;
 
 public class Exam {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String description; 
-    private Integer course_id;
+    private Long courseId;
     private enum status {ACTIVE, INACTIVE}
     private status status;
 
-    public Exam(Integer id, String name, String description, Integer course_id, Exam.status status) {
+    public Exam(Long id, String name, String description, Long courseId, Exam.status status) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.course_id = course_id;
+        this.courseId = courseId;
         this.status = status;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,12 +41,12 @@ public class Exam {
         this.description = description;
     }
 
-    public Integer getCourse_id() {
-        return course_id;
+    public Long getCourseId() {
+        return courseId;
     }
 
-    public void setCourse_id(Integer course_id) {
-        this.course_id = course_id;
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 
     public Exam.status getStatus() {

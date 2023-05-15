@@ -1,11 +1,11 @@
-package pl.isa.javasmugglers.model;
+package pl.isa.javasmugglers.web.model;
 
 import java.sql.Date;
 import java.sql.Time;
 
 public class CourseSession {
-    private Integer id;
-    private Integer courseId;
+    private Long id;
+    private Long courseId;
     private Date sessionDate;
     private Time startTime;
     private Time endTime;
@@ -13,7 +13,7 @@ public class CourseSession {
     private sessionType type;
     private Integer location;
 
-    public CourseSession(Integer id, Integer courseId, Date sessionDate, Time startTime, Time endTime, sessionType type, Integer location) {
+    public CourseSession(Long id, Long courseId, Date sessionDate, Time startTime, Time endTime, sessionType type, Integer location) {
         this.id = id;
         this.courseId = courseId;
         this.sessionDate = sessionDate;
@@ -23,19 +23,19 @@ public class CourseSession {
         this.location = location;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getCourseId() {
+    public Long getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(Integer courseId) {
+    public void setCourseId(Long courseId) {
         this.courseId = courseId;
     }
 

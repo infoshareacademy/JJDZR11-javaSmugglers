@@ -1,25 +1,25 @@
-package pl.isa.javasmugglers.model;
+package pl.isa.javasmugglers.web.model;
 
 public class ExamQuestion {
 
-    private Integer id;
+    private Long id;
     private String questionText;
     private enum questionType {SINGLE, MULTIPLE}
     private questionType type;
-    private Integer examId;
+    private Long examId;
 
-    public ExamQuestion(Integer id, String questionText, questionType type, Integer examId) {
+    public ExamQuestion(Long id, String questionText, questionType type, Long examId) {
         this.id = id;
         this.questionText = questionText;
         this.type = type;
         this.examId = examId;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -39,11 +39,11 @@ public class ExamQuestion {
         this.type = type;
     }
 
-    public Integer getExamId() {
+    public Long getExamId() {
         return examId;
     }
 
-    public void setExamId(Integer examId) {
+    public void setExamId(Long examId) {
         this.examId = examId;
     }
 }

@@ -1,19 +1,60 @@
-package pl.isa.javasmugglers.model;
+package pl.isa.javasmugglers.web.model;
 
+import jakarta.persistence.*;
+
+@Entity(name = "users")
 public class User {
 
+    @Id
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence"
+    )
+    @Column(
+            updatable = false
+    )
+    private Long id;
 
-    private Integer id;
+    @Column(
+            unique = true,
+            nullable = false
+    )
     private String email;
+
+
+
     private enum userType {STUDENT, PROFESSOR, ADMIN}
+
     private userType type;
+
+    @Column(
+            nullable = false
+    )
     private String password;
+
+    @Column(
+            nullable = false
+    )
     private String firstName;
+
+    @Column(
+            nullable = false
+    )
     private String lastName;
+
     private enum accountStatus {ACTIVE, PENDING, REJECTED}
     private accountStatus status;
 
-    public User(Integer id, String email, userType type, String password, String firstName, String lastName, accountStatus status) {
+    public User() {
+
+    }
+
+    public User(Long id, String email, userType type, String password, String firstName, String lastName, accountStatus status) {
         this.id = id;
         this.email = email;
         this.type = type;
@@ -23,11 +64,11 @@ public class User {
         this.status = status;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

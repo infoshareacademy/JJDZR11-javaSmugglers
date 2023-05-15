@@ -1,13 +1,13 @@
-package pl.isa.javasmugglers.model;
+package pl.isa.javasmugglers.web.model;
 
 public class ExamResult {
-    private Integer id;
-    private Integer studentId;
-    private Integer examId;
+    private Long id;
+    private Long studentId;
+    private Long examId;
     private Integer studentScore;
     private Integer maxExamScore;
 
-    public ExamResult(Integer id, Integer studentId, Integer examId, Integer studentScore, Integer maxExamScore) {
+    public ExamResult(Long id, Long studentId, Long examId, Integer studentScore, Integer maxExamScore) {
         this.id = id;
         this.studentId = studentId;
         this.examId = examId;
@@ -15,27 +15,27 @@ public class ExamResult {
         this.maxExamScore = maxExamScore;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Integer getStudentId() {
+    public Long getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(Integer studentId) {
+    public void setStudentId(Long studentId) {
         this.studentId = studentId;
     }
 
-    public Integer getExamId() {
+    public Long getExamId() {
         return examId;
     }
 
-    public void setExamId(Integer examId) {
+    public void setExamId(Long examId) {
         this.examId = examId;
     }
 
