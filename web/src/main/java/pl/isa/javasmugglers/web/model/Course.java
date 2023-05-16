@@ -1,19 +1,51 @@
 package pl.isa.javasmugglers.web.model;
 
-import java.sql.Date;
+import jakarta.persistence.*;
 
+import java.sql.Date;
+import java.util.List;
+
+@Entity(name = "courses")
 public class Course {
 
+    @Id
+    @SequenceGenerator(
+            name = "course_sequence",
+            sequenceName = "course_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "course_sequence"
+    )
+    @Column(
+            updatable = false
+    )
     private Long id;
     private String name;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
     private Date startDate;
     private Date endDate;
-    private Integer professorId;
+
     private Integer ectsPoints;
 
-    public Course(Long id, String name, String description, Date startDate, Date endDate, Integer professorId, Integer ectsPoints) {
-        this.id = id;
+    //relacje do innych tabel
+    @ManyToOne
+    @JoinColumn(name="professor_id", referencedColumnName = "id")
+    private User professorId;
+
+    @OneToMany(mappedBy = "courseId")
+    private List<CourseRegistration> courseRegistrationList;
+
+    @OneToMany(mappedBy = "courseId")
+    private List<CourseSession> courseSessionList;
+
+    public Course() {
+    }
+
+    public Course(String name, String description, Date startDate, Date endDate, User professorId, Integer ectsPoints) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
@@ -62,14 +94,16 @@ public class Course {
         this.endDate = endDate;
     }
 
-    public Integer getProfessorId() {
+    public User getProfessorId() {
         return professorId;
     }
 
-    public void setProfessorId(Integer professorId) {
-        this.professorId = professorId;
+    public void setProfessor(User user) {
+        if (user.getType() != User.userType.PROFESSOR) {
+            throw new IllegalArgumentException("User must be a professor to be set as course professor");
+        }
+        this.professorId = user;
     }
-
     public Integer getEctsPoints() {
         return ectsPoints;
     }

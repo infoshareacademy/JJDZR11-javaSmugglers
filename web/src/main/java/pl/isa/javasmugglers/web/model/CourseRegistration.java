@@ -1,13 +1,37 @@
 package pl.isa.javasmugglers.web.model;
 
+import jakarta.persistence.*;
+
+@Entity(name = "courseRegistrations")
 public class CourseRegistration {
 
+    @Id
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence"
+    )
+    @Column(
+            updatable = false
+    )
     private Long id;
-    private Long studentId;
-    private Long courseId;
 
-    public CourseRegistration(Long id, Long studentId, Long courseId) {
-        this.id = id;
+    @ManyToOne
+    @JoinColumn(name = "studentId", referencedColumnName = "id")
+    private User studentId;
+
+    @ManyToOne
+    @JoinColumn(name = "courseId", referencedColumnName = "id")
+    private Course courseId;
+
+    public CourseRegistration() {
+    }
+
+    public CourseRegistration(User studentId, Course courseId) {
         this.studentId = studentId;
         this.courseId = courseId;
     }
@@ -20,19 +44,22 @@ public class CourseRegistration {
         this.id = id;
     }
 
-    public Long getStudentId() {
+    public User getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setStudentId(User user) {
+        if (user.getType() != User.userType.STUDENT) {
+            throw new IllegalArgumentException("User must be a student to register");
+        }
+        this.studentId = user;
     }
 
-    public Long getCourseId() {
+    public Course getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(Long courseId) {
+    public void setCourseId(Course courseId) {
         this.courseId = courseId;
     }
 }

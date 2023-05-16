@@ -2,6 +2,8 @@ package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity(name = "users")
 @Table(
         name = "users",
@@ -31,14 +33,15 @@ public class User {
     )
     private String email;
 
-
-
     public enum userType {STUDENT, PROFESSOR, ADMIN}
     @Enumerated(EnumType.STRING)
     @Column(
             columnDefinition = "enum('STUDENT', 'PROFESSOR', 'ADMIN')"
     )
     private userType type;
+
+
+
 
     @Column(
             nullable = false
@@ -61,6 +64,16 @@ public class User {
             columnDefinition = "enum('ACTIVE', 'PENDING', 'REJECTED')"
     )
     private accountStatus status;
+
+    //relacje do innych tabeli
+    @OneToMany(mappedBy = "professorId")
+    private List<Course> courses;
+
+    @OneToMany(mappedBy = "studentId")
+    private List<CourseRegistration> courseRegistrationsList;
+
+    @OneToMany(mappedBy = "studentId")
+    private List<ExamResult> examResultList;
 
     public User() {
 

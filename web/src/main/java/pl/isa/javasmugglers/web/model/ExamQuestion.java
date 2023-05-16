@@ -1,15 +1,46 @@
 package pl.isa.javasmugglers.web.model;
 
+import jakarta.persistence.*;
+
+import java.util.List;
+
+@Entity(name = "examQuestions")
 public class ExamQuestion {
 
+    @Id
+    @SequenceGenerator(
+            name = "exam_questions_sequence",
+            sequenceName = "exam_questions_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "exam_questions_sequence"
+    )
+    @Column(
+            updatable = false
+    )
     private Long id;
-    private String questionText;
-    private enum questionType {SINGLE, MULTIPLE}
-    private questionType type;
-    private Long examId;
 
-    public ExamQuestion(Long id, String questionText, questionType type, Long examId) {
-        this.id = id;
+    @Column(columnDefinition = "TEXT")
+    private String questionText;
+
+    private enum questionType {SINGLE, MULTIPLE}
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('SINGLE', 'MULTIPLE')")
+    private questionType type;
+
+    @ManyToOne
+    @JoinColumn(columnDefinition = "examId", referencedColumnName = "id")
+    private Exam examId;
+
+    @OneToMany(mappedBy = "questionId")
+    private List<ExamAnswer> examAnswerList;
+
+    public ExamQuestion() {
+    }
+
+    public ExamQuestion(String questionText, questionType type, Exam examId) {
         this.questionText = questionText;
         this.type = type;
         this.examId = examId;
@@ -39,11 +70,11 @@ public class ExamQuestion {
         this.type = type;
     }
 
-    public Long getExamId() {
+    public Exam getExamId() {
         return examId;
     }
 
-    public void setExamId(Long examId) {
+    public void setExamId(Exam examId) {
         this.examId = examId;
     }
 }

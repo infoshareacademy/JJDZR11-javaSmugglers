@@ -1,14 +1,39 @@
 package pl.isa.javasmugglers.web.model;
 
+import jakarta.persistence.*;
+
+@Entity(name = "examResults")
 public class ExamResult {
+
+    @Id
+    @SequenceGenerator(
+            name = "user_sequence",
+            sequenceName = "user_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_sequence"
+    )
+    @Column(
+            updatable = false
+    )
     private Long id;
-    private Long studentId;
-    private Long examId;
+
+    @ManyToOne
+    @JoinColumn(name = "studentId", referencedColumnName = "id")
+    private User studentId;
+
+    @ManyToOne
+    @JoinColumn(name = "examId", referencedColumnName = "id")
+    private Exam examId;
     private Integer studentScore;
     private Integer maxExamScore;
 
-    public ExamResult(Long id, Long studentId, Long examId, Integer studentScore, Integer maxExamScore) {
-        this.id = id;
+    public ExamResult() {
+    }
+
+    public ExamResult(User studentId, Exam examId, Integer studentScore, Integer maxExamScore) {
         this.studentId = studentId;
         this.examId = examId;
         this.studentScore = studentScore;
@@ -23,19 +48,21 @@ public class ExamResult {
         this.id = id;
     }
 
-    public Long getStudentId() {
+    public User getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
+    public void setStudentId(User user) {
+        if (user.getType() != User.userType.STUDENT) {
+            throw new IllegalArgumentException("User must be a student to register");
+        }
+        this.studentId = user;
     }
-
-    public Long getExamId() {
+    public Exam getExamId() {
         return examId;
     }
 
-    public void setExamId(Long examId) {
+    public void setExamId(Exam examId) {
         this.examId = examId;
     }
 
