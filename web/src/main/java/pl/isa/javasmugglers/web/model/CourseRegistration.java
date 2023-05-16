@@ -7,13 +7,13 @@ public class CourseRegistration {
 
     @Id
     @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
+            name = "course_registrations_sequence",
+            sequenceName = "course_registrations_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
+            generator = "course_registrations_sequence"
     )
     @Column(
             updatable = false

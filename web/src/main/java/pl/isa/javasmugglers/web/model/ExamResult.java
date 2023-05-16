@@ -7,13 +7,13 @@ public class ExamResult {
 
     @Id
     @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
+            name = "exam_results_sequence",
+            sequenceName = "exam_results_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
+            generator = "exam_results_sequence"
     )
     @Column(
             updatable = false

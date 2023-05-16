@@ -30,7 +30,7 @@ public class Exam {
     @JoinColumn(name = "courseId", referencedColumnName = "id")
     private Course courseId;
 
-    private enum status {ACTIVE, INACTIVE}
+    public enum status {ACTIVE, INACTIVE}
     @Enumerated(EnumType.STRING)
     @Column(
             columnDefinition = "enum('ACTIVE', 'INACTIVE')"

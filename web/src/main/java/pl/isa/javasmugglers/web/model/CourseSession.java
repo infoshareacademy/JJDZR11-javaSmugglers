@@ -31,7 +31,7 @@ public class CourseSession {
     private Time startTime;
     private Time endTime;
 
-    private enum sessionType {LECTURE, SEMINAR, LAB, OTHER}
+    public enum sessionType {LECTURE, SEMINAR, LAB, OTHER}
     @Enumerated(EnumType.STRING)
     @Column(
             columnDefinition = "enum('LECTURE', 'SEMINAR', 'LAB', 'OTHER')"

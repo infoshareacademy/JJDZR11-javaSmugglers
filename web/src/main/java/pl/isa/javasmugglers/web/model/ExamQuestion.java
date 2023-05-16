@@ -25,7 +25,7 @@ public class ExamQuestion {
     @Column(columnDefinition = "TEXT")
     private String questionText;
 
-    private enum questionType {SINGLE, MULTIPLE}
+    public enum questionType {SINGLE, MULTIPLE}
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('SINGLE', 'MULTIPLE')")
     private questionType type;
