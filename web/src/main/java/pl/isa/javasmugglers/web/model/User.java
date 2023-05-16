@@ -3,6 +3,11 @@ package pl.isa.javasmugglers.web.model;
 import jakarta.persistence.*;
 
 @Entity(name = "users")
+@Table(
+        name = "users",
+        uniqueConstraints = {@UniqueConstraint(name = "user_email_unique", columnNames = "email")
+}
+)
 public class User {
 
     @Id
@@ -21,15 +26,18 @@ public class User {
     private Long id;
 
     @Column(
-            unique = true,
+            name = "email",
             nullable = false
     )
     private String email;
 
 
 
-    private enum userType {STUDENT, PROFESSOR, ADMIN}
-
+    public enum userType {STUDENT, PROFESSOR, ADMIN}
+    @Enumerated(EnumType.STRING)
+    @Column(
+            columnDefinition = "enum('STUDENT', 'PROFESSOR', 'ADMIN')"
+    )
     private userType type;
 
     @Column(
@@ -47,15 +55,18 @@ public class User {
     )
     private String lastName;
 
-    private enum accountStatus {ACTIVE, PENDING, REJECTED}
+    public enum accountStatus {ACTIVE, PENDING, REJECTED}
+    @Enumerated(EnumType.STRING)
+    @Column(
+            columnDefinition = "enum('ACTIVE', 'PENDING', 'REJECTED')"
+    )
     private accountStatus status;
 
     public User() {
 
     }
 
-    public User(Long id, String email, userType type, String password, String firstName, String lastName, accountStatus status) {
-        this.id = id;
+    public User(String email, userType type, String password, String firstName, String lastName, accountStatus status) {
         this.email = email;
         this.type = type;
         this.password = password;

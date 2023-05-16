@@ -1,4 +1,4 @@
-package pl.isa.javasmugglers.model;
+package pl.isa.javasmugglers.web.model;
 
 public class Exam {
 
