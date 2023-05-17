@@ -2,6 +2,7 @@ package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
 
+import java.time.Duration;
 import java.util.List;
 
 @Entity(name = "exams")
@@ -37,6 +38,8 @@ public class Exam {
     )
     private status status;
 
+    private Duration examDuration;
+
     //referencje do innych tabel
     @OneToMany(mappedBy = "examId")
     private List<ExamQuestion> examQuestionList;
@@ -44,15 +47,15 @@ public class Exam {
     @OneToMany(mappedBy = "examId")
     private List<ExamResult> examResultList;
 
-
     public Exam() {
     }
 
-    public Exam(String name, String description, Course courseId, Exam.status status) {
+    public Exam(String name, String description, Course courseId, Exam.status status, Duration examDuration) {
         this.name = name;
         this.description = description;
         this.courseId = courseId;
         this.status = status;
+        this.examDuration=examDuration;
     }
 
     public Long getId() {
@@ -93,5 +96,13 @@ public class Exam {
 
     public void setStatus(Exam.status status) {
         this.status = status;
+    }
+
+    public Duration getExamDuration() {
+        return examDuration;
+    }
+
+    public void setExamDuration(Duration examDuration) {
+        this.examDuration = examDuration;
     }
 }

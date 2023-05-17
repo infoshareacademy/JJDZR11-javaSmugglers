@@ -10,6 +10,7 @@ import pl.isa.javasmugglers.web.repository.*;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.Duration;
 
 @SpringBootApplication
 @EntityScan()
@@ -167,7 +168,7 @@ public class WebApplication {
                     "Egzamin końcowy",
                     "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z całego semestru",
                     course1,
-                    Exam.status.ACTIVE);
+                    Exam.status.ACTIVE, Duration.ofMinutes(15));
             examRepository.save(exam1);
         };
     }
