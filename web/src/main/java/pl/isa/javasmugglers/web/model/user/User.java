@@ -1,11 +1,10 @@
-package pl.isa.javasmugglers.web.model.User;
+package pl.isa.javasmugglers.web.model.user;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.usertype.UserType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -110,29 +109,6 @@ public class User implements UserDetails{
         this.status = status;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public userType getType() {
-        return type;
-    }
-
-    public void setType(userType type) {
-        this.type = type;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -169,31 +145,4 @@ public class User implements UserDetails{
         return enabled;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public accountStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(accountStatus status) {
-        this.status = status;
-    }
 }

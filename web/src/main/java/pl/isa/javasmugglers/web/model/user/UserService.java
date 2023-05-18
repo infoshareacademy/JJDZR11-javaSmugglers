@@ -1,4 +1,4 @@
-package pl.isa.javasmugglers.web.model.User;
+package pl.isa.javasmugglers.web.model.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,7 +1,7 @@
 package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
-import pl.isa.javasmugglers.web.model.User.User;
+import pl.isa.javasmugglers.web.model.user.User;
 
 @Entity(name = "courseRegistrations")
 public class CourseRegistration {

@@ -1,4 +1,4 @@
-package pl.isa.javasmugglers.web.model.User;
+package pl.isa.javasmugglers.web.model.user;
 
 public enum UserType {
     STUDENT,
