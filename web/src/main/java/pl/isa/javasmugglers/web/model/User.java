@@ -1,6 +1,7 @@
 package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
         uniqueConstraints = {@UniqueConstraint(name = "user_email_unique", columnNames = "email")
 }
 )
-public class User {
+public class User{
 
     @Id
     @SequenceGenerator(
