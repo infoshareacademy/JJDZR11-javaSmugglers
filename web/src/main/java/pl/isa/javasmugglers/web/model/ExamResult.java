@@ -2,6 +2,7 @@ package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserType;
 
 @Entity(name = "examResults")
 public class ExamResult {
@@ -54,7 +55,7 @@ public class ExamResult {
     }
 
     public void setStudentId(User user) {
-        if (user.getType() != User.userType.STUDENT) {
+        if (user.getType() != UserType.STUDENT) {
             throw new IllegalArgumentException("User must be a student to register");
         }
         this.studentId = user;

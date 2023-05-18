@@ -57,7 +57,7 @@ public class User implements UserDetails{
     @Column(
             columnDefinition = "enum('STUDENT', 'PROFESSOR', 'ADMIN')"
     )
-    private userType type;
+    private UserType type;
 
 
 
@@ -95,11 +95,11 @@ public class User implements UserDetails{
     private List<ExamResult> examResultList;
 
     public User(String email,
-                userType type,
                 String password,
                 String firstName,
                 String lastName,
-                accountStatus status)
+                UserType type
+                )
     {
         this.email = email;
         this.type = type;
