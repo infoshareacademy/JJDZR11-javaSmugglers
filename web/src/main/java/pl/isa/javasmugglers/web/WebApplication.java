@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import pl.isa.javasmugglers.web.model.*;
+import pl.isa.javasmugglers.web.model.User.User;
+import pl.isa.javasmugglers.web.model.User.UserRepository;
 import pl.isa.javasmugglers.web.repository.*;
 
 import java.sql.Date;

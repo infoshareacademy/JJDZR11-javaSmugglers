@@ -1,6 +1,7 @@
 package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
+import pl.isa.javasmugglers.web.model.User.User;
 
 import java.sql.Date;
 import java.util.List;

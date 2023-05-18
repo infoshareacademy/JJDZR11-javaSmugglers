@@ -1,8 +1,20 @@
-package pl.isa.javasmugglers.web.model;
+package pl.isa.javasmugglers.web.model.User;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.usertype.UserType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.isa.javasmugglers.web.model.Course;
+import pl.isa.javasmugglers.web.model.CourseRegistration;
+import pl.isa.javasmugglers.web.model.ExamResult;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity(name = "users")
@@ -11,7 +23,14 @@ import java.util.List;
         uniqueConstraints = {@UniqueConstraint(name = "user_email_unique", columnNames = "email")
 }
 )
-public class User{
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
+public class User implements UserDetails{
+    private boolean locked;
+    private boolean enabled;
+
 
     @Id
     @SequenceGenerator(
@@ -76,11 +95,13 @@ public class User{
     @OneToMany(mappedBy = "studentId")
     private List<ExamResult> examResultList;
 
-    public User() {
-
-    }
-
-    public User(String email, userType type, String password, String firstName, String lastName, accountStatus status) {
+    public User(String email,
+                userType type,
+                String password,
+                String firstName,
+                String lastName,
+                accountStatus status)
+    {
         this.email = email;
         this.type = type;
         this.password = password;
@@ -113,8 +134,39 @@ public class User{
         this.type = type;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(type.name());
+        return Collections.singleton(authority);
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public void setPassword(String password) {
