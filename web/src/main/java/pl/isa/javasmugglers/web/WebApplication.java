@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.model.user.User;
-import pl.isa.javasmugglers.web.model.user.UserRepository;
+import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.repository.*;
 
 import java.sql.Date;
