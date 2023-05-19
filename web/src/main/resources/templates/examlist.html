@@ -1,0 +1,20 @@
+<div th:fragment="content" class="container">
+    <table class="table table-striped mt-5">
+        <table>
+            <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Exam Name</th>
+                <th>Exam Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exam : ${examlist}">
+                <td th:text="${exam.courseId.getName}"></td>
+                <td th:text="${exam.getName}"></td>
+                <td th:text="${exam.getDescription}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </table>
+</div>

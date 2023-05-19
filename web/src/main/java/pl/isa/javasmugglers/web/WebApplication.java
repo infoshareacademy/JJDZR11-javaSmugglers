@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.repository.*;
+import pl.isa.javasmugglers.web.service.ExamService;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -69,7 +70,7 @@ public class WebApplication {
     CommandLineRunner commandLineRunner2(CourseRepository courseRepository, UserRepository userRepository) {
         return args -> {
             User professor = userRepository.findById(2L).get();
-            Course filozofia = new Course("Java",
+            Course programowanie = new Course("Java",
                     "Programowanie Java",
                     Date.valueOf("2023-10-10"),
                     Date.valueOf("2024-01-10"),
@@ -77,8 +78,8 @@ public class WebApplication {
                     45
             );
 
-            User professor2 = userRepository.findById(4L).get();
-            Course arytmetyka = new Course("filozofia",
+            User professor2 = userRepository.findById(2L).get();
+            Course arytmetyka = new Course("arytmetyka",
                     "Dział nauki zajmujący się liczbami",
                     Date.valueOf("2023-10-06"),
                     Date.valueOf("2024-01-16"),
@@ -86,7 +87,7 @@ public class WebApplication {
                     65
             );
 
-            courseRepository.save(filozofia);
+            courseRepository.save(programowanie);
             courseRepository.save(arytmetyka);
 
         };
@@ -168,8 +169,17 @@ public class WebApplication {
                     "Egzamin końcowy",
                     "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z całego semestru",
                     course1,
-                    Exam.status.ACTIVE, Duration.ofMinutes(15));
+                    Exam.status.ACTIVE,15
+                    );
             examRepository.save(exam1);
+
+            Exam exam2 = new Exam(
+                    "Egzamin mid-semetralny",
+                    "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z dotychczasowego materiału omawianego na zajęciach",
+                    course1,
+                    Exam.status.ACTIVE,
+                    15);
+            examRepository.save(exam2);
         };
     }
 
@@ -275,4 +285,7 @@ public class WebApplication {
             examResultsRepository.save(student1Results);
         };
     }
+
+
+
 }

@@ -111,4 +111,7 @@ public class Course {
     public void setEctsPoints(Integer ectsPoints) {
         this.ectsPoints = ectsPoints;
     }
+
+
+
 }

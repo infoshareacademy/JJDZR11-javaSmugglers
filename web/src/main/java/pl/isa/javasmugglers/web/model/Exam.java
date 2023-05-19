@@ -38,7 +38,7 @@ public class Exam {
     )
     private status status;
 
-    private Duration examDuration;
+    private Integer duration;
 
     //referencje do innych tabel
     @OneToMany(mappedBy = "examId")
@@ -50,12 +50,12 @@ public class Exam {
     public Exam() {
     }
 
-    public Exam(String name, String description, Course courseId, Exam.status status, Duration examDuration) {
+    public Exam(String name, String description, Course courseId, Exam.status status, Integer duration) {
         this.name = name;
         this.description = description;
         this.courseId = courseId;
         this.status = status;
-        this.examDuration=examDuration;
+        this.duration = duration;
     }
 
     public Long getId() {
@@ -98,11 +98,13 @@ public class Exam {
         this.status = status;
     }
 
-    public Duration getExamDuration() {
-        return examDuration;
+    public Integer getDuration() {
+        return duration;
     }
 
-    public void setExamDuration(Duration examDuration) {
-        this.examDuration = examDuration;
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
+
+
 }
