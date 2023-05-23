@@ -9,7 +9,7 @@
 
             <input type="text" th:field="${exam.name}" placeholder="Name" />
             <input type="text" th:field="${exam.description}" placeholder="Description" />
-            <input type="number" th:field="${exam.duration}" placeholder="duration in minutes" />
+            <input type="number" th:field="${exam.duration}" min="0" placeholder="duration in minutes" />
             <select th:field="${exam.status}">
                 <option th:each="status : ${T(pl.isa.javasmugglers.web.model.Exam.status).values()}" th:value="${status}" th:text="${status}"></option>
             </select>

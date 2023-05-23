@@ -1,0 +1,35 @@
+<div th:fragment="content" class="container">
+    <h2>Edytuj egzamin:</h2>
+    <form th:object="${exam}" th:action="@{update-exam/{id}(id=${exam.id})}" method="post">
+        <div class="form-group">
+            <label for="courseId">Select Course:</label>
+            <select class="form-control" id="courseId" th:field="*{courseId}">
+                <option value="" disabled selected>Select Course</option>
+                <option th:each="course : ${courseList}" th:value="${course.id}" th:text="${course.name}"></option>
+            </select>
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Name" />
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" class="form-control" id="description" th:field="*{description}" placeholder="Description" />
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration in Minutes:</label>
+                <input type="number" class="form-control" id="duration" th:field="*{duration}" min="0" placeholder="duration in minutes" />
+            </div>
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select class="form-control" id="status" th:field="*{status}">
+                    <option th:each="status : ${T(pl.isa.javasmugglers.web.model.Exam.status).values()}" th:value="${status}" th:text="${status}"></option>
+                </select>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary mr-2" th:href="@{/}">Return</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>

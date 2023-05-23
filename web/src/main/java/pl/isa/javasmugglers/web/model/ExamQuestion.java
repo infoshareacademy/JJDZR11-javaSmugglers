@@ -26,6 +26,7 @@ public class ExamQuestion {
     private String questionText;
 
     public enum questionType {SINGLE, MULTIPLE}
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('SINGLE', 'MULTIPLE')")
     private questionType type;
@@ -76,5 +77,13 @@ public class ExamQuestion {
 
     public void setExamId(Exam examId) {
         this.examId = examId;
+    }
+
+    public List<ExamAnswer> getExamAnswerList() {
+        return examAnswerList;
+    }
+
+    public void setExamAnswerList(List<ExamAnswer> examAnswerList) {
+        this.examAnswerList = examAnswerList;
     }
 }

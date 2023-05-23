@@ -2,7 +2,6 @@ package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
 
-import java.time.Duration;
 import java.util.List;
 
 @Entity(name = "exams")
@@ -32,6 +31,7 @@ public class Exam {
     private Course courseId;
 
     public enum status {ACTIVE, INACTIVE}
+
     @Enumerated(EnumType.STRING)
     @Column(
             columnDefinition = "enum('ACTIVE', 'INACTIVE')"

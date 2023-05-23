@@ -7,11 +7,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.repository.*;
-import pl.isa.javasmugglers.web.service.ExamService;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.Duration;
 
 @SpringBootApplication
 @EntityScan()
@@ -20,6 +18,7 @@ public class WebApplication {
     public static void main(String[] args) {
         SpringApplication.run(WebApplication.class, args);
     }
+
 
     /* Poniższe beany wypełniają bazę danych do celów development'u. Baza aktualnie ustwiona jest tak by tworzyła się przy
     boot'cie springa i niszczyła po jego zakończeniu. W związku czym poniższy kod odpala się przy każdym odpaleniu

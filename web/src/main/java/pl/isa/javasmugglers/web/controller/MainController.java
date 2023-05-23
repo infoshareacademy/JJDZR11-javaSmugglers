@@ -5,11 +5,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import pl.isa.javasmugglers.web.model.Exam;
+import pl.isa.javasmugglers.web.model.ExamAnswer;
+import pl.isa.javasmugglers.web.model.ExamQuestion;
 import pl.isa.javasmugglers.web.service.CourseService;
+import pl.isa.javasmugglers.web.service.ExamAnswerService;
+import pl.isa.javasmugglers.web.service.ExamQuestionService;
 import pl.isa.javasmugglers.web.service.ExamService;
+
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -18,15 +24,18 @@ public class MainController {
     ExamService examService;
     @Autowired
     CourseService courseService;
+    @Autowired
+    ExamQuestionService examQuestionService;
+    @Autowired
+    ExamAnswerService examAnswerService;
 
 
-    @GetMapping("/examlist")
-    String examlist (Long id, Model model){
+    @GetMapping("/examlist/{id}")
+    String examlist(@PathVariable("id") Long id, Model model) {
         model.addAttribute("examlist", examService.listAllExamsByProfessorId(id))
                 .addAttribute("content", "examlist");
         return "examlist";
     }
-
 
     @PostMapping("/addexam")
     public String addExam(@ModelAttribute Exam exam) {
@@ -35,15 +44,62 @@ public class MainController {
         return "redirect:/examlist?id=" + activeUserId;
     }
 
-    @GetMapping("/addexam")
-    public String showAddExamForm(Model model, Long id) {
+    @GetMapping("/addexam/{id}")
+    public String showAddExamForm(Model model, @PathVariable("id") Long id) {
         model.addAttribute("exam", new Exam())
                 .addAttribute("courseList", courseService.coursesListByProfessorId(id))
                 .addAttribute("content", "addexam");
         System.out.println(courseService.coursesListByProfessorId(id));
-
         return "addexam";
     }
+
+    @GetMapping("/edit-exam/{id}")
+    public String editExam(@PathVariable("id") Long id, Model model) {
+        Exam exam = examService.findById(id);
+        model.addAttribute("exam", exam)
+                .addAttribute("courseList",
+                        courseService.coursesListByProfessorId(exam.getCourseId().getProfessorId().getId()));
+        return "editexam";
+    }
+
+    @PostMapping("/edit-exam/update-exam/{id}")
+    public String updateExam(@PathVariable("id") Long id, @ModelAttribute Exam exam) {
+        Exam existingExam = examService.findById(id);
+        existingExam.setName(exam.getName());
+        existingExam.setDescription(exam.getDescription());
+        existingExam.setStatus(exam.getStatus());
+        examService.saveExam(exam);
+        Long profId = exam.getCourseId().getProfessorId().getId();
+        return "redirect:/examlist/" + profId;
+    }
+
+    @GetMapping("/questionlist/{id}")
+    public String questionList(@PathVariable("id") Long id, Model model) {
+        List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(id);
+        model.addAttribute("questionList", questionList)
+                .addAttribute("profId", questionList.get(1).getExamId().getCourseId().getProfessorId().getId())
+                .addAttribute("content", "questionList");
+        return "questionlist";
+    }
+
+    @GetMapping("/edit-question/{id}")
+    public String editQuestion(@PathVariable("id") Long id, Model model) {
+        ExamQuestion examQuestion = examQuestionService.findByID(id);
+        model.addAttribute("examQuestion", examQuestion);
+        return "editquestion";
+    }
+
+
+    @PostMapping("/edit-question/update-question/{id}")
+    public String updateQuestion(@PathVariable("id") Long id, @ModelAttribute ExamQuestion examQuestion) {
+        ExamQuestion existingQuestion = examQuestionService.findByID(id);
+        existingQuestion.setQuestionText(examQuestion.getQuestionText());
+        existingQuestion.setType(examQuestion.getType());
+        examQuestionService.saveQuestion(existingQuestion);
+        Long currentExamId = existingQuestion.getExamId().getId();
+        return "redirect:/questionlist/" + currentExamId;
+    }
+
 
 
 }

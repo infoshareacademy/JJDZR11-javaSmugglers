@@ -20,7 +20,7 @@ public class CourseService {
     }
 
     public Collection<Course> coursesListByProfessorId(Long professorId){
-        Optional<User> user = userRepository.findById(professorId);
+        User user = userRepository.findById(professorId).orElseThrow();
         Collection<Course> professorCoursesList = courseRepository.findAllByProfessorId(user);
         return  professorCoursesList;
     }

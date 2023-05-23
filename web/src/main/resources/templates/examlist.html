@@ -3,9 +3,11 @@
         <table>
             <thead>
             <tr>
-                <th>Course Name</th>
-                <th>Exam Name</th>
-                <th>Exam Description</th>
+                <th>Przedmiot</th>
+                <th>Nazwa egzaminu</th>
+                <th>Opis egzaminu</th>
+                <th>Status</th>
+                <th>Operacje</th>
             </tr>
             </thead>
             <tbody>
@@ -13,6 +15,13 @@
                 <td th:text="${exam.courseId.getName}"></td>
                 <td th:text="${exam.getName}"></td>
                 <td th:text="${exam.getDescription}"></td>
+                <td th:text="${exam.getStatus}"></td>
+                <td>
+                    <a th:href="@{/edit-exam/{id}(id=${exam.id})}">Edytuj egzamin</a>
+                    <a th:href="@{/questionlist/{id}(id=${exam.id})}">Edytuj pytania</a>
+
+                    <a>Usuń egzamin</a>
+                </td>
             </tr>
             </tbody>
         </table>

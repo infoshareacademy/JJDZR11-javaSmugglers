@@ -30,12 +30,15 @@ public class ExamService {
 
     public List<Exam> listAllExamsByProfessorId(Long professorId) {
         Collection<Course> professorCoursesList = courseService.coursesListByProfessorId(professorId);
-        List<Exam> examList = examRepository.findAllByCourseIdIn(professorCoursesList);
-        return examList;
+        return examRepository.findAllByCourseIdIn(professorCoursesList);
     }
 
     public Exam saveExam(Exam exam){
         return examRepository.save(exam);
+    }
+
+    public Exam findById(Long id){
+        return examRepository.findById(id).orElseThrow();
     }
 
 
