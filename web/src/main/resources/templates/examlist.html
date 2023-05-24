@@ -1,5 +1,8 @@
 <div th:fragment="content" class="container">
-    <table class="table table-striped mt-5">
+    <div th:if="${#lists.isEmpty(examlist)}">
+        Brak dodanych egzaminów
+    </div>
+    <table class="table table-striped mt-5" th:unless="${#lists.isEmpty(examlist)}">
         <table>
             <thead>
             <tr>

@@ -1,5 +1,8 @@
 <div th:fragment="content" class="container">
-    <table class="table table-striped mt-5">
+    <div th:if="${#lists.isEmpty(questionList)}">
+        Brak pytań przypisanych do egzaminu
+    </div>
+    <table class="table table-striped mt-5" th:unless="${#lists.isEmpty(questionList)}">
         <table>
             <thead>
             <tr>
@@ -12,10 +15,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${#lists.isEmpty(questionList)}">
-                <td colspan="6">Brak pytań przypisanych do egzaminu</td>
-            </tr>
-            <tr th:each="question, stat : ${questionList}" th:unless="${#lists.isEmpty(questionList)}">
+            <tr th:each="question, stat : ${questionList}">
                 <td th:text="${stat.count}"></td>
                 <td th:text="${question.getQuestionText}"></td>
                 <td>
@@ -46,7 +46,6 @@
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/examlist/{id}(id=${profId})}" class="btn btn-primary">Powrót</a>
-
     </table>
+    <a th:href="@{/examlist/{id}(id=${profId})}" class="btn btn-primary">Powrót</a>
 </div>
