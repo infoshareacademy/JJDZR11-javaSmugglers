@@ -29,7 +29,9 @@ public class MainController {
     @GetMapping("/examlist/{id}")
     String examlist(@PathVariable("id") Long id, Model model) {
         model.addAttribute("examlist", examService.listAllExamsByProfessorId(id))
-                .addAttribute("content", "examlist");
+                .addAttribute("content", "examlist")
+                .addAttribute("profID", id);
+
         return "examlist";
     }
 
@@ -37,7 +39,7 @@ public class MainController {
     public String addExam(@ModelAttribute Exam exam) {
         examService.saveExam(exam);
         Long activeUserId = exam.getCourseId().getProfessorId().getId();
-        return "redirect:/examlist?id=" + activeUserId;
+        return "redirect:/examlist/" + activeUserId;
     }
 
     @GetMapping("/addexam/{id}")
@@ -45,7 +47,6 @@ public class MainController {
         model.addAttribute("exam", new Exam())
                 .addAttribute("courseList", courseService.coursesListByProfessorId(id))
                 .addAttribute("content", "addexam");
-        System.out.println(courseService.coursesListByProfessorId(id));
         return "addexam";
     }
 
