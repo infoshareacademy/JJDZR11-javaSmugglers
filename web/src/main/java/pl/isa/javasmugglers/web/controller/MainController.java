@@ -73,8 +73,10 @@ public class MainController {
     public String questionList(@PathVariable("id") Long id, Model model) {
         List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(id);
         Long profID = examService.findById(id).getCourseId().getProfessorId().getId();
+        Long examID = examService.findById(id).getId();
         model.addAttribute("questionList", questionList)
                 .addAttribute("profId", profID)
+                .addAttribute("examID", examID)
                 .addAttribute("content", "questionList");
         return "questionlist";
     }
@@ -127,5 +129,31 @@ public class MainController {
         return "redirect:/questionlist/" + currentExamID;
     }
 
+    @GetMapping("/addquestion/{examId}")
+    public String showAddQuestionForm(@PathVariable("examId") Long examId, Model model) {
+        Exam exam = examService.findById(examId);
+        ExamQuestion question = new ExamQuestion();
+        question.setExamId(exam);
+        model.addAttribute("question", question);
+        model.addAttribute("exam", exam);
+        return "addquestion";
+    }
 
+    @PostMapping("/addquestion/{examId}")
+    public String saveQuestion(@PathVariable("examId") Long examId, ExamQuestion question, @RequestParam("answers[]") String[] answers, @RequestParam("isCorrect") int correctAnswer, Model model) {
+        Exam exam = examService.findById(examId);
+        question.setExamId(exam);
+        examQuestionService.saveQuestion(question);
+
+        for (int i = 0; i < answers.length; i++) {
+            ExamAnswer answer = new ExamAnswer();
+            answer.setQuestionId(question);
+            answer.setAnswerText(answers[i]);
+            answer.setCorrect(i == correctAnswer);
+            examAnswerService.saveAnswer(answer);
+        }
+
+        model.addAttribute("exam", exam);
+        return "redirect:/questionlist/" + examId;
+    }
 }
