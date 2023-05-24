@@ -5,19 +5,25 @@
         <table>
             <thead>
             <tr>
+                <td></td>
                 <td>Treść odpowiedzi</td>
                 <td>Zaznacz prawidłową/we</td>
             </tr>
             </thead>
             <tbody>
             <tr th:each="answer, status : *{examAnswers}">
+                <td th:text="${alphabet[status.index]} + '.'"></td>
                 <td>
+
                     <input type="hidden" th:field="*{examAnswers[__${status.index}__].id}" th:value="${answer.id}"/>
-                    <input type="hidden" th:field="*{examAnswers[__${status.index}__].questionId.id}" th:value="${examQuestion.id}"/>
-                    <input type="text" th:field="*{examAnswers[__${status.index}__].answerText}" th:value="${answer.answerText}"/>
+                    <input type="hidden" th:field="*{examAnswers[__${status.index}__].questionId.id}"
+                           th:value="${examQuestion.id}"/>
+                    <input type="text" th:field="*{examAnswers[__${status.index}__].answerText}"
+                           th:value="${answer.answerText}"/>
                 </td>
                 <td>
-                    <input type="checkbox" th:field="*{examAnswers[__${status.index}__].correct}" th:checked="${answer.correct}"/>
+                    <input type="checkbox" th:field="*{examAnswers[__${status.index}__].correct}"
+                           th:checked="${answer.correct}"/>
                 </td>
             </tr>
 

@@ -12,11 +12,9 @@
             </tr>
             </thead>
             <tbody>
-            <!-- Jeśli lista pytań jest pusta -->
             <tr th:if="${#lists.isEmpty(questionList)}">
                 <td colspan="6">Brak pytań przypisanych do egzaminu</td>
             </tr>
-            <!-- Jeśli lista pytań nie jest pusta -->
             <tr th:each="question, stat : ${questionList}" th:unless="${#lists.isEmpty(questionList)}">
                 <td th:text="${stat.count}"></td>
                 <td th:text="${question.getQuestionText}"></td>

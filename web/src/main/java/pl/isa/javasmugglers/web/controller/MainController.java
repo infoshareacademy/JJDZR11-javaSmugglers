@@ -11,6 +11,7 @@ import pl.isa.javasmugglers.web.service.ExamQuestionService;
 import pl.isa.javasmugglers.web.service.ExamService;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 public class MainController {
@@ -102,8 +103,12 @@ public class MainController {
         List<ExamAnswer> examAnswerList = examAnswerService.findAllAnswersByQuestionID(id);
         ExamAnswerWrapper examAnswerWrapper = new ExamAnswerWrapper();
         examAnswerWrapper.setExamAnswers(examAnswerList);
+        List<Character> alphabet = IntStream.rangeClosed('a', 'z')
+                .mapToObj(c -> (char) c)
+                .toList();
         model.addAttribute("examQuestion", examQuestion)
-                .addAttribute("examAnswers", examAnswerWrapper);
+                .addAttribute("examAnswers", examAnswerWrapper)
+                .addAttribute("alphabet", alphabet);
 
 
         return "editanswers";
