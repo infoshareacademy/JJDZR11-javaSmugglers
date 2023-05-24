@@ -187,7 +187,7 @@ public class WebApplication {
         return args -> {
             Exam exam1 = examRepository.findById(1L).get();
             ExamQuestion examQuestion1 = new ExamQuestion(
-                    "Jak nazywa się mechanizm, który pozwala na wielokrotne użycie tego samego nazewnictwa dla różnych metod, pod warunkiem że różnią się one listą argumentów",
+                    "Jak nazywa się mechanizm, który pozwala na wielokrotne użycie tego samego nazewnictwa dla różnych metod, pod warunkiem że różnią się one listą argumentów?",
                     ExamQuestion.questionType.SINGLE,
                     exam1);
 

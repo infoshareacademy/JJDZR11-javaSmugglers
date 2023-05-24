@@ -4,6 +4,7 @@ package pl.isa.javasmugglers.web.service;
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.Exam;
+import pl.isa.javasmugglers.web.model.ExamQuestion;
 import pl.isa.javasmugglers.web.model.User;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.ExamRepository;
@@ -41,5 +42,7 @@ public class ExamService {
         return examRepository.findById(id).orElseThrow();
     }
 
+    public Exam findByExamQuestion(ExamQuestion examQuestion) {
+        return examRepository.findAllByExamQuestionList(examQuestion);}
 
 }

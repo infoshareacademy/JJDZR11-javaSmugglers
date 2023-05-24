@@ -3,13 +3,8 @@ package pl.isa.javasmugglers.web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import pl.isa.javasmugglers.web.model.Exam;
-import pl.isa.javasmugglers.web.model.ExamAnswer;
-import pl.isa.javasmugglers.web.model.ExamQuestion;
+import org.springframework.web.bind.annotation.*;
+import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.service.CourseService;
 import pl.isa.javasmugglers.web.service.ExamAnswerService;
 import pl.isa.javasmugglers.web.service.ExamQuestionService;
@@ -104,28 +99,27 @@ public class MainController {
     public String editAnswers(@PathVariable("id") Long id, Model model) {
         ExamQuestion examQuestion = examQuestionService.findByID(id);
         List<ExamAnswer> examAnswerList = examAnswerService.findAllAnswersByQuestionID(id);
+        ExamAnswerWrapper examAnswerWrapper = new ExamAnswerWrapper();
+        examAnswerWrapper.setExamAnswers(examAnswerList);
         model.addAttribute("examQuestion", examQuestion)
-                .addAttribute("examAnswerList", examAnswerList);
-        System.out.println(examQuestion.getId());
-        for (ExamAnswer examAnswer : examAnswerList) {
-            System.out.println(examAnswer.getAnswerText());
-        }
-        System.out.println(examAnswerList);
+                .addAttribute("examAnswers", examAnswerWrapper);
+
 
         return "editanswers";
     }
 
-    @PostMapping("/update-answers")
-    public String updateAnswers(@ModelAttribute("examAnswers") List<ExamAnswer> examAnswers) {
-        for (ExamAnswer examAnswer : examAnswers) {
+
+    @PostMapping("/update-answers/{id}")
+    public String updateAnswers(@PathVariable("id") Long id, @ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper) {
+        for (ExamAnswer examAnswer : examAnswerWrapper.getExamAnswers()) {
             examAnswerService.saveAnswer(examAnswer);
         }
-        return "redirect:/questionlist/" + 1;
+
+        ExamQuestion questionID = examAnswerWrapper.getExamAnswers().get(0).getQuestionId();
+        Long currentExamID = examService.findByExamQuestion(questionID).getId();
+
+        return "redirect:/questionlist/" + currentExamID;
     }
-
-
-
-
 
 
 }

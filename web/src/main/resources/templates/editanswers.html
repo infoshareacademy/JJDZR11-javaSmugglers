@@ -1,38 +1,29 @@
 <div th:fragment="content" class="container">
-    <h2>Edytuj egzamin:</h2>
-
-    <!-- Działa -->
-    <td>
-        <ol type="a">
-            <li th:each="answer : ${examAnswerList}" th:text="${answer.answerText}"></li>
-        </ol>
-    </td>
-
-    <!-- nie działa -->
-
-    <form action="/update-answers/1" method="post">
+    <h3>Edytuj odpowiedzi na pytanie:</h3>
+    <h4 th:text="${examQuestion.questionText}"></h4>
+    <form th:action="@{/update-answers/{id}(id=${examQuestion.id})}" method="post" th:object="${examAnswers}">
         <table>
             <thead>
             <tr>
-                <th>Odpowiedź</th>
-                <th>Prawidłowa</th>
+                <td>Treść odpowiedzi</td>
+                <td>Zaznacz prawidłową/we</td>
             </tr>
             </thead>
             <tbody>
-            <!-- Iteracja przez listę odpowiedzi -->
-            <tr th:each="answer, status : ${examAnswerList}">
+            <tr th:each="answer, status : *{examAnswers}">
                 <td>
-                    <input type="hidden" name="examAnswers[${status.index}].id" th:value="${answer.id}" />
-                    <input type="text" name="examAnswers[${status.index}].answerText" th:value="${answer.answerText}" />
+                    <input type="hidden" th:field="*{examAnswers[__${status.index}__].id}" th:value="${answer.id}"/>
+                    <input type="hidden" th:field="*{examAnswers[__${status.index}__].questionId.id}" th:value="${examQuestion.id}"/>
+                    <input type="text" th:field="*{examAnswers[__${status.index}__].answerText}" th:value="${answer.answerText}"/>
                 </td>
                 <td>
-                    <input type="checkbox" name="examAnswers[${status.index}].correct" th:checked="${answer.correct}" />
+                    <input type="checkbox" th:field="*{examAnswers[__${status.index}__].correct}" th:checked="${answer.correct}"/>
                 </td>
             </tr>
+
             </tbody>
         </table>
         <button type="submit">Zapisz</button>
     </form>
-
 
 </div>
