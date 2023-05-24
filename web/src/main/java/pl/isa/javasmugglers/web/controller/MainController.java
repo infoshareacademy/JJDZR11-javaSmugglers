@@ -71,8 +71,9 @@ public class MainController {
     @GetMapping("/questionlist/{id}")
     public String questionList(@PathVariable("id") Long id, Model model) {
         List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(id);
+        Long profID = examService.findById(id).getCourseId().getProfessorId().getId();
         model.addAttribute("questionList", questionList)
-                .addAttribute("profId", questionList.get(0).getExamId().getCourseId().getProfessorId().getId())
+                .addAttribute("profId", profID)
                 .addAttribute("content", "questionList");
         return "questionlist";
     }
