@@ -22,4 +22,8 @@ public class ExamAnswerService {
         return examAnswerRepository.findAllByQuestionId(examQuestionRepository.findById(id).orElseThrow()) ;
     }
 
+    public ExamAnswer saveAnswer(ExamAnswer examAnswer){
+        return examAnswerRepository.save(examAnswer);
+    }
+
 }

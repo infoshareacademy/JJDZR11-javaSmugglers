@@ -36,7 +36,8 @@
 
                 <td>
                     <a th:href="@{/edit-question/{id}(id=${question.getId})}">Edytuj pytanie</a>
-                    <a>Edytuj odpowiedzi</a>
+                    <a th:href="@{/edit-answers/{id}(id=${question.getId})}">Edytuj odpowiedzi</a>
+
                     <a>Usuń pytanie</a>
                 </td>
             </tr>

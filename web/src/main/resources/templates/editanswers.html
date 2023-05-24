@@ -1,0 +1,38 @@
+<div th:fragment="content" class="container">
+    <h2>Edytuj egzamin:</h2>
+
+    <!-- Działa -->
+    <td>
+        <ol type="a">
+            <li th:each="answer : ${examAnswerList}" th:text="${answer.answerText}"></li>
+        </ol>
+    </td>
+
+    <!-- nie działa -->
+
+    <form action="/update-answers/1" method="post">
+        <table>
+            <thead>
+            <tr>
+                <th>Odpowiedź</th>
+                <th>Prawidłowa</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Iteracja przez listę odpowiedzi -->
+            <tr th:each="answer, status : ${examAnswerList}">
+                <td>
+                    <input type="hidden" name="examAnswers[${status.index}].id" th:value="${answer.id}" />
+                    <input type="text" name="examAnswers[${status.index}].answerText" th:value="${answer.answerText}" />
+                </td>
+                <td>
+                    <input type="checkbox" name="examAnswers[${status.index}].correct" th:checked="${answer.correct}" />
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit">Zapisz</button>
+    </form>
+
+
+</div>

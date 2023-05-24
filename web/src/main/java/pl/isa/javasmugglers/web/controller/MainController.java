@@ -77,7 +77,7 @@ public class MainController {
     public String questionList(@PathVariable("id") Long id, Model model) {
         List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(id);
         model.addAttribute("questionList", questionList)
-                .addAttribute("profId", questionList.get(1).getExamId().getCourseId().getProfessorId().getId())
+                .addAttribute("profId", questionList.get(0).getExamId().getCourseId().getProfessorId().getId())
                 .addAttribute("content", "questionList");
         return "questionlist";
     }
@@ -99,6 +99,32 @@ public class MainController {
         Long currentExamId = existingQuestion.getExamId().getId();
         return "redirect:/questionlist/" + currentExamId;
     }
+
+    @GetMapping("/edit-answers/{id}")
+    public String editAnswers(@PathVariable("id") Long id, Model model) {
+        ExamQuestion examQuestion = examQuestionService.findByID(id);
+        List<ExamAnswer> examAnswerList = examAnswerService.findAllAnswersByQuestionID(id);
+        model.addAttribute("examQuestion", examQuestion)
+                .addAttribute("examAnswerList", examAnswerList);
+        System.out.println(examQuestion.getId());
+        for (ExamAnswer examAnswer : examAnswerList) {
+            System.out.println(examAnswer.getAnswerText());
+        }
+        System.out.println(examAnswerList);
+
+        return "editanswers";
+    }
+
+    @PostMapping("/update-answers")
+    public String updateAnswers(@ModelAttribute("examAnswers") List<ExamAnswer> examAnswers) {
+        for (ExamAnswer examAnswer : examAnswers) {
+            examAnswerService.saveAnswer(examAnswer);
+        }
+        return "redirect:/questionlist/" + 1;
+    }
+
+
+
 
 
 
