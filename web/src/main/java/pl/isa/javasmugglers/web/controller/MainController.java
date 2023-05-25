@@ -5,10 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
-import pl.isa.javasmugglers.web.service.CourseService;
-import pl.isa.javasmugglers.web.service.ExamAnswerService;
-import pl.isa.javasmugglers.web.service.ExamQuestionService;
-import pl.isa.javasmugglers.web.service.ExamService;
+import pl.isa.javasmugglers.web.service.*;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -24,6 +21,10 @@ public class MainController {
     ExamQuestionService examQuestionService;
     @Autowired
     ExamAnswerService examAnswerService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    ExamResultService examResultService;
 
 
     @GetMapping("/examlist/{id}")
@@ -157,4 +158,38 @@ public class MainController {
         model.addAttribute("exam", exam);
         return "redirect:/questionlist/" + examId;
     }
+
+
+    @GetMapping("/startexam/{examId}/{userId}")
+    public String startExam(@PathVariable Long examId, @PathVariable Long userId, Model model) {
+        Exam exam = examService.findById(examId);
+        User user = userService.findByID(userId);
+        model.addAttribute("exam", exam)
+                .addAttribute("examQuestionList", exam.getExamQuestionList())
+                .addAttribute("user", user)
+                .addAttribute("remainingTime", exam.getDuration());
+        System.out.println(exam.getExamQuestionList());
+
+        return "exam";
+
+    }
+
+    @PostMapping("/startexam/{examId}/{userId}")
+    public String submitAnswers(@PathVariable Long examId, @PathVariable Long userId, @ModelAttribute List<UserQuestionAnswers> answers) {
+        Exam exam = examService.findById(examId);
+        User user = userService.findByID(userId);
+        Double maxScore = examService.calculateExamMaxScore(exam);
+        Double userScore = examService.calculateUserScore(exam, answers);
+
+        ExamResult examResult = new ExamResult();
+        examResult.setExamId(exam);
+        examResult.setMaxExamScore(maxScore);
+        examResult.setStudentScore(userScore);
+        examResult.setStudentId(user);
+
+        examResultService.save(examResult);
+        return "submitAnswers";
+    }
+
+
 }

@@ -106,5 +106,19 @@ public class Exam {
         this.duration = duration;
     }
 
+    public List<ExamQuestion> getExamQuestionList() {
+        return examQuestionList;
+    }
 
+    public void setExamQuestionList(List<ExamQuestion> examQuestionList) {
+        this.examQuestionList = examQuestionList;
+    }
+
+    public List<ExamResult> getExamResultList() {
+        return examResultList;
+    }
+
+    public void setExamResultList(List<ExamResult> examResultList) {
+        this.examResultList = examResultList;
+    }
 }

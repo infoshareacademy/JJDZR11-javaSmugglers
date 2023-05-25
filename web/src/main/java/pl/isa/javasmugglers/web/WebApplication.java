@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.repository.*;
+import pl.isa.javasmugglers.web.service.ExamService;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -279,12 +280,17 @@ public class WebApplication {
             ExamResult student1Results = new ExamResult(
                     student1,
                     exam1,
-                    5,
-                    5);
+                    5.0,
+                    5.0);
             examResultsRepository.save(student1Results);
         };
     }
 
+    @Bean
+    CommandLineRunner commandLineRunner9(ExamService examService){
+        return args -> {
 
+        };
+    }
 
 }

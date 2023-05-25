@@ -15,4 +15,6 @@ public interface ExamRepository extends JpaRepository<Exam, Long> {
     List<Exam> findAllByCourseIdIn (Collection<Course> courseId);
 
     Exam findAllByExamQuestionList (ExamQuestion examQuestion);
+
+
 }
