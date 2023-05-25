@@ -141,7 +141,7 @@ public class MainController {
     }
 
     @PostMapping("/addquestion/{examId}")
-    public String saveQuestion(@PathVariable("examId") Long examId, ExamQuestion question, @RequestParam("answers[]") String[] answers, @RequestParam("isCorrect") int correctAnswer, Model model) {
+    public String saveQuestion(@PathVariable("examId") Long examId, ExamQuestion question, @RequestParam("answers[]") String[] answers, @RequestParam("isCorrect") List<Integer> correctAnswers, Model model) {
         Exam exam = examService.findById(examId);
         question.setExamId(exam);
         examQuestionService.saveQuestion(question);
@@ -150,7 +150,7 @@ public class MainController {
             ExamAnswer answer = new ExamAnswer();
             answer.setQuestionId(question);
             answer.setAnswerText(answers[i]);
-            answer.setCorrect(i == correctAnswer);
+            answer.setCorrect(correctAnswers.contains(i));
             examAnswerService.saveAnswer(answer);
         }
 

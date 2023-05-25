@@ -36,6 +36,7 @@
             <input type="text" class="form-control" th:id="'answer'+i" name="answers[]">
             <input type="checkbox" name="isCorrect" th:value="${i-1}"> Poprawna odpowiedź
         </div>
+
         <div class="row">
             <button class="btn btn-primary mr-2" th:href="@{/}">Powrót</button>
             <button type="submit" class="btn btn-primary">Zapisz pytanie</button>
