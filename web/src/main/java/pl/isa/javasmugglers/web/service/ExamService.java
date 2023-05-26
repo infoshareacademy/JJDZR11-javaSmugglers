@@ -54,45 +54,52 @@ public class ExamService {
 
     public double calculateUserScore(UserExamAnswers userExamAnswers) {
         double score = 0.0;
-        Map<Long, Map<Long, Boolean>> userAnswersMap = userExamAnswers.getAnswers();
-        if (userAnswersMap != null) {
-            for (Map.Entry<Long, Map<Long, Boolean>> entry : userAnswersMap.entrySet()) {
+
+        if (userExamAnswers != null) {
+            for (Map.Entry<Long, List<Long>> entry : userExamAnswers.getAnswers().entrySet()) {
                 Long questionId = entry.getKey();
                 ExamQuestion question = examQuestionRepository.findById(questionId).orElseThrow();
-                List<ExamAnswer> correctAnswersList = examAnswerRepository.findAllByQuestionId(question);
-                Map<Long, Boolean> userAnswersList = entry.getValue();
+                List<ExamAnswer> answersList = examAnswerRepository.findAllByQuestionId(question);
+                List<Long> correctAnswersIDs = answersList.stream()
+                        .filter(ExamAnswer::isCorrect)
+                        .map(ExamAnswer::getId)
+                        .toList();
+                List<Long> wrongAnswersIDs = answersList.stream()
+                        .filter(answer -> !answer.isCorrect())
+                        .map(ExamAnswer::getId)
+                        .toList();
+                List<Long> userAnswersList = entry.getValue();
 
-                int correctCount = 0;
-                int userCorrectCount = 0;
-                boolean incorrectSelection = false;
-
-                for (ExamAnswer correctAnswer : correctAnswersList) {
-                    Boolean userSelected = userAnswersList.get(correctAnswer.getId());
-
-                    if (correctAnswer.isCorrect()) {
-                        correctCount++;
-                        if (userSelected != null && userSelected) {
-                            userCorrectCount++;
-                        }
-                    } else {
-                        if (userSelected != null && userSelected) {
-                            incorrectSelection = true;
-                            break;
-                        }
-                    }
+                // Sprawdzenie czy użytkownik nie zaznaczył żadnej odpowiedzi
+                if (userAnswersList.isEmpty()) {
+                    continue; // Pomiń obliczenia dla tego pytania
                 }
-                if (incorrectSelection) {
-                    continue;
-                }
-                if (userCorrectCount == correctCount) {
-                    score += 1.0;
-                } else if (userCorrectCount > 0) {
-                    score += ((double) userCorrectCount / correctCount);
+
+                // Sprawdzenie czy odpowiedzi użytkownika zawierają wszystkie prawidłowe odpowiedzi
+                boolean allCorrectAnswersSelected = correctAnswersIDs.containsAll(userAnswersList);
+                boolean someCorrectAnswersSelected = correctAnswersIDs.contains(userAnswersList);
+
+                // Sprawdzenie czy odpowiedzi użytkownika zawierają błędne odpowiedzi
+                boolean hasWrongAnswersSelected = wrongAnswersIDs.stream()
+                        .anyMatch(userAnswersList::contains);
+
+                // Obliczanie punktów na podstawie odpowiedzi użytkownika
+                if (allCorrectAnswersSelected && !hasWrongAnswersSelected) {
+                    score += 1.0; // Użytkownik zaznaczył wszystkie prawidłowe odpowiedzi bez błędnych odpowiedzi
+                } else if (!hasWrongAnswersSelected && someCorrectAnswersSelected) {
+                    double fraction = (double) userAnswersList.size() / correctAnswersIDs.size();
+                    System.out.println(fraction);
+                    score += fraction; // Użytkownik zaznaczył część prawidłowych odpowiedzi (obliczenie ułamka)
+                } else if (!hasWrongAnswersSelected) {
+                    score += 0.0; // Użytkownik nie zaznaczył wszystkich prawidłowych odpowiedzi ani błędnych odpowiedzi
                 }
             }
-            return score;
-        } else return 0.00;
+        }
+
+        return score;
     }
+
+
 
 
 }
