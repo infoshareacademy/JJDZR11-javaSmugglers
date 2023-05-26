@@ -8,9 +8,7 @@ import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 @Controller
@@ -198,4 +196,22 @@ public class MainController {
     }
 
 
+    @GetMapping("/userexamresults/{userID}")
+    public String showExamResults(Model model, @PathVariable("userID") Long userID) {
+        User user = userService.findByID(userID);
+        List<ExamResult> examResults = examResultService.findUserExamResults(user);
+        List<Integer> percentageScores = new ArrayList<>();
+        for (ExamResult result : examResults) {
+            int percentageScore = examResultService.calculatePercentageScore(
+                    result.getStudentScore(),
+                    result.getMaxExamScore());
+            percentageScores.add(percentageScore);
+        }
+        model.addAttribute("examResults", examResults)
+                .addAttribute("percentageScores", percentageScores);
+        return "userexamresults";
     }
+
+
+
+}

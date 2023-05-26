@@ -89,7 +89,7 @@ public class ExamService {
                 } else if (allCorrectAnswersSelected) {
                     score += 1.0;
                 }
-            } return score;
+            } return Math.round(score * 10.0) / 10.0;
         } else return 0.0;
     }
 }
