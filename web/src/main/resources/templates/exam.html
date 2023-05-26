@@ -14,8 +14,8 @@
     <div th:each="question, questionIndex : ${exam.getExamQuestionList}">
         <p th:text="${question.questionText}"></p>
         <div th:each="answer, answerIndex : ${question.examAnswerList}">
-            <input type="checkbox" th:value="${answer.id}"
-                   th:name="'answers['+${question.id}+'].selectedAnswers['+${answer.id}+']'"/>
+            <input type="checkbox" th:value="${answer.correct}" th:name="'answers['+${question.id}+']['+${answer.id}+']'"/>
+
             <label th:text="${answer.answerText}"></label>
         </div>
     </div>

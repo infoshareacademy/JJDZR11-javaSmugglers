@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.service.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 @Controller
@@ -164,10 +167,14 @@ public class MainController {
     public String startExam(@PathVariable Long examId, @PathVariable Long userId, Model model) {
         Exam exam = examService.findById(examId);
         User user = userService.findByID(userId);
+        UserExamAnswers userExamAnswers = new UserExamAnswers();
+
+
         model.addAttribute("exam", exam)
                 .addAttribute("examQuestionList", exam.getExamQuestionList())
                 .addAttribute("user", user)
-                .addAttribute("remainingTime", exam.getDuration());
+                .addAttribute("remainingTime", exam.getDuration())
+                .addAttribute("answers", userExamAnswers);
         System.out.println(exam.getExamQuestionList());
 
         return "exam";
@@ -175,11 +182,16 @@ public class MainController {
     }
 
     @PostMapping("/startexam/{examId}/{userId}")
-    public String submitAnswers(@PathVariable Long examId, @PathVariable Long userId, @ModelAttribute List<UserQuestionAnswers> answers) {
+    public String submitAnswers(@PathVariable Long examId, @PathVariable Long userId,
+                                @ModelAttribute UserExamAnswers userExamAnswers) {
         Exam exam = examService.findById(examId);
         User user = userService.findByID(userId);
         Double maxScore = examService.calculateExamMaxScore(exam);
-        Double userScore = examService.calculateUserScore(exam, answers);
+        Double userScore = examService.calculateUserScore(exam, userExamAnswers);
+
+        System.out.println(userExamAnswers.getAnswers().size());
+        System.out.println(maxScore);
+        System.out.println(userScore);
 
         ExamResult examResult = new ExamResult();
         examResult.setExamId(exam);
@@ -188,8 +200,8 @@ public class MainController {
         examResult.setStudentId(user);
 
         examResultService.save(examResult);
-        return "submitAnswers";
+        return "redirect:/examlist/1";
     }
 
 
-}
+    }

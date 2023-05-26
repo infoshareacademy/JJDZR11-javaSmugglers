@@ -169,7 +169,7 @@ public class WebApplication {
                     "Egzamin końcowy",
                     "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z całego semestru",
                     course1,
-                    Exam.status.ACTIVE,15
+                    Exam.status.ACTIVE,1
                     );
             examRepository.save(exam1);
 
