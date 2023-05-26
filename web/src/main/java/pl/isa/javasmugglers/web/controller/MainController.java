@@ -192,11 +192,11 @@ public class MainController {
         examResult.setStudentId(user);
 
         examResultService.save(examResult);
-        return "redirect:/examlist/1";
+        return "redirect:/userexamresults/" + userId;
     }
 
 
-    @GetMapping("/userexamresults/{userID}")
+    @GetMapping("userexamresults/{userID}")
     public String showExamResults(Model model, @PathVariable("userID") Long userID) {
         User user = userService.findByID(userID);
         List<ExamResult> examResults = examResultService.findUserExamResults(user);
