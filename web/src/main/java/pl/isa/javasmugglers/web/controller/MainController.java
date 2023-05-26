@@ -30,7 +30,7 @@ public class MainController {
     ExamResultService examResultService;
 
 
-    @GetMapping("/examlist/{id}")
+    @GetMapping("examlist/{id}")
     String examlist(@PathVariable("id") Long id, Model model) {
         model.addAttribute("examlist", examService.listAllExamsByProfessorId(id))
                 .addAttribute("content", "examlist")
@@ -39,14 +39,14 @@ public class MainController {
         return "examlist";
     }
 
-    @PostMapping("/addexam")
+    @PostMapping("addexam")
     public String addExam(@ModelAttribute Exam exam) {
         examService.saveExam(exam);
         Long activeUserId = exam.getCourseId().getProfessorId().getId();
         return "redirect:/examlist/" + activeUserId;
     }
 
-    @GetMapping("/addexam/{id}")
+    @GetMapping("addexam/{id}")
     public String showAddExamForm(Model model, @PathVariable("id") Long id) {
         model.addAttribute("exam", new Exam())
                 .addAttribute("courseList", courseService.coursesListByProfessorId(id))
@@ -54,7 +54,7 @@ public class MainController {
         return "addexam";
     }
 
-    @GetMapping("/edit-exam/{id}")
+    @GetMapping("edit-exam/{id}")
     public String editExam(@PathVariable("id") Long id, Model model) {
         Exam exam = examService.findById(id);
         model.addAttribute("exam", exam)
@@ -63,7 +63,7 @@ public class MainController {
         return "editexam";
     }
 
-    @PostMapping("/edit-exam/update-exam/{id}")
+    @PostMapping("edit-exam/update-exam/{id}")
     public String updateExam(@PathVariable("id") Long id, @ModelAttribute Exam exam) {
         Exam existingExam = examService.findById(id);
         existingExam.setName(exam.getName());
@@ -74,7 +74,7 @@ public class MainController {
         return "redirect:/examlist/" + profId;
     }
 
-    @GetMapping("/questionlist/{id}")
+    @GetMapping("questionlist/{id}")
     public String questionList(@PathVariable("id") Long id, Model model) {
         List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(id);
         Long profID = examService.findById(id).getCourseId().getProfessorId().getId();
@@ -86,7 +86,7 @@ public class MainController {
         return "questionlist";
     }
 
-    @GetMapping("/edit-question/{id}")
+    @GetMapping("edit-question/{id}")
     public String editQuestion(@PathVariable("id") Long id, Model model) {
         ExamQuestion examQuestion = examQuestionService.findByID(id);
         model.addAttribute("examQuestion", examQuestion);
@@ -94,7 +94,7 @@ public class MainController {
     }
 
 
-    @PostMapping("/edit-question/update-question/{id}")
+    @PostMapping("edit-question/update-question/{id}")
     public String updateQuestion(@PathVariable("id") Long id, @ModelAttribute ExamQuestion examQuestion) {
         ExamQuestion existingQuestion = examQuestionService.findByID(id);
         existingQuestion.setQuestionText(examQuestion.getQuestionText());
@@ -104,7 +104,7 @@ public class MainController {
         return "redirect:/questionlist/" + currentExamId;
     }
 
-    @GetMapping("/edit-answers/{id}")
+    @GetMapping("edit-answers/{id}")
     public String editAnswers(@PathVariable("id") Long id, Model model) {
         ExamQuestion examQuestion = examQuestionService.findByID(id);
         List<ExamAnswer> examAnswerList = examAnswerService.findAllAnswersByQuestionID(id);
@@ -122,7 +122,7 @@ public class MainController {
     }
 
 
-    @PostMapping("/update-answers/{id}")
+    @PostMapping("update-answers/{id}")
     public String updateAnswers(@PathVariable("id") Long id, @ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper) {
         for (ExamAnswer examAnswer : examAnswerWrapper.getExamAnswers()) {
             examAnswerService.saveAnswer(examAnswer);
@@ -134,7 +134,7 @@ public class MainController {
         return "redirect:/questionlist/" + currentExamID;
     }
 
-    @GetMapping("/addquestion/{examId}")
+    @GetMapping("addquestion/{examId}")
     public String showAddQuestionForm(@PathVariable("examId") Long examId, Model model) {
         Exam exam = examService.findById(examId);
         ExamQuestion question = new ExamQuestion();
@@ -144,7 +144,7 @@ public class MainController {
         return "addquestion";
     }
 
-    @PostMapping("/addquestion/{examId}")
+    @PostMapping("addquestion/{examId}")
     public String saveQuestion(@PathVariable("examId") Long examId, ExamQuestion question, @RequestParam("answers[]") String[] answers, @RequestParam("isCorrect") List<Integer> correctAnswers, Model model) {
         Exam exam = examService.findById(examId);
         question.setExamId(exam);
@@ -163,7 +163,7 @@ public class MainController {
     }
 
 
-    @GetMapping("/startexam/{examId}/{userId}")
+    @GetMapping("startexam/{userId}/{examId}")
     public String startExam(@PathVariable Long examId, @PathVariable Long userId, Model model) {
         Exam exam = examService.findById(examId);
         User user = userService.findByID(userId);
@@ -179,7 +179,7 @@ public class MainController {
 
     }
 
-    @PostMapping("/startexam/{examId}/{userId}")
+    @PostMapping("startexam/{userId}/{examId}")
     public String submitAnswers(@PathVariable Long examId, @PathVariable Long userId,
                                 @ModelAttribute UserExamAnswers userExamAnswers) {
         Exam exam = examService.findById(examId);
