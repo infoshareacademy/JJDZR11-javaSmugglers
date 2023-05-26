@@ -175,8 +175,6 @@ public class MainController {
                 .addAttribute("user", user)
                 .addAttribute("remainingTime", exam.getDuration())
                 .addAttribute("answers", userExamAnswers);
-        System.out.println(exam.getExamQuestionList());
-
         return "exam";
 
     }
@@ -187,11 +185,7 @@ public class MainController {
         Exam exam = examService.findById(examId);
         User user = userService.findByID(userId);
         Double maxScore = examService.calculateExamMaxScore(exam);
-        Double userScore = examService.calculateUserScore(exam, userExamAnswers);
-
-        System.out.println(userExamAnswers.getAnswers().size());
-        System.out.println(maxScore);
-        System.out.println(userScore);
+        Double userScore = examService.calculateUserScore(userExamAnswers);
 
         ExamResult examResult = new ExamResult();
         examResult.setExamId(exam);

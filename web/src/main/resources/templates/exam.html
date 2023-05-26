@@ -4,17 +4,20 @@
     <title>Exam</title>
 </head>
 <body>
-
-<div id="countdown"></div>
+<span>Czas egzaminu do końca egzaminu:</span>
+<span id="countdown"></span>
+<p>Uwaga! Po skończonym czasie egzamin zostanie zakończony automatycznie!</p>
+<p>Pytania:</p>
 
 <form id="examForm" th:action="@{'/startexam/' + ${exam.id} + '/' + ${user.id}}" th:object="${answers}" method="post">
 
     <input type="hidden" th:value="${user}" name="user"/>
     <input type="hidden" th:value="${remainingTime}" id="remainingTime"/>
     <div th:each="question, questionIndex : ${exam.getExamQuestionList}">
-        <p th:text="${question.questionText}"></p>
+        <p th:text="'Pytanie ' + (${questionIndex.index} + 1) + ': ' + ${question.questionText}"></p>
         <div th:each="answer, answerIndex : ${question.examAnswerList}">
-            <input type="checkbox" th:value="${answer.correct}" th:name="'answers['+${question.id}+']['+${answer.id}+']'"/>
+            <input type="checkbox" th:value="${answer.correct}"
+                   th:name="'answers['+${question.id}+']['+${answer.id}+']'"/>
 
             <label th:text="${answer.answerText}"></label>
         </div>

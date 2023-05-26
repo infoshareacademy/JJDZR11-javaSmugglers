@@ -52,54 +52,47 @@ public class ExamService {
         return maxScore;
     }
 
-    public double calculateUserScore(Exam exam, UserExamAnswers userExamAnswers) {
+    public double calculateUserScore(UserExamAnswers userExamAnswers) {
         double score = 0.0;
-        List<ExamQuestion> examQuestionList = examQuestionRepository.findAllByExamId(exam);
         Map<Long, Map<Long, Boolean>> userAnswersMap = userExamAnswers.getAnswers();
+        if (userAnswersMap != null) {
+            for (Map.Entry<Long, Map<Long, Boolean>> entry : userAnswersMap.entrySet()) {
+                Long questionId = entry.getKey();
+                ExamQuestion question = examQuestionRepository.findById(questionId).orElseThrow();
+                List<ExamAnswer> correctAnswersList = examAnswerRepository.findAllByQuestionId(question);
+                Map<Long, Boolean> userAnswersList = entry.getValue();
 
-        for (Map.Entry<Long, Map<Long, Boolean>> entry : userAnswersMap.entrySet()) {
-            Long questionId = entry.getKey();
-            ExamQuestion question = examQuestionRepository.findById(questionId).orElseThrow();
-            List<ExamAnswer> correctAnswersList = examAnswerRepository.findAllByQuestionId(question);
-            Map<Long, Boolean> userAnswersList = entry.getValue();
+                int correctCount = 0;
+                int userCorrectCount = 0;
+                boolean incorrectSelection = false;
 
-            int correctCount = 0;
-            int userCorrectCount = 0;
-            boolean incorrectSelection = false;
+                for (ExamAnswer correctAnswer : correctAnswersList) {
+                    Boolean userSelected = userAnswersList.get(correctAnswer.getId());
 
-            for (ExamAnswer correctAnswer : correctAnswersList) {
-                Boolean userSelected = userAnswersList.get(correctAnswer.getId());
-
-                if (correctAnswer.isCorrect()) {
-                    correctCount++;
-                    if (userSelected != null && userSelected) {
-                        userCorrectCount++;
-                    }
-                } else {
-                    if (userSelected != null && userSelected) {
-                        incorrectSelection = true;
-                        break;
+                    if (correctAnswer.isCorrect()) {
+                        correctCount++;
+                        if (userSelected != null && userSelected) {
+                            userCorrectCount++;
+                        }
+                    } else {
+                        if (userSelected != null && userSelected) {
+                            incorrectSelection = true;
+                            break;
+                        }
                     }
                 }
+                if (incorrectSelection) {
+                    continue;
+                }
+                if (userCorrectCount == correctCount) {
+                    score += 1.0;
+                } else if (userCorrectCount > 0) {
+                    score += ((double) userCorrectCount / correctCount);
+                }
             }
-            if (incorrectSelection) {
-                continue;
-            }
-            if (userCorrectCount == correctCount) {
-                score += 1.0;
-            } else if (userCorrectCount > 0) {
-                score += ((double) userCorrectCount / correctCount);
-            }
-        }
-        return score;
+            return score;
+        } else return 0.00;
     }
-
-
-
-
-
-
-
 
 
 }
