@@ -1,0 +1,32 @@
+<div th:fragment="content" class="container">
+  <H2>Temporary dashboard - for beta presentation only</H2>
+  <h3>Witaj</h3>
+  <h3 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+  <h3>Oto lista egzaminów które możesz zdawać:</h3>
+  <table>
+    <thead>
+    <tr>
+      <th>nr.</th>
+      <th>Przedmiot</th>
+      <th>Egzamin</th>
+      <th>Opis</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="exam, i : ${exams}">
+      <td th:text="${i.count}"></td>
+      <td th:text="${exam.courseId.name}"></td>
+      <td th:text="${exam.name}"></td>
+      <td th:text="${exam.description}"></td>
+      <td>
+        <form th:action="@{/startexam/{userID}/{examId}(userID=${userID}, examId=${exam.id})}" method="get">
+          <button type="submit">Rozpocznij egzamin</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <a th:href="@{/user-dashboard/{id}(id=${userID})}" class="btn btn-primary">Powrót</a>
+
+</div>

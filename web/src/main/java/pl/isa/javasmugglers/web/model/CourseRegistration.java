@@ -62,4 +62,5 @@ public class CourseRegistration {
     public void setCourseId(Course courseId) {
         this.courseId = courseId;
     }
+
 }

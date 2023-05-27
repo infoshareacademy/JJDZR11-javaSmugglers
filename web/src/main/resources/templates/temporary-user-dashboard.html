@@ -1,0 +1,5 @@
+<div th:fragment="content" class="container">
+  <H2>Temporary user dashboard - for beta presentation only</H2>
+  <a th:href="@{/showactiveexams/{id}(id=*{userID})}">Wyświetl aktywne egzaminy</a>
+  <a th:href="@{/userexamresults/{id}(id=*{userID})}">Wyświetl wyniki egzaminów</a>
+</div>

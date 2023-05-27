@@ -1,7 +1,7 @@
 <div th:fragment="content" class="container">
     <h2>Temporary Exam Result - for beta presentation only</h2>
     <h3>Witaj</h3>
-    <h3 th:text="${examResults[0].getStudentId().getFirstName() + ' ' + examResults[0].getStudentId().getLastName()}"></h3>
+    <h3 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
     <h3>Oto wyniki twoich egzaminów:</h3>
     <table>
         <tr>
@@ -19,4 +19,5 @@
             <td th:text="${percentageScores[i.index]}"></td>
         </tr>
     </table>
+    <a th:href="@{/user-dashboard/{id}(id=${userID})}" class="btn btn-primary">Powrót</a>
 </div>

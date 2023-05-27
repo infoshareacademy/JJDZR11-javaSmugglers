@@ -28,7 +28,7 @@ public class ExamService {
         this.examAnswerRepository = examAnswerRepository;
     }
 
-    public List<Exam> listAllExamsByProfessorId(Long professorId) {
+    public Collection<Exam> listAllExamsByProfessorId(Long professorId) {
         Collection<Course> professorCoursesList = courseService.coursesListByProfessorId(professorId);
         return examRepository.findAllByCourseIdIn(professorCoursesList);
     }
@@ -92,4 +92,9 @@ public class ExamService {
             } return Math.round(score * 10.0) / 10.0;
         } else return 0.0;
     }
+
+    public List<Exam> findAllByCourseList (List<Course> courseList){
+        return examRepository.findAllByCourseIdIn(courseList);
+    }
+
 }

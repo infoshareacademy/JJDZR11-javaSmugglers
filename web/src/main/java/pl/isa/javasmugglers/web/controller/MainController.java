@@ -8,6 +8,7 @@ import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -26,6 +27,8 @@ public class MainController {
     UserService userService;
     @Autowired
     ExamResultService examResultService;
+    @Autowired
+    CourseRegistrationService courseRegistrationService;
 
 
     @GetMapping("examlist/{id}")
@@ -208,10 +211,35 @@ public class MainController {
             percentageScores.add(percentageScore);
         }
         model.addAttribute("examResults", examResults)
-                .addAttribute("percentageScores", percentageScores);
+                .addAttribute("percentageScores", percentageScores)
+                .addAttribute("user", user);
         return "userexamresults";
     }
 
 
+    @GetMapping("/showactiveexams/{userID}")
+    public String showActiveExams(Model model, @PathVariable("userID") Long userID) {
+        User user = userService.findByID(userID);
+        List<CourseRegistration> registrations = courseRegistrationService.findAllRegisteredCourses(user);
+        List<Course> registeredCourses = registrations.stream().map(CourseRegistration :: getCourseId).toList();
+        List<Exam> allRegisteredExams = examService.findAllByCourseList(registeredCourses);
+        List<Exam> takenExams = examResultService.findUserExamResults(user).stream().map(ExamResult::getExamId).toList();
+
+        List<Exam> examsToTake = allRegisteredExams.stream()
+                .filter(exam -> takenExams.stream().noneMatch(takenExam -> takenExam.getId().equals(exam.getId())))
+                .toList();
+
+
+        model.addAttribute("exams", examsToTake)
+                .addAttribute("user", user);
+
+
+        return "userexamlist";
+    }
+
+    @GetMapping("user-dashboard/{userID}")
+    public String userDashboard(Model model, @PathVariable("userID") Long userID){
+        return "temporary-user-dashboard";
+    }
 
 }

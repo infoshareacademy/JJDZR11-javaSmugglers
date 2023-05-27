@@ -7,7 +7,7 @@ import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 
 import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class CourseService {
@@ -19,11 +19,12 @@ public class CourseService {
         this.userRepository = userRepository;
     }
 
-    public Collection<Course> coursesListByProfessorId(Long professorId){
+    public List<Course> coursesListByProfessorId(Long professorId){
         User user = userRepository.findById(professorId).orElseThrow();
-        Collection<Course> professorCoursesList = courseRepository.findAllByProfessorId(user);
+        List<Course> professorCoursesList = courseRepository.findAllByProfessorId(user);
         return  professorCoursesList;
     }
+    
 
 
 }

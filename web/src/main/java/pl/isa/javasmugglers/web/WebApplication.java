@@ -276,7 +276,7 @@ public class WebApplication {
     CommandLineRunner commandLineRunner8(ExamResultsRepository examResultsRepository, ExamRepository examRepository, UserRepository userRepository) {
         return args -> {
             Exam exam1 = examRepository.findById(1L).get();
-            User student1 = userRepository.findById(1L).get();
+            User student1 = userRepository.findById(3L).get();
             ExamResult student1Results = new ExamResult(
                     student1,
                     exam1,

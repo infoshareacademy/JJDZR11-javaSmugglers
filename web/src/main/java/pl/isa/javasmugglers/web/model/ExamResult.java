@@ -81,4 +81,5 @@ public class ExamResult {
     public void setMaxExamScore(Double maxExamScore) {
         this.maxExamScore = maxExamScore;
     }
+
 }
