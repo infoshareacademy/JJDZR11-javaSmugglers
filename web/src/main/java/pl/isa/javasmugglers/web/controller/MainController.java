@@ -226,8 +226,10 @@ public class MainController {
         List<Exam> takenExams = examResultService.findUserExamResults(user).stream().map(ExamResult::getExamId).toList();
 
         List<Exam> examsToTake = allRegisteredExams.stream()
-                .filter(exam -> takenExams.stream().noneMatch(takenExam -> takenExam.getId().equals(exam.getId())))
+                .filter(exam -> exam.getStatus() == Exam.status.ACTIVE &&
+                        takenExams.stream().noneMatch(takenExam -> takenExam.getId().equals(exam.getId())))
                 .toList();
+
 
 
         model.addAttribute("exams", examsToTake)

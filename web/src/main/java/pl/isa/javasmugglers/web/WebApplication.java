@@ -177,7 +177,7 @@ public class WebApplication {
                     "Egzamin mid-semetralny",
                     "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z dotychczasowego materiału omawianego na zajęciach",
                     course1,
-                    Exam.status.ACTIVE,
+                    Exam.status.INACTIVE,
                     15);
             examRepository.save(exam2);
         };
