@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 public class UserValidator implements Predicate<String> {
     @Override
     public boolean test(String s) {
-        // TODO: Regex to validate user
+        // TODO: to validate user
         return true;
     }
 }

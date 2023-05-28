@@ -10,22 +10,19 @@ import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseRegistration;
 import pl.isa.javasmugglers.web.model.ExamResult;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Entity(name = "users")
 @Table(
         name = "users",
         uniqueConstraints = {@UniqueConstraint(name = "user_email_unique", columnNames = "email")
-}
+        }
 )
 @Getter
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
 public class User {
-
 
 
     @Id
@@ -50,13 +47,12 @@ public class User {
     private String email;
 
     public enum userType {STUDENT, PROFESSOR, ADMIN}
+
     @Enumerated(EnumType.STRING)
     @Column(
             columnDefinition = "enum('STUDENT', 'PROFESSOR', 'ADMIN')"
     )
     private UserType type;
-
-
 
 
     @Column(
@@ -75,11 +71,12 @@ public class User {
     private String lastName;
 
     public enum accountStatus {ACTIVE, PENDING, REJECTED}
+
     @Enumerated(EnumType.STRING)
     @Column(
             columnDefinition = "enum('ACTIVE', 'PENDING', 'REJECTED')"
     )
-    private accountStatus status;
+    private AccountsStatus status;
 
     //relacje do innych tabeli
     @OneToMany(mappedBy = "professorId")
@@ -91,33 +88,26 @@ public class User {
     @OneToMany(mappedBy = "studentId")
     private List<ExamResult> examResultList;
 
-    public User(String email,
-                String password,
-                String firstName,
+    public User(String firstName,
                 String lastName,
-                UserType type
-                )
-    {
+                String email,
+                String password,
+
+                UserType type,
+                AccountsStatus status
+    ) {
         this.email = email;
         this.type = type;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.status = status;
     }
-
-
 
 
     public String getPassword() {
         return password;
     }
-
-
-
-
-
-
-
 
 
 }
