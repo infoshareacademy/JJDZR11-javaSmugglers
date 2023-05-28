@@ -6,7 +6,6 @@
                 <option value="" disabled selected>Select Course</option>
                 <option th:each="course : ${courseList}" th:value="${course.id}" th:text="${course.name}"></option>
             </select>
-
             <input type="text" th:field="${exam.name}" placeholder="Name" />
             <input type="text" th:field="${exam.description}" placeholder="Description" />
             <input type="number" th:field="${exam.duration}" min="0" placeholder="duration in minutes" />

@@ -73,18 +73,15 @@ public class WebApplication {
             Course programowanie = new Course("Java",
                     "Programowanie Java",
                     Date.valueOf("2023-10-10"),
-                    Date.valueOf("2024-01-10"),
-                    professor,
-                    45
-            );
+                    Date.valueOf("2024-01-10"), 45, Course.CourseType.LECTURE, professor);
+
 
             User professor2 = userRepository.findById(2L).get();
             Course arytmetyka = new Course("arytmetyka",
                     "Dział nauki zajmujący się liczbami",
                     Date.valueOf("2023-10-06"),
-                    Date.valueOf("2024-01-16"),
-                    professor2,
-                    65
+                    Date.valueOf("2024-01-16"), 65, Course.CourseType.SEMINAR,
+                    professor2
             );
 
             courseRepository.save(programowanie);
@@ -130,28 +127,28 @@ public class WebApplication {
                     Date.valueOf("2023-10-15"),
                     Time.valueOf("17:30:00"),
                     Time.valueOf("19:30:00"),
-                    CourseSession.sessionType.LECTURE, "sala 5c"
+                     "sala 5c"
             );
             CourseSession courseSession2 = new CourseSession(
                     course1,
                     Date.valueOf("2023-10-22"),
                     Time.valueOf("17:30:00"),
                     Time.valueOf("19:30:00"),
-                    CourseSession.sessionType.LECTURE, "sala 6a"
+                    "sala 6a"
             );
             CourseSession courseSession3 = new CourseSession(
                     course1,
                     Date.valueOf("2023-11-05"),
                     Time.valueOf("18:00:00"),
                     Time.valueOf("20:00:00"),
-                    CourseSession.sessionType.LECTURE, "sala 5c"
+                    "sala 5c"
             );
             CourseSession courseSession4 = new CourseSession(
                     course1,
                     Date.valueOf("2023-11-12"),
                     Time.valueOf("16:00:00"),
                     Time.valueOf("18:00:00"),
-                    CourseSession.sessionType.LECTURE, "sala 5c"
+                     "sala 5c"
             );
             courseSessionRepository.save(courseSession1);
             courseSessionRepository.save(courseSession2);

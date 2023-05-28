@@ -7,6 +7,7 @@
             <thead>
             <tr>
                 <th>Przedmiot</th>
+                <th>Typ</th>
                 <th>Nazwa egzaminu</th>
                 <th>Opis egzaminu</th>
                 <th>Status</th>
@@ -15,7 +16,8 @@
             </thead>
             <tbody>
             <tr th:each="exam : ${examlist}">
-                <td th:text="${exam.courseId.getName}"></td>
+                <td th:text="${exam.courseId.getName}">
+                <td th:text="${exam.courseId.getCourseType}"></td>
                 <td th:text="${exam.getName}"></td>
                 <td th:text="${exam.getDescription}"></td>
                 <td th:text="${exam.getStatus}"></td>
