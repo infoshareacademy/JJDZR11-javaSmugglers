@@ -5,9 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseRegistration;
 import pl.isa.javasmugglers.web.model.ExamResult;
@@ -26,9 +24,8 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-public class User implements UserDetails{
-    private boolean locked;
-    private boolean enabled;
+public class User {
+
 
 
     @Id
@@ -106,43 +103,21 @@ public class User implements UserDetails{
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.status = status;
     }
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(type.name());
-        return Collections.singleton(authority);
-    }
+
 
     public String getPassword() {
         return password;
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return !locked;
-    }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
-    }
+
+
+
 
 }
