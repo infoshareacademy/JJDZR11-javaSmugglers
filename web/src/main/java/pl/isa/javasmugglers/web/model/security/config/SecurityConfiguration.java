@@ -46,7 +46,7 @@ public class SecurityConfiguration {
                 .authenticated().and()
                 .formLogin()
                     .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/homepage.html", true);
+                    .defaultSuccessUrl("/succeslogin.html", true);
 
 
         return http.build();
