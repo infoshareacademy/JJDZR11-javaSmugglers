@@ -30,6 +30,10 @@ import java.util.List;
 public class User implements UserDetails {
 
 
+    public Long getId() {
+        return id;
+    }
+
     @Id
     @SequenceGenerator(
             name = "user_sequence",

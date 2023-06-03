@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import pl.isa.javasmugglers.web.model.user.UserService;
 
 
@@ -43,7 +44,9 @@ public class SecurityConfiguration {
                                 .permitAll()
                 .anyRequest()
                 .authenticated().and()
-                .formLogin();
+                .formLogin()
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/homepage.html", true);
 
 
         return http.build();
