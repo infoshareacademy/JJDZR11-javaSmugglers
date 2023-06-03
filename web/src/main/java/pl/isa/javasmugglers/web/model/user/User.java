@@ -6,10 +6,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseRegistration;
 import pl.isa.javasmugglers.web.model.ExamResult;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity(name = "users")
@@ -22,7 +27,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails {
 
 
     @Id
@@ -105,8 +110,39 @@ public class User {
     }
 
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(type.name());
+        return Collections.singletonList(authority);
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
 
