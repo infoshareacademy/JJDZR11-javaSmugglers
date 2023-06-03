@@ -1,0 +1,46 @@
+<div th:fragment="content" class="container">
+    <script>
+        function validateForm() {
+            const checkboxes = document.getElementsByName('isCorrect');
+            let isChecked = false;
+
+            for (let i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    isChecked = true;
+                    break;
+                }
+            }
+
+            if (!isChecked) {
+                alert('Proszę zaznaczyć co najmniej jedną odpowiedź jako prawidłową!');
+            }
+
+            return isChecked;
+        }
+    </script>
+    <h2>Dodaj pytanie do egzaminu</h2>
+    <form onsubmit="return validateForm()" th:action="@{/addquestion/{examId}(examId=${question.examId.id})}" method="post" th:object="${question}">
+        <div class="form-group">
+            <label for="questionText">Tekst pytania:</label>
+            <textarea class="form-control" id="questionText" th:field="*{questionText}"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="type">Rodzaj pytania:</label>
+            <select class="form-control" id="type" th:field="*{type}">
+                <option th:each="type : ${T(pl.isa.javasmugglers.web.model.ExamQuestion.questionType).values()}"
+                        th:value="${type}" th:text="${type}"></option>
+            </select>
+        </div>
+        <div th:each="i : ${#numbers.sequence(1,4)}" class="form-group">
+            <label th:for="'answer'+${#strings.arraySplit('a,b,c,d', ',')[i-1]}">Odpowiedź <span th:text="${#strings.arraySplit('a,b,c,d', ',')[i-1]}"></span></label>
+            <input type="text" class="form-control" th:id="'answer'+i" name="answers[]">
+            <input type="checkbox" name="isCorrect" th:value="${i-1}"> Poprawna odpowiedź
+        </div>
+
+        <div class="row">
+            <button class="btn btn-primary mr-2" th:href="@{/}">Powrót</button>
+            <button type="submit" class="btn btn-primary">Zapisz pytanie</button>
+        </div>
+    </form>
+</div>
+

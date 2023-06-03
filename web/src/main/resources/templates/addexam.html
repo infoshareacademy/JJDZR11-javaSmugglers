@@ -1,0 +1,18 @@
+<div th:fragment="content" class="container">
+    <table class="table table-striped mt-5">
+        <form action="#" th:action="@{/addexam}" th:object="${exam}" method="post">
+
+            <select th:field="${exam.courseId}" >
+                <option value="" disabled selected>Select Course</option>
+                <option th:each="course : ${courseList}" th:value="${course.id}" th:text="${course.name}"></option>
+            </select>
+            <input type="text" th:field="${exam.name}" placeholder="Name" />
+            <input type="text" th:field="${exam.description}" placeholder="Description" />
+            <input type="number" th:field="${exam.duration}" min="0" placeholder="duration in minutes" />
+            <select th:field="${exam.status}">
+                <option th:each="status : ${T(pl.isa.javasmugglers.web.model.Exam.status).values()}" th:value="${status}" th:text="${status}"></option>
+            </select>
+            <input type="submit" value="Submit" />
+        </form>
+    </table>
+</div>

@@ -1,0 +1,54 @@
+<div th:fragment="content" class="container">
+    <div th:if="${#lists.isEmpty(questionList)}">
+        Brak pytań przypisanych do egzaminu
+    </div>
+    <table class="table table-striped mt-5" th:unless="${#lists.isEmpty(questionList)}">
+        <table>
+            <thead>
+            <tr>
+                <th>Numer pytania</th>
+                <th>Pytanie</th>
+                <th>Rodzaj pytania</th>
+                <th>Odpowiedzi</th>
+                <th>Poprawna odpowiedz</th>
+                <th>Operacje</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="question, stat : ${questionList}">
+                <td th:text="${stat.count}"></td>
+                <td th:text="${question.getQuestionText}"></td>
+                <td>
+                    <div th:switch="${question.getType.name()}">
+                        <p th:case="'SINGLE'">Jednokrotny wybór</p>
+                        <p th:case="'MULTIPLE'">Wielokrotny wybór</p>
+                    </div>
+                </td>
+
+                <td>
+                    <ol type="a">
+                        <li th:each="answer : ${question.examAnswerList}" th:text="${answer.answerText}"></li>
+                    </ol>
+                </td>
+                <td>
+                    <ol type="a">
+                        <li th:each="answer : ${question.examAnswerList}"
+                            th:text="${answer.isCorrect} ? 'Poprawna' : 'Niepoprawna'"></li>
+                    </ol>
+                </td>
+
+                <td>
+                    <a th:href="@{/edit-question/{id}(id=${question.getId})}">Edytuj pytanie</a>
+                    <a th:href="@{/edit-answers/{id}(id=${question.getId})}">Edytuj odpowiedzi</a>
+
+                    <a>Usuń pytanie</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </table>
+    <a th:href="@{/examlist/{id}(id=${profId})}" class="btn btn-primary">Powrót</a>
+    <a th:href="@{/addquestion/{id}(id=${examID})}" class="btn btn-primary">Dodaj pytanie</a>
+
+
+</div>

@@ -1,0 +1,23 @@
+<div th:fragment="content" class="container">
+    <h2>Temporary Exam Result - for beta presentation only</h2>
+    <h3>Witaj</h3>
+    <h3 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+    <h3>Oto wyniki twoich egzaminów:</h3>
+    <table>
+        <tr>
+            <th>Przedmiot</th>
+            <th>Nazwa egzaminu</th>
+            <th>Twój wynik</th>
+            <th>Maksymalny wynik</th>
+            <th>Procent</th>
+        </tr>
+        <tr th:each="result, i : ${examResults}">
+            <td th:text="${result.getExamId().getCourseId().getName()}"></td>
+            <td th:text="${result.getExamId().getName()}"></td>
+            <td th:text="${result.getStudentScore()}"></td>
+            <td th:text="${result.getMaxExamScore()}"></td>
+            <td th:text="${percentageScores[i.index]}"></td>
+        </tr>
+    </table>
+    <a th:href="@{/user-dashboard/{id}(id=${userID})}" class="btn btn-primary">Powrót</a>
+</div>

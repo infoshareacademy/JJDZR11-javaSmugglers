@@ -1,0 +1,21 @@
+<div th:fragment="content" class="container">
+    <h2>Edytuj egzamin:</h2>
+    <form th:object="${examQuestion}" th:action="@{update-question/{id}(id=${examQuestion.id})}" method="post">
+        <div class="form-group">
+            <label for="questionText">Pytanie:</label>
+            <input type="text" class="form-control" id="questionText" th:field="*{questionText}"
+                   placeholder="Question"/>
+        </div>
+        <div class="form-group">
+            <label for="type">Rodzaj pytania:</label>
+            <select class="form-control" id="type" th:field="*{type}">
+                <option th:each="type : ${T(pl.isa.javasmugglers.web.model.ExamQuestion.questionType).values()}"
+                        th:value="${type}" th:text="${type}"></option>
+            </select>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary mr-2" th:href="@{/}">Return</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>

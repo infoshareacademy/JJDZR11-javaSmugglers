@@ -1,0 +1,36 @@
+<div th:fragment="content" class="container">
+    <div th:if="${#lists.isEmpty(examlist)}">
+        Brak dodanych egzaminów
+    </div>
+    <table class="table table-striped mt-5" th:unless="${#lists.isEmpty(examlist)}">
+        <table>
+            <thead>
+            <tr>
+                <th>Przedmiot</th>
+                <th>Typ</th>
+                <th>Nazwa egzaminu</th>
+                <th>Opis egzaminu</th>
+                <th>Status</th>
+                <th>Operacje</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exam : ${examlist}">
+                <td th:text="${exam.courseId.getName}">
+                <td th:text="${exam.courseId.getCourseType}"></td>
+                <td th:text="${exam.getName}"></td>
+                <td th:text="${exam.getDescription}"></td>
+                <td th:text="${exam.getStatus}"></td>
+                <td>
+                    <a th:href="@{/edit-exam/{id}(id=${exam.id})}">Edytuj egzamin</a>
+                    <a th:href="@{/questionlist/{id}(id=${exam.id})}">Edytuj pytania</a>
+
+                    <a>Usuń egzamin</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/addexam/{id}(id=*{profID})}">Dodaj egzamin</a>
+
+    </table>
+</div>
