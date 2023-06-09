@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.repository.*;
 import pl.isa.javasmugglers.web.service.ExamService;
-
 import java.sql.Date;
 import java.sql.Time;
 

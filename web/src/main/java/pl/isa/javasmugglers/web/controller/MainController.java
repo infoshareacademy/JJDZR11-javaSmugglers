@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
+import pl.isa.javasmugglers.web.repository.CourseListRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
@@ -29,7 +30,8 @@ public class MainController {
     ExamResultService examResultService;
     @Autowired
     CourseRegistrationService courseRegistrationService;
-
+    @Autowired
+    CourseListRepository courseListRepository;
 
     @GetMapping("examlist/{id}")
     String examlist(@PathVariable("id") Long id, Model model) {
@@ -221,7 +223,7 @@ public class MainController {
     public String showActiveExams(Model model, @PathVariable("userID") Long userID) {
         User user = userService.findByID(userID);
         List<CourseRegistration> registrations = courseRegistrationService.findAllRegisteredCourses(user);
-        List<Course> registeredCourses = registrations.stream().map(CourseRegistration :: getCourseId).toList();
+        List<Course> registeredCourses = registrations.stream().map(CourseRegistration::getCourseId).toList();
         List<Exam> allRegisteredExams = examService.findAllByCourseList(registeredCourses);
         List<Exam> takenExams = examResultService.findUserExamResults(user).stream().map(ExamResult::getExamId).toList();
 
@@ -229,7 +231,6 @@ public class MainController {
                 .filter(exam -> exam.getStatus() == Exam.status.ACTIVE &&
                         takenExams.stream().noneMatch(takenExam -> takenExam.getId().equals(exam.getId())))
                 .toList();
-
 
 
         model.addAttribute("exams", examsToTake)
@@ -240,8 +241,45 @@ public class MainController {
     }
 
     @GetMapping("user-dashboard/{userID}")
-    public String userDashboard(Model model, @PathVariable("userID") Long userID){
+    public String userDashboard(Model model, @PathVariable("userID") Long userID) {
         return "temporary-user-dashboard";
     }
 
+    @GetMapping("user-dashboard/courses/{id}")
+    String courselist(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("CourseList", examService.listAllExamsByProfessorId(id))
+                .addAttribute("content", "CourseList")
+                .addAttribute("profID", id);
+
+        return "CourseList";
+    }
+    @GetMapping("/menu")
+    public String showMenu() {
+        return "menu";
+    }
+
+    @GetMapping("/opcja2")
+    public String executeOption2() {
+        // Logika dla opcji 2
+        return "result";
+    }
+
+    @GetMapping("/opcja3")
+    public String executeOption3() {
+        // Logika dla opcji 3
+        return "result";
+    }
+
+    @GetMapping("/opcja4")
+    public String executeOption4() {
+        // Logika dla opcji 4
+        return "result";
+    }
+
+    @GetMapping("/opcja1")
+    public String executeOption1(Model model) {
+        List<CourseList> courses = courseListRepository.findAll();
+        model.addAttribute("courses", courses);
+        return "result";
+    }
 }
