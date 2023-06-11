@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
+import pl.isa.javasmugglers.web.repository.CoursesRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
@@ -29,7 +30,8 @@ public class MainController {
     ExamResultService examResultService;
     @Autowired
     CourseRegistrationService courseRegistrationService;
-
+    @Autowired
+    CoursesRepository coursesRepository;
 
     @GetMapping("examlist/{id}")
     String examlist(@PathVariable("id") Long id, Model model) {
@@ -221,7 +223,7 @@ public class MainController {
     public String showActiveExams(Model model, @PathVariable("userID") Long userID) {
         User user = userService.findByID(userID);
         List<CourseRegistration> registrations = courseRegistrationService.findAllRegisteredCourses(user);
-        List<Course> registeredCourses = registrations.stream().map(CourseRegistration :: getCourseId).toList();
+        List<Course> registeredCourses = registrations.stream().map(CourseRegistration::getCourseId).toList();
         List<Exam> allRegisteredExams = examService.findAllByCourseList(registeredCourses);
         List<Exam> takenExams = examResultService.findUserExamResults(user).stream().map(ExamResult::getExamId).toList();
 
@@ -231,7 +233,6 @@ public class MainController {
                 .toList();
 
 
-
         model.addAttribute("exams", examsToTake)
                 .addAttribute("user", user);
 
@@ -239,9 +240,54 @@ public class MainController {
         return "userexamlist";
     }
 
+
+    //myślę żeby tego użyć ECTS_POINTS
     @GetMapping("user-dashboard/{userID}")
-    public String userDashboard(Model model, @PathVariable("userID") Long userID){
+    public String userDashboard(Model model, @PathVariable("userID") Long userID) {
         return "temporary-user-dashboard";
     }
 
+    //co tu dalej zrobić
+    @GetMapping("/showCourses/{userID}")
+    public String showCourses(Model model, @PathVariable("userID") Long userID) {
+        User user = userService.findByID(userID);
+        List<CourseRegistration> registrations = courseRegistrationService.findAllRegisteredCourses(user);
+        List<Course> registeredCourses = registrations.stream().map(CourseRegistration::getCourseId).toList();
+
+        return null;
+    }
+
+    @GetMapping("user-dashboard/courses/{id}")
+    String courselist(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("CourseList", examService.listAllExamsByProfessorId(id))
+                .addAttribute("content", "CourseList")
+                .addAttribute("profID", id);
+
+        return "CourseList";
+    }
+
+    @GetMapping("/menu")
+    public String showMenu() {
+        return "menu";
+    }
+
+    @GetMapping("/2")
+    public String executeOption2() {
+        // Logika dla opcji 2
+        return "result";
+    }
+
+    @GetMapping("/3")
+    public String executeOption3() {
+        // Logika dla opcji 3
+        return "result";
+    }
+
+
+    @GetMapping("/1")
+    public String executeOption1(Model model) {
+    //    List<Courses> courses = CoursesRepository;
+    //    model.addAttribute("courses", courses);
+        return "result";
+    }
 }
