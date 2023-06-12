@@ -13,3 +13,4 @@ public class CourseList {
     private String name;
 
 }
+
