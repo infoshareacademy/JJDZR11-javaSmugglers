@@ -286,8 +286,8 @@ public class MainController {
 
     @GetMapping("/1")
     public String executeOption1(Model model) {
-    //    List<Courses> courses = CoursesRepository;
-    //    model.addAttribute("courses", courses);
+    List<Courses> courses = coursesRepository.findAll();
+    model.addAttribute("courses", courses);
         return "result";
     }
 }
