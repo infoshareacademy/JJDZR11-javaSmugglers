@@ -129,7 +129,7 @@ public class WebApplication {
                     Date.valueOf("2023-10-15"),
                     Time.valueOf("17:30:00"),
                     Time.valueOf("19:30:00"),
-                     "sala 5c"
+                    "sala 5c"
             );
             CourseSession courseSession2 = new CourseSession(
                     course1,
@@ -150,7 +150,7 @@ public class WebApplication {
                     Date.valueOf("2023-11-12"),
                     Time.valueOf("16:00:00"),
                     Time.valueOf("18:00:00"),
-                     "sala 5c"
+                    "sala 5c"
             );
             courseSessionRepository.save(courseSession1);
             courseSessionRepository.save(courseSession2);
@@ -168,8 +168,8 @@ public class WebApplication {
                     "Egzamin końcowy",
                     "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z całego semestru",
                     course1,
-                    Exam.status.ACTIVE,1
-                    );
+                    Exam.status.ACTIVE, 1
+            );
             examRepository.save(exam1);
 
             Exam exam2 = new Exam(
@@ -286,22 +286,23 @@ public class WebApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner9(ExamService examService){
+    CommandLineRunner commandLineRunner9(ExamService examService) {
         return args -> {
 
         };
     }
-    @Bean
-    CommandLineRunner commandLineRunner10(CoursesRepository CoursesRepository, CoursesRepository coursesRepository) {
-        return args -> {
-            Course course1 = CoursesRepository.findById(1L).get();
-            Courses courses = new Courses(
-                private Long id;
-                private String Course_Type;
-                private String Descryption;
-            private Long ECTS_Points;
-                private Date End_Date;
-                private String name;
-                private Date Start_Date;
-
 }
+//    @Bean
+//    CommandLineRunner commandLineRunner10(CoursesRepository CoursesRepository, CoursesRepository coursesRepository) {
+//        return args -> {
+//            Course course1 = CoursesRepository.findById(1L).get();
+//            Courses courses = new Courses(
+//                private Long id;
+//                private String Course_Type;
+//                private String Descryption;
+//            private Long ECTS_Points;
+//                private Date End_Date;
+//                private String name;
+////                private Date Start_Date;
+//
+//}

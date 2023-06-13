@@ -11,20 +11,28 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Component
 public class ProfesorService {
-        public List<Courses> getCourses() {
+        public List<ProfesorMain> getProfesorMain() {
             return List.of(
-                   new C
+                   new ProfesorMain(
+                           3L,
+                           "Seminary" ,
+                           "blablabla",
+                           5L,
+                           LocalDate.of(2020,12,20),
+                           "nazwa",
+                           LocalDate.of(2020, 12, 31)
+
 
                     )
 
             );
         }
     }
-}
-        "id=" + id +
-        ", Course_Type='" + Course_Type + '\'' +
-        ", Descryption='" + Descryption + '\'' +
-        ", ECTS_Points=" + ECTS_Points +
-        ", End_Date=" + End_Date +
-        ", name='" + name + '\'' +
-        ", Start_Date=" + Start_Date
+
+//        "id=" + id +
+//        ", Course_Type='" + Course_Type + '\'' +
+//        ", Descryption='" + Descryption + '\'' +
+//        ", ECTS_Points=" + ECTS_Points +
+//        ", End_Date=" + End_Date +
+//        ", name='" + name + '\'' +
+//        ", Start_Date=" + Start_Date

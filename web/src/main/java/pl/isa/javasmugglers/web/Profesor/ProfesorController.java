@@ -14,18 +14,19 @@ import java.time.Month;
 import java.util.List;
 
     @RestController
-    @RequestMapping(path="/zajecia")
-    public class ProfesorController { {
+    @RequestMapping("/to")
+    public class ProfesorController {
 
-        private final ProfesorService profesorService;
+   private final ProfesorService profesorService;
 
         @Autowired
         public ProfesorController(ProfesorService profesorService) {
-            this.profesorService = profesorService;        }
+            this.profesorService = profesorService;
+        }
 
         @GetMapping
-        public List<Profesor> getProfesors() {
-            return profesorService.getProfesors();
+        public List<ProfesorMain> getProfesorMain() {
+            return profesorService.getProfesorMain();
         }
     }
-}
+
