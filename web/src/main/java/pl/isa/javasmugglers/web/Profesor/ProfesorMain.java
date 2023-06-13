@@ -46,4 +46,60 @@ public class ProfesorMain {
                 ", Start_Date=" + Start_Date +
                 '}';
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCourse_Type() {
+        return Course_Type;
+    }
+
+    public void setCourse_Type(String course_Type) {
+        Course_Type = course_Type;
+    }
+
+    public String getDescryption() {
+        return Descryption;
+    }
+
+    public void setDescryption(String descryption) {
+        Descryption = descryption;
+    }
+
+    public Long getECTS_Points() {
+        return ECTS_Points;
+    }
+
+    public void setECTS_Points(Long ECTS_Points) {
+        this.ECTS_Points = ECTS_Points;
+    }
+
+    public LocalDate getEnd_Date() {
+        return End_Date;
+    }
+
+    public void setEnd_Date(LocalDate end_Date) {
+        End_Date = end_Date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public LocalDate getStart_Date() {
+        return Start_Date;
+    }
+
+    public void setStart_Date(LocalDate start_Date) {
+        Start_Date = start_Date;
+    }
 }
