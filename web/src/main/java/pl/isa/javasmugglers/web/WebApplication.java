@@ -11,6 +11,8 @@ import pl.isa.javasmugglers.web.service.ExamService;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.util.LongSummaryStatistics;
 
 @SpringBootApplication
 @EntityScan()
@@ -289,5 +291,17 @@ public class WebApplication {
 
         };
     }
+    @Bean
+    CommandLineRunner commandLineRunner10(CoursesRepository CoursesRepository, CoursesRepository coursesRepository) {
+        return args -> {
+            Course course1 = CoursesRepository.findById(1L).get();
+            Courses courses = new Courses(
+                private Long id;
+                private String Course_Type;
+                private String Descryption;
+            private Long ECTS_Points;
+                private Date End_Date;
+                private String name;
+                private Date Start_Date;
 
 }
