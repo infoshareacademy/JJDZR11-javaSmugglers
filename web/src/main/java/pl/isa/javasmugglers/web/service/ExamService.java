@@ -11,13 +11,15 @@ import java.util.Map;
 
 @Service
 public class ExamService {
-    private final ExamRepository examRepository;
-    private final CourseRepository courseRepository;
-    private final UserRepository userRepository;
+    private ExamRepository examRepository;
+    private CourseRepository courseRepository;
+    private UserRepository userRepository;
     private CourseService courseService;
     private ExamQuestionRepository examQuestionRepository;
     private ExamAnswerRepository examAnswerRepository;
 
+    public ExamService() {
+    }
 
     public ExamService(ExamRepository examRepository, CourseRepository courseRepository, UserRepository userRepository, CourseService courseService, ExamQuestionRepository examQuestionRepository, ExamAnswerRepository examAnswerRepository) {
         this.examRepository = examRepository;

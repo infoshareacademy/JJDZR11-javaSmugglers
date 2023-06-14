@@ -42,6 +42,15 @@ public class MainController {
         return "examlist";
     }
 
+    @GetMapping("studentcourses/{id}")
+    String studentcourses(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("studentcourses", examService.listAllExamsByProfessorId(id))
+                .addAttribute("content", "examlist")
+                .addAttribute("profID", id);
+
+        return "studentcourses";
+    }
+
     @PostMapping("addexam")
     public String addExam(@ModelAttribute Exam exam) {
         examService.saveExam(exam);
@@ -252,34 +261,5 @@ public class MainController {
                 .addAttribute("profID", id);
 
         return "CourseList";
-    }
-    @GetMapping("/menu")
-    public String showMenu() {
-        return "menu";
-    }
-
-    @GetMapping("/opcja2")
-    public String executeOption2() {
-        // Logika dla opcji 2
-        return "result";
-    }
-
-    @GetMapping("/opcja3")
-    public String executeOption3() {
-        // Logika dla opcji 3
-        return "result";
-    }
-
-    @GetMapping("/opcja4")
-    public String executeOption4() {
-        // Logika dla opcji 4
-        return "result";
-    }
-
-    @GetMapping("/opcja1")
-    public String executeOption1(Model model) {
-        List<CourseList> courses = courseListRepository.findAll();
-        model.addAttribute("courses", courses);
-        return "result";
     }
 }
