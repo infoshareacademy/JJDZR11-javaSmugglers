@@ -14,7 +14,7 @@ import java.time.Month;
 import java.util.List;
 
     @RestController
-    @RequestMapping("/to")
+    @RequestMapping("/zajecia")
     public class ProfesorController {
 
    private final ProfesorService profesorService;

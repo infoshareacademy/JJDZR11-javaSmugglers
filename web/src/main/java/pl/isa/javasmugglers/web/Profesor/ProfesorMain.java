@@ -34,18 +34,18 @@ public class ProfesorMain {
         Start_Date = start_Date.toLocalDate();
     }
 
-    @Override
-    public String toString() {
-        return "ProfesorMain{" +
-                "id=" + id +
-                ", Course_Type='" + Course_Type + '\'' +
-                ", Descryption='" + Descryption + '\'' +
-                ", ECTS_Points=" + ECTS_Points +
-                ", End_Date=" + End_Date +
-                ", name='" + name + '\'' +
-                ", Start_Date=" + Start_Date +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "ProfesorMain{" +
+//                "id=" + id +
+//                ", Course_Type='" + Course_Type + '\'' +
+//                ", Descryption='" + Descryption + '\'' +
+//                ", ECTS_Points=" + ECTS_Points +
+//                ", End_Date=" + End_Date +
+//                ", name='" + name + '\'' +
+//                ", Start_Date=" + Start_Date +
+//                '}';
+//    }
 
     public Long getId() {
         return id;
