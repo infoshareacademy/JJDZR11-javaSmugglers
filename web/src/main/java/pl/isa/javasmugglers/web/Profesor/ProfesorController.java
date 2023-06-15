@@ -1,11 +1,11 @@
 package pl.isa.javasmugglers.web.Profesor;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import ch.qos.logback.core.model.Model;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,20 +13,16 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-    @RestController
-    @RequestMapping("/zajecia")
-    public class ProfesorController {
+@Controller
+public class ProfesorController {
 
-   private final ProfesorService profesorService;
+    @Autowired
+    ProfesorService profesorService;
 
-        @Autowired
-        public ProfesorController(ProfesorService profesorService) {
-            this.profesorService = profesorService;
-        }
-
-        @GetMapping
-        public List<ProfesorMain> getProfesorMain() {
-            return profesorService.getProfesorMain();
-        }
+    @GetMapping("zajecia/{id}")
+    public String ProfesorCorsesList(@PathVariable("id") Long id, Model model) {
+        return "ProfesorMenu";
     }
+
+}
 

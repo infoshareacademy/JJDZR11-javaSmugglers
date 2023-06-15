@@ -16,7 +16,7 @@ public class ProfesorService {
                    new ProfesorMain(
                            3L,
                            "Seminary" ,
-                           "blablabla",
+                           "Docker",
                            5L,
                            LocalDate.of(2020,12,20),
                            "nazwa",
