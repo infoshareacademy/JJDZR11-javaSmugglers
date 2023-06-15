@@ -1,4 +1,4 @@
-package pl.isa.javasmugglers.web.registration;
+package pl.isa.javasmugglers.web.model.registration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
