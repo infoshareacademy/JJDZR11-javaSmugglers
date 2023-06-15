@@ -35,9 +35,10 @@ public class MainController {
     String examlist(@PathVariable("id") Long id, Model model) {
         model.addAttribute("examlist", examService.listAllExamsByProfessorId(id))
                 .addAttribute("content", "examlist")
-                .addAttribute("profID", id);
+                .addAttribute("profID", id)
+                .addAttribute("content", "examlist");
 
-        return "examlist";
+        return "main";
     }
 
     @PostMapping("addexam")
@@ -52,7 +53,7 @@ public class MainController {
         model.addAttribute("exam", new Exam())
                 .addAttribute("courseList", courseService.coursesListByProfessorId(id))
                 .addAttribute("content", "addexam");
-        return "addexam";
+        return "main";
     }
 
     @GetMapping("edit-exam/{id}")
@@ -60,8 +61,9 @@ public class MainController {
         Exam exam = examService.findById(id);
         model.addAttribute("exam", exam)
                 .addAttribute("courseList",
-                        courseService.coursesListByProfessorId(exam.getCourseId().getProfessorId().getId()));
-        return "editexam";
+                        courseService.coursesListByProfessorId(exam.getCourseId().getProfessorId().getId()))
+                .addAttribute("content", "editexam");
+        return "main";
     }
 
     @PostMapping("edit-exam/update-exam/{id}")
@@ -84,14 +86,15 @@ public class MainController {
                 .addAttribute("profId", profID)
                 .addAttribute("examID", examID)
                 .addAttribute("content", "questionList");
-        return "questionlist";
+        return "main";
     }
 
     @GetMapping("edit-question/{id}")
     public String editQuestion(@PathVariable("id") Long id, Model model) {
         ExamQuestion examQuestion = examQuestionService.findByID(id);
-        model.addAttribute("examQuestion", examQuestion);
-        return "editquestion";
+        model.addAttribute("examQuestion", examQuestion)
+                .addAttribute("content", "editquestion");
+        return "main";
     }
 
 
@@ -116,10 +119,11 @@ public class MainController {
                 .toList();
         model.addAttribute("examQuestion", examQuestion)
                 .addAttribute("examAnswers", examAnswerWrapper)
-                .addAttribute("alphabet", alphabet);
+                .addAttribute("alphabet", alphabet)
+                .addAttribute("content", "editanswers");
 
 
-        return "editanswers";
+        return "main";
     }
 
 
@@ -141,8 +145,9 @@ public class MainController {
         ExamQuestion question = new ExamQuestion();
         question.setExamId(exam);
         model.addAttribute("question", question);
-        model.addAttribute("exam", exam);
-        return "addquestion";
+        model.addAttribute("exam", exam)
+                .addAttribute("content", "addquestion");
+        return "main";
     }
 
     @PostMapping("addquestion/{examId}")
@@ -175,8 +180,9 @@ public class MainController {
                 .addAttribute("examQuestionList", exam.getExamQuestionList())
                 .addAttribute("user", user)
                 .addAttribute("remainingTime", exam.getDuration())
-                .addAttribute("answers", userExamAnswers);
-        return "exam";
+                .addAttribute("answers", userExamAnswers)
+                .addAttribute("content","exam");
+        return "main";
 
     }
 
@@ -212,8 +218,9 @@ public class MainController {
         }
         model.addAttribute("examResults", examResults)
                 .addAttribute("percentageScores", percentageScores)
-                .addAttribute("user", user);
-        return "userexamresults";
+                .addAttribute("user", user)
+                .addAttribute("content", "userexamresults");
+        return "main";
     }
 
 
@@ -233,15 +240,18 @@ public class MainController {
 
 
         model.addAttribute("exams", examsToTake)
-                .addAttribute("user", user);
+                .addAttribute("user", user)
+                .addAttribute("content","userexamlist");
 
 
-        return "userexamlist";
+        return "main";
     }
 
     @GetMapping("user-dashboard/{userID}")
     public String userDashboard(Model model, @PathVariable("userID") Long userID){
-        return "temporary-user-dashboard";
+        model.addAttribute("content","temporary-user-dashboard");
+
+        return "main";
     }
 
 }

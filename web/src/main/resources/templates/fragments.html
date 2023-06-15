@@ -9,16 +9,22 @@
           integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </head>
 
-<nav th:fragment="navbar" class="navbar navbar-light bg-light">
-  <div class="container-fluid justify-content-center">
-    <a th:class="${content == 'index'} ? 'btn btn-secondary me-2' : 'btn btn-outline-secondary me-2'" th:href="@{/}">Strona główna</a>
-    <a th:class="${content == 'info'} ? 'btn btn-success me-2' : 'btn btn-outline-success me-2'" th:href="@{/info}">Lista zapisanych egzaminów</a>
-    <a th:class="${content == 'players'} ? 'btn btn-primary' : 'btn btn-outline-primary'" th:href="@{/players}">Dodaj Egzamin</a>
+<nav th:fragment="navbar" class="navbar navbar-light bg-primary">
+  <div class="container-fluid d-flex justify-content-between">
+    <a th:class="${content == 'back'} ? 'btn btn-light me-2' : 'btn btn-outline-light me-2'" onclick="goBack()">Wróć</a>
+    <img th:src="@{/logo.gif}" alt="LOGO" width="70" height="70" class="mx-auto d-block"/>
+    <a th:class="${content == 'info'} ? 'btn btn-light me-2' : 'btn btn-outline-light me-2'" th:href="@{/}">Wylogowanie</a>
   </div>
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
 </nav>
 
-<footer th:fragment="footer" class="footer bg-light text-center mt-auto fixed-bottom">
-  <div class="container text-muted">
-    <small>Created by <a class="text-reset" href="mailto:blazej.jendrzejewski@gmail.com">JavaSmugglers</a> 2023</small>
+<footer th:fragment="footer" class="footer bg-primary text-center mt-auto fixed-bottom">
+  <div class="container text-white">
+    <small>Created by <a class="text-white" href="mailto:blazej.jendrzejewski@gmail.com">JavaSmugglers</a> 2023</small>
   </div>
 </footer>
+
