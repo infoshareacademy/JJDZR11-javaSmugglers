@@ -1,4 +1,4 @@
-package pl.isa.javasmugglers.web.model.registration;
+package pl.isa.javasmugglers.web.registration;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -9,11 +9,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class RegistrationRequest {
+public class RegistrationRequest2 {
     private final String firstName;
     private final String lastName;
     private final String email;
     private final String password;
-
-
 }

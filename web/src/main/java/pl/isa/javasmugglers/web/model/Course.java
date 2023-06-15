@@ -101,7 +101,7 @@ public class Course {
     }
 
     public void setProfessor(User user) {
-        if (user.getType() != UserType.PROFESOR) {
+        if (user.getType() != UserType.PROFESSOR) {
             throw new IllegalArgumentException("User must be a professor to be set as course professor");
         }
         this.professorId = user;
