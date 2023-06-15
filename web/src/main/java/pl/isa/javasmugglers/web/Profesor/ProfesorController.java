@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import pl.isa.javasmugglers.web.service.CourseService;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -21,6 +22,9 @@ public class ProfesorController {
 
     @GetMapping("zajecia/{id}")
     public String ProfesorCorsesList(@PathVariable("id") Long id, Model model) {
+        model.addAttibute("Courslist", CourseService.listAllByProfessorId(id))
+                .addAttribute("content", "Courslist")
+                .addAttribute("profID", id);
         return "ProfesorMenu";
     }
 

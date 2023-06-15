@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface ProfesorRepository extends JpaRepository<Course, Long> {
-    Collection<Exam> findAllByCourseIdIn (Collection<Course> course);
-    Course findAllBy. (Course examQuestion);
+    Collection<Course> findAllByCourseIdIn (Collection<Course> course);
+    Course findAllByCourseTypeAndIdIn(Course examQuestion);
      List<Course> findAllByCourseIdIn (List<Course> courseList);
 }
 
