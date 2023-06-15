@@ -1,4 +1,4 @@
-package pl.isa.javasmugglers.web.model.security.config;
+package pl.isa.javasmugglers.web.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

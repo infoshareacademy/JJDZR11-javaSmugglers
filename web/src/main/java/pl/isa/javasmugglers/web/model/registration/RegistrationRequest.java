@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import pl.isa.javasmugglers.web.model.user.UserType;
 
 @Getter
 @AllArgsConstructor
@@ -14,6 +15,5 @@ public class RegistrationRequest {
     private final String lastName;
     private final String email;
     private final String password;
-
-
+    private final UserType type;
 }

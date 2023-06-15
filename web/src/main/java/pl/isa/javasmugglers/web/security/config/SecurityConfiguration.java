@@ -1,4 +1,4 @@
-package pl.isa.javasmugglers.web.model.security.config;
+package pl.isa.javasmugglers.web.security.config;
 
 
 
@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import pl.isa.javasmugglers.web.model.user.UserService;
+import pl.isa.javasmugglers.web.service.UserService;
 
 
 
@@ -35,7 +35,7 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                                .requestMatchers("api/v1/registration/**")
+                                .requestMatchers("registration/**", "registration/professor/**")
                                 .permitAll()
                 .anyRequest()
                 .authenticated().and()

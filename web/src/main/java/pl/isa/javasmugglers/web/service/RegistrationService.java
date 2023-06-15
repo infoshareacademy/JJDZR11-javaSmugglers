@@ -1,5 +1,7 @@
-package pl.isa.javasmugglers.web.model.registration;
+package pl.isa.javasmugglers.web.service;
 
+import pl.isa.javasmugglers.web.model.registration.RegistrationRequest;
+import pl.isa.javasmugglers.web.model.registration.UserValidator;
 import pl.isa.javasmugglers.web.model.user.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +24,8 @@ public class RegistrationService {
                         request.getLastName(),
                         request.getEmail(),
                         request.getPassword(),
-                        UserType.STUDENT,
-                        AccountsStatus.PENDING)
+                        request.getType(),
+                        AccountsStatus.ACTIVE)
         );
     }
 }
