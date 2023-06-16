@@ -6,6 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import pl.isa.javasmugglers.web.model.*;
+import pl.isa.javasmugglers.web.model.user.UserType;
+import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.repository.*;
 import pl.isa.javasmugglers.web.service.ExamService;
 
@@ -19,6 +22,7 @@ public class WebApplication {
     public static void main(String[] args) {
         SpringApplication.run(WebApplication.class, args);
     }
+}
 
 
     /* Poniższe beany wypełniają bazę danych do celów development'u. Baza aktualnie ustwiona jest tak by tworzyła się przy
@@ -266,8 +270,8 @@ public class WebApplication {
             examAnswerRepository.save(examAnswer3c);
             examAnswerRepository.save(examAnswer3d);
 
-        };
-    }
+
+
 
     @Bean
     CommandLineRunner commandLineRunner8(ExamResultsRepository examResultsRepository, ExamRepository examRepository, UserRepository userRepository) {
@@ -291,3 +295,4 @@ public class WebApplication {
     }
 
 }
+

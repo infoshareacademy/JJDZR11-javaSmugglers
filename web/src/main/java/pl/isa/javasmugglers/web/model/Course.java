@@ -1,6 +1,8 @@
 package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
+import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserType;
 
 import java.sql.Date;
 import java.util.List;
@@ -110,7 +112,7 @@ public class Course {
     }
 
     public void setProfessor(User user) {
-        if (user.getType() != User.userType.PROFESSOR) {
+        if (user.getType() != UserType.PROFESOR) {
             throw new IllegalArgumentException("User must be a professor to be set as course professor");
         }
         this.professorId = user;

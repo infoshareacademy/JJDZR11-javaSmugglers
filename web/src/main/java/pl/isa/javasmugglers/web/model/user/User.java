@@ -1,16 +1,33 @@
-package pl.isa.javasmugglers.web.model;
+package pl.isa.javasmugglers.web.model.user;
 
 import jakarta.persistence.*;
-
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import pl.isa.javasmugglers.web.model.Course;
+import pl.isa.javasmugglers.web.model.CourseRegistration;
+import pl.isa.javasmugglers.web.model.ExamResult;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity(name = "users")
 @Table(
         name = "users",
         uniqueConstraints = {@UniqueConstraint(name = "user_email_unique", columnNames = "email")
-}
+        }
 )
-public class User {
+@Getter
+@Setter
+@EqualsAndHashCode
+@NoArgsConstructor
+public class User implements UserDetails {
+
+
 
     @Id
     @SequenceGenerator(
@@ -33,14 +50,12 @@ public class User {
     )
     private String email;
 
-    public enum userType {STUDENT, PROFESSOR, ADMIN}
+
     @Enumerated(EnumType.STRING)
     @Column(
-            columnDefinition = "enum('STUDENT', 'PROFESSOR', 'ADMIN')"
+            columnDefinition = "enum('STUDENT', 'PROFESOR', 'ADMIN')"
     )
-    private userType type;
-
-
+    private UserType type;
 
 
     @Column(
@@ -58,12 +73,12 @@ public class User {
     )
     private String lastName;
 
-    public enum accountStatus {ACTIVE, PENDING, REJECTED}
+
     @Enumerated(EnumType.STRING)
     @Column(
             columnDefinition = "enum('ACTIVE', 'PENDING', 'REJECTED')"
     )
-    private accountStatus status;
+    private AccountsStatus status;
 
     //relacje do innych tabeli
     @OneToMany(mappedBy = "professorId")
@@ -75,11 +90,14 @@ public class User {
     @OneToMany(mappedBy = "studentId")
     private List<ExamResult> examResultList;
 
-    public User() {
+    public User(String firstName,
+                String lastName,
+                String email,
+                String password,
 
-    }
-
-    public User(String email, userType type, String password, String firstName, String lastName, accountStatus status) {
+                UserType type,
+                AccountsStatus status
+    ) {
         this.email = email;
         this.type = type;
         this.password = password;
@@ -88,59 +106,41 @@ public class User {
         this.status = status;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public userType getType() {
-        return type;
-    }
-
-    public void setType(userType type) {
-        this.type = type;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(type.name());
+        return Collections.singletonList(authority);
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return email;
     }
 
-    public String getFirstName() {
-        return firstName;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public String getLastName() {
-        return lastName;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
-    public accountStatus getStatus() {
-        return status;
-    }
 
-    public void setStatus(accountStatus status) {
-        this.status = status;
-    }
 }
