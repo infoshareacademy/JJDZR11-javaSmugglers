@@ -97,4 +97,8 @@ public class ExamService {
         return examRepository.findAllByCourseIdIn(courseList);
     }
 
+    public void deleteExam(Long id){
+        examRepository.delete(findById(id));
+    }
+
 }

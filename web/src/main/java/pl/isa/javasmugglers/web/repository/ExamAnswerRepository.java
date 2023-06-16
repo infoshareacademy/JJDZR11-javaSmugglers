@@ -11,4 +11,6 @@ import java.util.List;
 public interface ExamAnswerRepository extends JpaRepository<ExamAnswer, Long> {
     List<ExamAnswer> findAllByQuestionId (ExamQuestion examQuestion);
 
+    void deleteById(ExamAnswer examAnswer);
+
 }
