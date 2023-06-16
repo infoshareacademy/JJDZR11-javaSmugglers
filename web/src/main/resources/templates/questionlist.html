@@ -1,54 +1,71 @@
-<div th:fragment="content" class="container">
-    <div th:if="${#lists.isEmpty(questionList)}">
+<div th:fragment="content" class="container mt-12">
+    <style>
+        .btn-operation {
+            width: 150px;
+        }
+
+        .justify {
+            text-align: justify;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .wider {
+            width: 300px;
+            overflow: auto;
+        }
+    </style>
+    <div th:if="${#lists.isEmpty(questionList)}" class="alert alert-warning">
         Brak pytań przypisanych do egzaminu
     </div>
-    <table class="table table-striped mt-5" th:unless="${#lists.isEmpty(questionList)}">
-        <table>
+    <div th:unless="${#lists.isEmpty(questionList)}">
+        <table class="table table-striped">
             <thead>
             <tr>
-                <th>Numer pytania</th>
-                <th>Pytanie</th>
-                <th>Rodzaj pytania</th>
-                <th>Odpowiedzi</th>
-                <th>Poprawna odpowiedz</th>
-                <th>Operacje</th>
+                <th class="text-center">Numer pytania</th>
+                <th class="text-center wider">Pytanie</th>
+                <th class="text-center">Rodzaj pytania</th>
+                <th class="text-center wider">Odpowiedzi</th>
+                <th class="text-center">Poprawna odpowiedz</th>
+                <th class="text-center">Operacje</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="question, stat : ${questionList}">
-                <td th:text="${stat.count}"></td>
-                <td th:text="${question.getQuestionText}"></td>
-                <td>
+                <td class="text-center" th:text="${stat.count}"></td>
+                <td class="text-center justify wider" th:text="${question.getQuestionText}"></td>
+                <td class="text-center">
                     <div th:switch="${question.getType.name()}">
                         <p th:case="'SINGLE'">Jednokrotny wybór</p>
                         <p th:case="'MULTIPLE'">Wielokrotny wybór</p>
                     </div>
                 </td>
-
-                <td>
+                <td class="wider">
                     <ol type="a">
                         <li th:each="answer : ${question.examAnswerList}" th:text="${answer.answerText}"></li>
                     </ol>
                 </td>
-                <td>
+                <td class="center">
                     <ol type="a">
                         <li th:each="answer : ${question.examAnswerList}"
                             th:text="${answer.isCorrect} ? 'Poprawna' : 'Niepoprawna'"></li>
                     </ol>
                 </td>
 
-                <td>
-                    <a th:href="@{/edit-question/{id}(id=${question.getId})}">Edytuj pytanie</a>
-                    <a th:href="@{/edit-answers/{id}(id=${question.getId})}">Edytuj odpowiedzi</a>
 
-                    <a>Usuń pytanie</a>
+                <td class="center">
+                    <a th:href="@{/edit-question/{id}(id=${question.getId})}"
+                       class="btn btn-secondary btn-operation mb-2 text-center">Edytuj pytanie</a>
+                    <a th:href="@{/edit-answers/{id}(id=${question.getId})}"
+                       class="btn btn-primary btn-operation mb-2 text-center">Edytuj odpowiedzi</a>
+                    <a class="btn btn-danger btn-operation text-center">Usuń pytanie</a>
                 </td>
             </tr>
             </tbody>
         </table>
-    </table>
-    <a th:href="@{/examlist/{id}(id=${profId})}" class="btn btn-primary">Powrót</a>
-    <a th:href="@{/addquestion/{id}(id=${examID})}" class="btn btn-primary">Dodaj pytanie</a>
-
-
+        <a th:href="@{/examlist/{id}(id=${profId})}" class="btn btn-success btn-operation mb-5">Powrót</a>
+        <a th:href="@{/addquestion/{id}(id=${examID})}" class="btn btn-primary btn-operation mb-5">Dodaj pytanie</a>
+    </div>
 </div>

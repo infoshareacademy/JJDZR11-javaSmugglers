@@ -1,21 +1,30 @@
-<div th:fragment="content" class="container">
+<div th:fragment="content" class="container mt-5">
     <script>
         function validateForm() {
             const checkboxes = document.getElementsByName('isCorrect');
             let isChecked = false;
+            let countChecked = 0;
 
             for (let i = 0; i < checkboxes.length; i++) {
                 if (checkboxes[i].checked) {
                     isChecked = true;
-                    break;
+                    countChecked++;
                 }
             }
 
             if (!isChecked) {
                 alert('Proszę zaznaczyć co najmniej jedną odpowiedź jako prawidłową!');
+                return false;
             }
 
-            return isChecked;
+            const typeSelect = document.getElementById('type');
+            if (countChecked > 1) {
+                typeSelect.value = 'MULTIPLE';
+            } else {
+                typeSelect.value = 'SINGLE';
+            }
+
+            return true;
         }
     </script>
     <h2>Dodaj pytanie do egzaminu</h2>
@@ -24,7 +33,7 @@
             <label for="questionText">Tekst pytania:</label>
             <textarea class="form-control" id="questionText" th:field="*{questionText}"></textarea>
         </div>
-        <div class="form-group">
+        <div class="form-group d-none">
             <label for="type">Rodzaj pytania:</label>
             <select class="form-control" id="type" th:field="*{type}">
                 <option th:each="type : ${T(pl.isa.javasmugglers.web.model.ExamQuestion.questionType).values()}"
@@ -38,9 +47,8 @@
         </div>
 
         <div class="row">
-            <button class="btn btn-primary mr-2" th:href="@{/}">Powrót</button>
+            <button class="btn btn-success mr-2" th:href="@{/}">Powrót</button>
             <button type="submit" class="btn btn-primary">Zapisz pytanie</button>
         </div>
     </form>
 </div>
-

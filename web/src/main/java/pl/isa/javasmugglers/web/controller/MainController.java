@@ -85,7 +85,7 @@ public class MainController {
         model.addAttribute("questionList", questionList)
                 .addAttribute("profId", profID)
                 .addAttribute("examID", examID)
-                .addAttribute("content", "questionList");
+                .addAttribute("content", "questionlist");
         return "main";
     }
 
