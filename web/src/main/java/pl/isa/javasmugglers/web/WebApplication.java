@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.repository.*;
+import pl.isa.javasmugglers.web.service.CourseSessionService;
 import pl.isa.javasmugglers.web.service.ExamService;
 import pl.isa.javasmugglers.web.studentLogin.Student;
 
@@ -291,6 +292,13 @@ public class WebApplication {
 
     @Bean
     CommandLineRunner commandLineRunner9(ExamService examService){
+        return args -> {
+
+        };
+    }
+
+    @Bean
+    CommandLineRunner commandLineRunner10(CourseSessionService courseSessionService){
         return args -> {
 
         };

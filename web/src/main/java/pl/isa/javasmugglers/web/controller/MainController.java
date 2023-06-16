@@ -42,6 +42,15 @@ public class MainController {
         return "examlist";
     }
 
+    @GetMapping("student-timetable/{id}")
+    String timetablelist(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("timetablelist", CourseSessionService.listAllCourseSessionByStudentId(id))
+                .addAttribute("content", "timetablelist")
+                .addAttribute("studentID", id);
+
+        return "timetablelist";
+    }
+
     @PostMapping("addexam")
     public String addExam(@ModelAttribute Exam exam) {
         examService.saveExam(exam);

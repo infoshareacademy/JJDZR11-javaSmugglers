@@ -24,7 +24,11 @@ public class CourseService {
         List<Course> professorCoursesList = courseRepository.findAllByProfessorId(user);
         return  professorCoursesList;
     }
-    
 
 
+    public Collection<Course> coursesListByStudentId(Long studentId) {
+        User user = userRepository.findById(studentId).orElseThrow();
+        List<Course> studentCoursesList = courseRepository.findAllByStudentId(user);
+        return studentCoursesList;
+    }
 }
