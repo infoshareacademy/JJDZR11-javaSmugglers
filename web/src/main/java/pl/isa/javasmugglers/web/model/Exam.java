@@ -2,7 +2,6 @@ package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
 
-import java.time.Duration;
 import java.util.List;
 
 @Entity(name = "exams")
@@ -32,13 +31,14 @@ public class Exam {
     private Course courseId;
 
     public enum status {ACTIVE, INACTIVE}
+
     @Enumerated(EnumType.STRING)
     @Column(
             columnDefinition = "enum('ACTIVE', 'INACTIVE')"
     )
     private status status;
 
-    private Duration examDuration;
+    private Integer duration;
 
     //referencje do innych tabel
     @OneToMany(mappedBy = "examId")
@@ -50,12 +50,12 @@ public class Exam {
     public Exam() {
     }
 
-    public Exam(String name, String description, Course courseId, Exam.status status, Duration examDuration) {
+    public Exam(String name, String description, Course courseId, Exam.status status, Integer duration) {
         this.name = name;
         this.description = description;
         this.courseId = courseId;
         this.status = status;
-        this.examDuration=examDuration;
+        this.duration = duration;
     }
 
     public Long getId() {
@@ -98,11 +98,27 @@ public class Exam {
         this.status = status;
     }
 
-    public Duration getExamDuration() {
-        return examDuration;
+    public Integer getDuration() {
+        return duration;
     }
 
-    public void setExamDuration(Duration examDuration) {
-        this.examDuration = examDuration;
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public List<ExamQuestion> getExamQuestionList() {
+        return examQuestionList;
+    }
+
+    public void setExamQuestionList(List<ExamQuestion> examQuestionList) {
+        this.examQuestionList = examQuestionList;
+    }
+
+    public List<ExamResult> getExamResultList() {
+        return examResultList;
+    }
+
+    public void setExamResultList(List<ExamResult> examResultList) {
+        this.examResultList = examResultList;
     }
 }

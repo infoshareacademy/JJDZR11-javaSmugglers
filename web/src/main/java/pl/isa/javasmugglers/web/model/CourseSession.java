@@ -31,12 +31,7 @@ public class CourseSession {
     private Time startTime;
     private Time endTime;
 
-    public enum sessionType {LECTURE, SEMINAR, LAB, OTHER}
-    @Enumerated(EnumType.STRING)
-    @Column(
-            columnDefinition = "enum('LECTURE', 'SEMINAR', 'LAB', 'OTHER')"
-    )
-    private sessionType type;
+
 
     private String location;
 
@@ -48,12 +43,11 @@ public class CourseSession {
     public CourseSession() {
     }
 
-    public CourseSession(Course courseId, Date sessionDate, Time startTime, Time endTime, sessionType type, String location) {
+    public CourseSession(Course courseId, Date sessionDate, Time startTime, Time endTime, String location) {
         this.courseId = courseId;
         this.sessionDate = sessionDate;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.type = type;
         this.location = location;
     }
 
@@ -97,13 +91,6 @@ public class CourseSession {
         this.endTime = endTime;
     }
 
-    public sessionType getType() {
-        return type;
-    }
-
-    public void setType(sessionType type) {
-        this.type = type;
-    }
 
     public String getLocation() {
         return location;

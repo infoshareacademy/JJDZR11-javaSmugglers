@@ -33,6 +33,15 @@ public class Course {
 
     private Integer ectsPoints;
 
+
+
+    public enum CourseType {LECTURE, SEMINAR, LAB, OTHER}
+    @Enumerated(EnumType.STRING)
+    @Column(
+            columnDefinition = "enum('LECTURE', 'SEMINAR', 'LAB', 'OTHER')"
+    )
+    private CourseType CourseType;
+
     //relacje do innych tabel
     @ManyToOne
     @JoinColumn(name="professor_id", referencedColumnName = "id")
@@ -47,13 +56,15 @@ public class Course {
     public Course() {
     }
 
-    public Course(String name, String description, Date startDate, Date endDate, User professorId, Integer ectsPoints) {
+
+    public Course(String name, String description, Date startDate, Date endDate, Integer ectsPoints, CourseType CourseType, User professorId) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.professorId = professorId;
         this.ectsPoints = ectsPoints;
+        this.CourseType = CourseType;
+        this.professorId = professorId;
     }
 
     public Long getId() {
@@ -112,5 +123,33 @@ public class Course {
 
     public void setEctsPoints(Integer ectsPoints) {
         this.ectsPoints = ectsPoints;
+    }
+
+    public CourseType getCourseType() {
+        return CourseType;
+    }
+
+    public void setCourseType(CourseType type) {
+        this.CourseType = type;
+    }
+
+    public void setProfessorId(User professorId) {
+        this.professorId = professorId;
+    }
+
+    public List<CourseRegistration> getCourseRegistrationList() {
+        return courseRegistrationList;
+    }
+
+    public void setCourseRegistrationList(List<CourseRegistration> courseRegistrationList) {
+        this.courseRegistrationList = courseRegistrationList;
+    }
+
+    public List<CourseSession> getCourseSessionList() {
+        return courseSessionList;
+    }
+
+    public void setCourseSessionList(List<CourseSession> courseSessionList) {
+        this.courseSessionList = courseSessionList;
     }
 }

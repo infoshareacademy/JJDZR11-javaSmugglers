@@ -1,5 +1,6 @@
 package pl.isa.javasmugglers.web.service;
 
+
 import lombok.AllArgsConstructor;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.repository.UserRepository;
+import org.springframework.stereotype.Service;
+import pl.isa.javasmugglers.web.model.User;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 
 @Service
@@ -34,7 +38,7 @@ public class UserService implements UserDetailsService {
         return "Użytkownik  " + user.getFirstName() + " " + user.getLastName() + " został zarejestrowany. Proszę czekać na akceptacje użytkownika.";
     }
 
-    private static final String USER_NOT_FOUND = "uSER WITH EMAIL %S NOT FOUND.";
+    private static final String USER_NOT_FOUND = "USER WITH EMAIL %S NOT FOUND.";
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -42,4 +46,14 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() ->
                         new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
+
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public User findByID (Long id){
+       return userRepository.findById(id).orElseThrow();
+    }
+
 }

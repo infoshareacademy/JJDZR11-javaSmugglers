@@ -29,13 +29,13 @@ public class ExamResult {
     @ManyToOne
     @JoinColumn(name = "examId", referencedColumnName = "id")
     private Exam examId;
-    private Integer studentScore;
-    private Integer maxExamScore;
+    private Double studentScore;
+    private Double maxExamScore;
 
     public ExamResult() {
     }
 
-    public ExamResult(User studentId, Exam examId, Integer studentScore, Integer maxExamScore) {
+    public ExamResult(User studentId, Exam examId, Double studentScore, Double maxExamScore) {
         this.studentId = studentId;
         this.examId = examId;
         this.studentScore = studentScore;
@@ -68,19 +68,20 @@ public class ExamResult {
         this.examId = examId;
     }
 
-    public Integer getStudentScore() {
+    public Double getStudentScore() {
         return studentScore;
     }
 
-    public void setStudentScore(Integer studentScore) {
+    public void setStudentScore(Double studentScore) {
         this.studentScore = studentScore;
     }
 
-    public Integer getMaxExamScore() {
+    public Double getMaxExamScore() {
         return maxExamScore;
     }
 
-    public void setMaxExamScore(Integer maxExamScore) {
+    public void setMaxExamScore(Double maxExamScore) {
         this.maxExamScore = maxExamScore;
     }
+
 }

@@ -1,0 +1,40 @@
+<div th:fragment="content" class="container"
+     style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: left;">
+    <span style="font-weight: bold;">Czas egzaminu do końca egzaminu: <span id="countdown"
+                                                                            style="font-weight: bold;"></span></span>
+
+    <p style="font-weight: bold;">Uwaga! Po skończonym czasie egzamin zostanie zakończony automatycznie!</p>
+
+    <form id="examForm" th:action="@{'/startexam/' + ${exam.id} + '/' + ${user.id}}" th:object="${answers}"
+          method="post">
+
+        <input type="hidden" th:value="${user}" name="user"/>
+        <input type="hidden" th:value="${remainingTime}" id="remainingTime"/>
+        <div th:each="question, questionIndex : ${exam.getExamQuestionList}">
+            <p></p>
+            <p th:text="'Pytanie ' + (${questionIndex.index} + 1) + ': '"
+               style="font-weight: bold;"></p>
+            <div th:each="answer, answerIndex : ${question.examAnswerList}">
+                <input type="checkbox" th:value="${answer.id}" th:name="'answers['+${question.id}+']'"/>
+                <label th:text="${answer.answerText}"></label>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success mt-2 mb-2">Zakończ i prześlij odpowiedzi</button>
+    </form>
+    <script>
+        var remainingTime = document.getElementById('remainingTime').value * 60;
+        var countdownElement = document.getElementById('countdown');
+        var timer = setInterval(function () {
+            var minutes = Math.floor(remainingTime / 60);
+            var seconds = remainingTime % 60;
+            countdownElement.innerHTML = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+
+            remainingTime--;
+
+            if (remainingTime < 0) {
+                clearInterval(timer);
+                document.getElementById('examForm').submit();
+            }
+        }, 1000);
+    </script>
+</div>

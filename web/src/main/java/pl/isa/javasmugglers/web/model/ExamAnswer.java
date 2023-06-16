@@ -68,4 +68,5 @@ public class ExamAnswer {
     public void setQuestionId(ExamQuestion questionId) {
         this.questionId = questionId;
     }
+
 }
