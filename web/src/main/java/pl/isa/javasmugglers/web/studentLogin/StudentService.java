@@ -1,23 +1,35 @@
 package pl.isa.javasmugglers.web.studentLogin;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import pl.isa.javasmugglers.web.model.Course;
+import pl.isa.javasmugglers.web.model.CourseSession;
+import pl.isa.javasmugglers.web.model.Exam;
+import pl.isa.javasmugglers.web.repository.CourseRepository;
+import pl.isa.javasmugglers.web.repository.ExamRepository;
+import pl.isa.javasmugglers.web.service.CourseService;
 
-import java.time.LocalDate;
-import java.time.Month;
+import java.util.Collection;
 import java.util.List;
 
-@Component
+@Service
 public class StudentService {
-        public List<Student> getStudents() {
-            return List.of(
-                    new Student(
-                            1L,
-                            "Dominik",
-                            "dominik@gmail.com",
-                            LocalDate.of(2000, Month.FEBRUARY, 23),
-                            21
-                    )
 
-            );
+    private final StudentRepository studentRepository;
+    private CourseService courseService;
+    private CourseRepository courseRepository;
+
+    @Autowired
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+
+    public List<Student> getStudents() {
+            return studentRepository.findAll();
         }
+
+    public Collection<CourseSession> listAllCoursesByProfessorId(Long professorId) {
+        Collection<Course> professorCoursesList = courseService.coursesListByProfessorId(professorId);
+        return courseRepository.findAllByCourseIdIn(professorCoursesList);
+    }
 }
