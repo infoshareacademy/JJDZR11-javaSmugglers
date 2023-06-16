@@ -1,22 +1,35 @@
 package pl.isa.javasmugglers.web.service;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.Course;
+import pl.isa.javasmugglers.web.model.CourseRegistration;
+import pl.isa.javasmugglers.web.model.CourseSession;
 import pl.isa.javasmugglers.web.model.User;
+import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
+import pl.isa.javasmugglers.web.repository.CourseSessionRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
     private CourseRepository courseRepository;
     private UserRepository userRepository;
+    private CourseSessionRepository courseSessionRepository;
+    private CourseRegistrationRepository courseRegistrationeRepository;
 
-    public CourseService(CourseRepository courseRepository, UserRepository userRepository) {
+    public CourseService(CourseRepository courseRepository, UserRepository userRepository,
+                         CourseSessionRepository courseSessionRepository,
+                         CourseRegistrationRepository courseRegistrationeRepository) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
+        this.courseSessionRepository = courseSessionRepository;
+        this.courseRegistrationeRepository = courseRegistrationeRepository;
     }
 
     public List<Course> coursesListByProfessorId(Long professorId){
@@ -25,10 +38,23 @@ public class CourseService {
         return  professorCoursesList;
     }
 
-
-    public Collection<Course> coursesListByStudentId(Long studentId) {
+    public List<CourseSession> coursesListByStudentId(Long studentId) {
         User user = userRepository.findById(studentId).orElseThrow();
-        List<Course> studentCoursesList = courseRepository.findAllByStudentId(user);
-        return studentCoursesList;
+        List<CourseRegistration> coursesByStudent = courseRegistrationeRepository.findAllByStudentId(user);
+        return coursesByStudent.stream()
+                .map(courseRegistration -> courseRepository.findById(courseRegistration.getId()).orElseThrow())
+                .map(course -> courseSessionRepository.findAllByCourseId(course))
+                .flatMap(c -> c.stream())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return "CourseService{" +
+                "courseRepository=" + courseRepository +
+                ", userRepository=" + userRepository +
+                ", courseSessionRepository=" + courseSessionRepository +
+                ", courseRegistrationeRepository=" + courseRegistrationeRepository +
+                '}';
     }
 }
