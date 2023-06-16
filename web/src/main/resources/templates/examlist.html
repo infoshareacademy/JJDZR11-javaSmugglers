@@ -1,35 +1,47 @@
-<div th:fragment="content" class="container">
-    <div th:if="${#lists.isEmpty(examlist)}">
+<div th:fragment="content" class="container mt-5">
+    <style>
+        .btn-operation {
+            width: 150px;
+        }
+        .justify {
+            text-align: justify;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+    <div th:if="${#lists.isEmpty(examlist)}" class="alert alert-warning">
         Brak dodanych egzaminów
     </div>
-    <table class="table table-striped mt-5" th:unless="${#lists.isEmpty(examlist)}">
-        <table>
+    <div th:unless="${#lists.isEmpty(examlist)}">
+        <table class="table table-striped">
             <thead>
             <tr>
-                <th>Przedmiot</th>
-                <th>Typ</th>
-                <th>Nazwa egzaminu</th>
-                <th>Opis egzaminu</th>
-                <th>Status</th>
-                <th>Operacje</th>
+                <th class="text-center">Przedmiot</th>
+                <th class="text-center">Typ</th>
+                <th class="text-center">Nazwa egzaminu</th>
+                <th class="text-center">Opis egzaminu</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Operacje</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="exam : ${examlist}">
-                <td th:text="${exam.courseId.getName}">
-                <td th:text="${exam.courseId.getCourseType}"></td>
-                <td th:text="${exam.getName}"></td>
-                <td th:text="${exam.getDescription}"></td>
-                <td th:text="${exam.getStatus}"></td>
-                <td>
-                    <a th:href="@{/edit-exam/{id}(id=${exam.id})}">Edytuj egzamin</a>
-                    <a th:href="@{/questionlist/{id}(id=${exam.id})}">Edytuj pytania</a>
-                    <a>Usuń egzamin</a>
+                <td class="text-center" th:text="${exam.courseId.getName}"></td>
+                <td class="text-center" th:text="${exam.courseId.getCourseType}"></td>
+                <td class="text-center" th:text="${exam.getName}"></td>
+                <td class="justify" th:text="${exam.getDescription}"></td>
+                <td class="text-center" th:text="${exam.getStatus}"></td>
+                <td class="center">
+                    <a th:href="@{/edit-exam/{id}(id=${exam.id})}" class="btn btn-secondary btn-operation mb-2 text-center">Edytuj egzamin</a>
+                    <a th:href="@{/questionlist/{id}(id=${exam.id})}" class="btn btn-primary btn-operation mb-2 text-center">Edytuj pytania</a>
+                    <a class="btn btn-danger btn-operation text-center">Usuń egzamin</a>
                 </td>
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/addexam/{id}(id=*{profID})}">Dodaj egzamin</a>
-
-    </table>
+        <a th:href="@{/addexam/{id}(id=*{profID})}" class="btn btn-success btn-operation">Dodaj egzamin</a>
+    </div>
 </div>
+
+
