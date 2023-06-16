@@ -8,7 +8,6 @@ import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -181,7 +180,7 @@ public class MainController {
                 .addAttribute("user", user)
                 .addAttribute("remainingTime", exam.getDuration())
                 .addAttribute("answers", userExamAnswers)
-                .addAttribute("content","exam");
+                .addAttribute("content", "exam");
         return "main";
 
     }
@@ -228,7 +227,7 @@ public class MainController {
     public String showActiveExams(Model model, @PathVariable("userID") Long userID) {
         User user = userService.findByID(userID);
         List<CourseRegistration> registrations = courseRegistrationService.findAllRegisteredCourses(user);
-        List<Course> registeredCourses = registrations.stream().map(CourseRegistration :: getCourseId).toList();
+        List<Course> registeredCourses = registrations.stream().map(CourseRegistration::getCourseId).toList();
         List<Exam> allRegisteredExams = examService.findAllByCourseList(registeredCourses);
         List<Exam> takenExams = examResultService.findUserExamResults(user).stream().map(ExamResult::getExamId).toList();
 
@@ -238,24 +237,31 @@ public class MainController {
                 .toList();
 
 
-
         model.addAttribute("exams", examsToTake)
                 .addAttribute("user", user)
-                .addAttribute("content","userexamlist");
+                .addAttribute("content", "userexamlist");
 
 
         return "main";
     }
 
     @PostMapping("delete/exam/{id}")
-    public String deleteExam(@PathVariable("id") Long examID, @RequestParam("userID") Long userID){
+    public String deleteExam(@PathVariable("id") Long examID, @RequestParam("userID") Long userID) {
         examService.deleteExam(examID);
         return "redirect:/examlist/" + userID;
     }
 
+    @PostMapping("delete/question/{id}")
+    public String deleteQuestion(@PathVariable("id") Long questionID, @RequestParam("examID") Long examID) {
+        examAnswerService.deleteAswersByQuestionID(questionID);
+        examQuestionService.deleteQuestion(questionID);
+        return "redirect:/questionlist/" + examID;
+    }
+
+
     @GetMapping("user-dashboard/{userID}")
-    public String userDashboard(Model model, @PathVariable("userID") Long userID){
-        model.addAttribute("content","temporary-user-dashboard");
+    public String userDashboard(Model model, @PathVariable("userID") Long userID) {
+        model.addAttribute("content", "temporary-user-dashboard");
 
         return "main";
     }

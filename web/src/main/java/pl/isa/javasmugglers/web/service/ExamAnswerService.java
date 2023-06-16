@@ -26,5 +26,12 @@ public class ExamAnswerService {
         return examAnswerRepository.save(examAnswer);
     }
 
+    public void deleteAswersByQuestionID(Long questionID){
+        List<ExamAnswer> allAnswers = findAllAnswersByQuestionID(questionID);
+        for(ExamAnswer answer : allAnswers) {
+            examAnswerRepository.deleteById(answer.getId());
+        }
+    }
+
 
 }

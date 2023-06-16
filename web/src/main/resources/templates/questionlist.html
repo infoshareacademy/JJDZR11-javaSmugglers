@@ -17,6 +17,11 @@
             overflow: auto;
         }
     </style>
+    <script>
+        function confirmDelete(questionId) {
+            return confirm('Czy na pewno chcesz usunąć to pytanie?');
+        }
+    </script>
     <div th:if="${#lists.isEmpty(questionList)}" class="alert alert-warning">
         Brak pytań przypisanych do egzaminu
     </div>
@@ -60,7 +65,12 @@
                        class="btn btn-secondary btn-operation mb-2 text-center">Edytuj pytanie</a>
                     <a th:href="@{/edit-answers/{id}(id=${question.getId})}"
                        class="btn btn-primary btn-operation mb-2 text-center">Edytuj odpowiedzi</a>
-                    <a class="btn btn-danger btn-operation text-center">Usuń pytanie</a>
+                    <form th:action="@{/delete/question/{id}(id=${question.getId})}" method="post">
+                        <input type="hidden" name="examID" th:value="${examID}">
+                        <button type="submit" class="btn btn-danger btn-operation text-center"
+                                onclick="return confirmDelete('${question.id}')">Usuń pytanie</button>
+                    </form>
+
                 </td>
             </tr>
             </tbody>
