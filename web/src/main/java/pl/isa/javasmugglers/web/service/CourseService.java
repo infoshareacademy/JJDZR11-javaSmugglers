@@ -2,7 +2,7 @@ package pl.isa.javasmugglers.web.service;
 
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.Course;
-import pl.isa.javasmugglers.web.model.User;
+import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 

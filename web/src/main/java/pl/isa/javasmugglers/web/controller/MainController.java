@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
+import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
@@ -265,5 +266,6 @@ public class MainController {
 
         return "main";
     }
+}
 
 

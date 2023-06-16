@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseRegistration;
 import pl.isa.javasmugglers.web.model.ExamResult;
+import pl.isa.javasmugglers.web.model.user.AccountsStatus;
+import pl.isa.javasmugglers.web.model.user.UserType;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

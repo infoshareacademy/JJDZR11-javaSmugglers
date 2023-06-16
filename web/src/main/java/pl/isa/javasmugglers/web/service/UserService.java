@@ -10,16 +10,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.UserRepository;
-import org.springframework.stereotype.Service;
-import pl.isa.javasmugglers.web.model.User;
-import pl.isa.javasmugglers.web.repository.UserRepository;
+
 
 @Service
-@AllArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public String signUpUser(User user) {
         boolean userExists = userRepository
