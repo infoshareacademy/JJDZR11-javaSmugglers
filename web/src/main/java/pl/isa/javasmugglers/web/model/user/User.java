@@ -50,11 +50,10 @@ public class User implements UserDetails {
     )
     private String email;
 
-    public enum userType {STUDENT, PROFESSOR, ADMIN}
 
     @Enumerated(EnumType.STRING)
     @Column(
-            columnDefinition = "enum('STUDENT', 'PROFESSOR', 'ADMIN')"
+            columnDefinition = "enum('STUDENT', 'PROFESOR', 'ADMIN')"
     )
     private UserType type;
 
@@ -74,7 +73,6 @@ public class User implements UserDetails {
     )
     private String lastName;
 
-    public enum accountStatus {ACTIVE, PENDING, REJECTED}
 
     @Enumerated(EnumType.STRING)
     @Column(
