@@ -1,0 +1,28 @@
+<div th:fragment="content" class="container">
+    <div th:if="${#lists.isEmpty(studentTimetable)}">
+        Brak dodanych egzaminów
+    </div>
+    <table class="table table-striped mt-5" th:unless="${#lists.isEmpty(studentTimetable)}">
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Typ przedmiotu</th>
+                <th>Nazwa</th>
+                <th>Opis</th>
+                <th>Punkty ECTS</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="courseSession : ${studentTimetable}">
+                <td th:text="${courseSession.getId}">
+                <td th:text="${courseSession.getCourseId().courseType}">
+                <td th:text="${courseSession.getCourseId().name}">
+                <td th:text="${courseSession.getCourseId().description}">
+                <td th:text="${courseSession.getCourseId().ectsPoints}">
+            </tr>
+            </tbody>
+        </table>
+
+    </table>
+</div>

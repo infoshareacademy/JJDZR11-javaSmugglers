@@ -9,7 +9,6 @@ import pl.isa.javasmugglers.web.repository.CourseListRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -42,13 +41,14 @@ public class MainController {
         return "examlist";
     }
 
-    @GetMapping("student-timetable/{id}")
-    String timetablelist(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("timetablelist", CourseSessionService.listAllCourseSessionByStudentId(id))
-                .addAttribute("content", "timetablelist")
-                .addAttribute("studentID", id);
-
-        return "timetablelist";
+    @GetMapping("studentTimetable/{id}")
+    String studentTimetable(@PathVariable("id") Long id,Model model){
+        List<CourseSession> courseSessions = courseService.coursesListByStudentId(id);
+        System.out.println(courseSessions);
+        model.addAttribute("studentTimetable",courseSessions)
+                .addAttribute("content", "studentTimetable")
+                .addAttribute("studentId",id);
+       return "studentTimetable";
     }
 
     @PostMapping("addexam")
@@ -265,24 +265,6 @@ public class MainController {
     @GetMapping("/menu")
     public String showMenu() {
         return "menu";
-    }
-
-    @GetMapping("/opcja2")
-    public String executeOption2() {
-        // Logika dla opcji 2
-        return "result";
-    }
-
-    @GetMapping("/opcja3")
-    public String executeOption3() {
-        // Logika dla opcji 3
-        return "result";
-    }
-
-    @GetMapping("/opcja4")
-    public String executeOption4() {
-        // Logika dla opcji 4
-        return "result";
     }
 
     @GetMapping("/opcja1")
