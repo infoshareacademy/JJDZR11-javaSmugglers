@@ -247,6 +247,12 @@ public class MainController {
         return "main";
     }
 
+    @PostMapping("delete/exam/{id}")
+    public String deleteExam(@PathVariable("id") Long examID, @RequestParam("userID") Long userID){
+        examService.deleteExam(examID);
+        return "redirect:/examlist/" + userID;
+    }
+
     @GetMapping("user-dashboard/{userID}")
     public String userDashboard(Model model, @PathVariable("userID") Long userID){
         model.addAttribute("content","temporary-user-dashboard");
