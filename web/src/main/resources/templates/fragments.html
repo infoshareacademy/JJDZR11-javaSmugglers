@@ -7,7 +7,7 @@
   <div class="container-fluid d-flex justify-content-between">
     <a th:class="${content == 'back'} ? 'btn btn-light me-2' : 'btn btn-outline-light me-2'" onclick="goBack()">Wróć</a>
     <img th:src="@{/logo.gif}" alt="LOGO" width="70" height="70" class="mx-auto d-block"/>
-    <a th:class="${content == 'info'} ? 'btn btn-light me-2' : 'btn btn-outline-light me-2'" th:href="@{/}">Wylogowanie</a>
+    <a th:class="${content == 'info'} ? 'btn btn-light me-2' : 'btn btn-outline-light me-2'" th:href="@{/login}">Wylogowanie</a>
   </div>
   <script>
     function goBack() {
