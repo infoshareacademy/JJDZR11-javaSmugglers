@@ -154,9 +154,11 @@
 </head>
 
 <body>
-<header class="header">
-    <a href="#" class="logo">CO - STUDY INTRANET</a>
-
+<header class="header" style="background-color: #337ab7; padding: 15px; display: flex; justify-content: center; align-items: center;">
+    <div style="display: flex; align-items: center;">
+        <img th:src="@{/logo.gif}" alt="LOGO" width="70" height="70" style="margin-right: 15px;"/>
+        <p href="#" class="logo" style="color: white; font-size: 25px;">CO-STUDY INTRANET</p>
+    </div>
 </header>
 <main>
     <div class="intro">
@@ -168,11 +170,10 @@
 
 
 </main>
-<footer class="footer">
+<footer class="footer" style="background-color: #337ab7; color: white; padding: 10px;">
     <div class="copy">&copy; 2023 JavaSmugglers unaffiliated</div>
     <div class="bottom-links">
 
-    </div>
     </div>
 </footer>
 </body>
