@@ -5,19 +5,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.repository.*;
 import pl.isa.javasmugglers.web.service.CourseSessionService;
 import pl.isa.javasmugglers.web.service.ExamService;
-import pl.isa.javasmugglers.web.studentLogin.Student;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
-import java.time.Month;
-import java.util.List;
 
 @SpringBootApplication
 @EntityScan()
@@ -274,20 +268,6 @@ public class WebApplication {
                     5.0,
                     5.0);
             examResultsRepository.save(student1Results);
-        };
-    }
-
-    @Bean
-    CommandLineRunner commandLineRunner9(ExamService examService){
-        return args -> {
-
-        };
-    }
-
-    @Bean
-    CommandLineRunner commandLineRunner10(CourseSessionService courseSessionService){
-        return args -> {
-
         };
     }
 

@@ -15,6 +15,7 @@
                 <th>Opis</th>
                 <th>Punkty ECTS</th>
                 <th>Lokalizacja</th>
+                <th>Data</th>
                 <th>Godzina rozpoczęcia</th>
             </tr>
             </thead>
@@ -26,6 +27,7 @@
                 <td th:text="${courseSession.getCourseId().description}">
                 <td th:text="${courseSession.getCourseId().ectsPoints}">
                 <td th:text="${courseSession.getLocation()}">
+                <td th:text="${courseSession.getSessionDate()}">
                 <td th:text="${courseSession.getStartTime()}">
             </tr>
             </tbody>

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
-import pl.isa.javasmugglers.web.repository.CourseListRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
@@ -29,8 +28,6 @@ public class MainController {
     ExamResultService examResultService;
     @Autowired
     CourseRegistrationService courseRegistrationService;
-    @Autowired
-    CourseListRepository courseListRepository;
 
     @GetMapping("examlist/{id}")
     String examlist(@PathVariable("id") Long id, Model model) {
@@ -265,16 +262,5 @@ public class MainController {
                 .addAttribute("profID", id);
 
         return "CourseList";
-    }
-    @GetMapping("/menu")
-    public String showMenu() {
-        return "menu";
-    }
-
-    @GetMapping("/opcja1")
-    public String executeOption1(Model model) {
-        List<CourseList> courses = courseListRepository.findAll();
-        model.addAttribute("courses", courses);
-        return "result";
     }
 }
