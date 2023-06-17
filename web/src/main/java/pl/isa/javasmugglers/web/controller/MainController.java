@@ -266,6 +266,14 @@ public class MainController {
 
         return "main";
     }
+    @GetMapping("/")
+    public String home(){
+        return "homepage";
+    }
+    @GetMapping("registration")
+    public String register(){
+        return "registration";
+    }
 }
 
 
