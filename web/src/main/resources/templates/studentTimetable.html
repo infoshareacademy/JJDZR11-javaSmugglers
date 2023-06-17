@@ -1,0 +1,37 @@
+<div th:fragment="content" class="container">
+    <h3>Witaj studencie, oto twój plan lekcji:</h3>
+    <h3 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+    <h3>Oto twój plan lekcji:</h3>
+    <div th:if="${#lists.isEmpty(studentTimetable)}">
+        Brak zajęć w planie lekcji
+    </div>
+    <table class="table table-striped mt-5" th:unless="${#lists.isEmpty(studentTimetable)}">
+        <table>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Typ przedmiotu</th>
+                <th>Nazwa</th>
+                <th>Opis</th>
+                <th>Punkty ECTS</th>
+                <th>Lokalizacja</th>
+                <th>Data</th>
+                <th>Godzina rozpoczęcia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="courseSession : ${studentTimetable}">
+                <td th:text="${courseSession.getId}">
+                <td th:text="${courseSession.getCourseId().courseType}">
+                <td th:text="${courseSession.getCourseId().name}">
+                <td th:text="${courseSession.getCourseId().description}">
+                <td th:text="${courseSession.getCourseId().ectsPoints}">
+                <td th:text="${courseSession.getLocation()}">
+                <td th:text="${courseSession.getSessionDate()}">
+                <td th:text="${courseSession.getStartTime()}">
+            </tr>
+            </tbody>
+        </table>
+
+    </table>
+</div>
