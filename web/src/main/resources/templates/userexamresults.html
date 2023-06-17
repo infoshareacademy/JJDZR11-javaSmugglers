@@ -15,7 +15,7 @@
             <td th:text="${result.getExamId().getName()}"></td>
             <td th:text="${result.getStudentScore()}"></td>
             <td th:text="${result.getMaxExamScore()}"></td>
-            <td th:text="${percentageScores[i.index]}"></td>
+            <td th:text="${percentageScores[i.index]} + '%'"></td>
         </tr>
     </table>
     <a th:href="@{/user-dashboard/{id}(id=${userID})}" class="btn btn-success">Powrót</a>
