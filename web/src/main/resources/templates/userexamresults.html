@@ -1,9 +1,8 @@
-<div th:fragment="content" class="container">
-    <h2>Temporary Exam Result - for beta presentation only</h2>
-    <h3>Witaj</h3>
-    <h3 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
-    <h3>Oto wyniki twoich egzaminów:</h3>
-    <table>
+<div th:fragment="content" class="container mt-2 mb-2">
+    <h4>Witaj</h4>
+    <h4 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h4>
+    <h5>Oto wyniki twoich egzaminów:</h5>
+    <table class="table">
         <tr>
             <th>Przedmiot</th>
             <th>Nazwa egzaminu</th>
@@ -16,8 +15,8 @@
             <td th:text="${result.getExamId().getName()}"></td>
             <td th:text="${result.getStudentScore()}"></td>
             <td th:text="${result.getMaxExamScore()}"></td>
-            <td th:text="${percentageScores[i.index]}"></td>
+            <td th:text="${percentageScores[i.index]} + '%'"></td>
         </tr>
     </table>
-    <a th:href="@{/user-dashboard/{id}(id=${userID})}" class="btn btn-primary">Powrót</a>
+    <a th:href="@{/user-dashboard/{id}(id=${userID})}" class="btn btn-success">Powrót</a>
 </div>

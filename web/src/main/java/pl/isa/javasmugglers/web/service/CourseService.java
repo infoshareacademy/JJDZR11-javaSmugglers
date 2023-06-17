@@ -8,6 +8,7 @@ import pl.isa.javasmugglers.web.model.CourseRegistration;
 import pl.isa.javasmugglers.web.model.CourseSession;
 import pl.isa.javasmugglers.web.model.User;
 import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
+import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.CourseSessionRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;

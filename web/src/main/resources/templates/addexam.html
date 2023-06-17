@@ -1,18 +1,28 @@
-<div th:fragment="content" class="container">
-    <table class="table table-striped mt-5">
-        <form action="#" th:action="@{/addexam}" th:object="${exam}" method="post">
-
-            <select th:field="${exam.courseId}" >
+<div th:fragment="content" class="container mt-5">
+    <style>
+        .btn-operation {
+            width: 150px;
+        }
+        .justify {
+            text-align: justify;
+        }
+        .center {
+            text-align: center;
+        }
+    </style>
+    <div class="mt-5">
+        <form action="#" th:action="@{/addexam}" th:object="${exam}" method="post" class="d-flex flex-column align-items-center">
+            <select th:field="${exam.courseId}" class="form-select mb-2 w-50">
                 <option value="" disabled selected>Select Course</option>
                 <option th:each="course : ${courseList}" th:value="${course.id}" th:text="${course.name}"></option>
             </select>
-            <input type="text" th:field="${exam.name}" placeholder="Name" />
-            <input type="text" th:field="${exam.description}" placeholder="Description" />
-            <input type="number" th:field="${exam.duration}" min="0" placeholder="duration in minutes" />
-            <select th:field="${exam.status}">
+            <input type="text" th:field="${exam.name}" placeholder="Name" class="form-control mb-2 w-50"/>
+            <input type="text" th:field="${exam.description}" placeholder="Description" class="form-control mb-2 w-50"/>
+            <input type="number" th:field="${exam.duration}" min="1" placeholder="duration in minutes" class="form-control mb-2 w-50"/>
+            <select th:field="${exam.status}" class="form-select mb-2 w-50">
                 <option th:each="status : ${T(pl.isa.javasmugglers.web.model.Exam.status).values()}" th:value="${status}" th:text="${status}"></option>
             </select>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Zapisz" class="btn btn-success btn-operation"/>
         </form>
-    </table>
+    </div>
 </div>

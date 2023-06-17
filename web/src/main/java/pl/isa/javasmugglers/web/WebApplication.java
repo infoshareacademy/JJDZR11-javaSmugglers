@@ -5,11 +5,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.isa.javasmugglers.web.model.*;
+import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.*;
 import pl.isa.javasmugglers.web.service.CourseSessionService;
 import pl.isa.javasmugglers.web.service.ExamService;
-
 import java.sql.Date;
 import java.sql.Time;
 
@@ -22,42 +24,42 @@ public class WebApplication {
     }
 
 
-    /* Poniższe beany wypełniają bazę danych do celów development'u. Baza aktualnie ustwiona jest tak by tworzyła się przy
-    boot'cie springa i niszczyła po jego zakończeniu. W związku czym poniższy kod odpala się przy każdym odpaleniu
-    springa by ułatwić pracę nad fukncjonalnością aplikacji webowej. Wszystkie operacje CRUD na bazie danych opierają
-    się na interfejsach w package "repository" które rozszerzają fukcjonalność z JpaRepository.
-   */
+
     @Bean
-    CommandLineRunner commandLineRunner(UserRepository userRepository) {
+    CommandLineRunner commandLineRunner(UserRepository userRepository,
+                                        BCryptPasswordEncoder bCryptPasswordEncoder) {
         return args -> {
             User blazej = new User(
-                    "bj@gmail.com",
-                    User.userType.STUDENT,
-                    "lato23",
                     "Błażej",
                     "Jendrzejewski",
-                    User.accountStatus.ACTIVE);
+                    "bj@gmail.com",
+                    bCryptPasswordEncoder.encode("lato23"),
+                    UserType.STUDENT
+                    );
+
             User agata = new User(
-                    "agata@gmail.com",
-                    User.userType.PROFESSOR,
-                    "lato23",
                     "Agata",
                     "Kowalska",
-                    User.accountStatus.ACTIVE);
+                    "agata@gmail.com",
+                    bCryptPasswordEncoder.encode("lato24"),
+                    UserType.PROFESOR
+                    );
+
             User tomek = new User(
-                    "tom@gmail.com",
-                    User.userType.STUDENT,
-                    "lato23",
                     "Tomek",
                     "Korek",
-                    User.accountStatus.ACTIVE);
+                    "tom@gmail.com",
+                    bCryptPasswordEncoder.encode("lato25"),
+                    UserType.STUDENT
+                    );
+
             User magda = new User(
-                    "magda@gmail.com",
-                    User.userType.PROFESSOR,
-                    "lato23",
                     "Magda",
                     "Kowalska",
-                    User.accountStatus.ACTIVE);
+                    "magda@gmail.com",
+                    bCryptPasswordEncoder.encode("lato26"),
+                    UserType.PROFESOR
+                    );
 
             userRepository.save(blazej);
             userRepository.save(agata);
@@ -139,6 +141,26 @@ public class WebApplication {
                     Time.valueOf("10:30:00"),
                     Time.valueOf("12:30:00"),
                     "sala 212B"
+ );
+            course1,
+                    Date.valueOf("2023-10-22"),
+                    Time.valueOf("17:30:00"),
+                    Time.valueOf("19:30:00"),
+                    "sala 6a"
+            );
+            CourseSession courseSession3 = new CourseSession(
+                    course1,
+                    Date.valueOf("2023-11-05"),
+                    Time.valueOf("18:00:00"),
+                    Time.valueOf("20:00:00"),
+                    "sala 5c"
+            );
+            CourseSession courseSession4 = new CourseSession(
+                    course1,
+                    Date.valueOf("2023-11-12"),
+                    Time.valueOf("16:00:00"),
+                    Time.valueOf("18:00:00"),
+                    "sala 5c"
             );
 
             courseSessionRepository.save(courseSession2);
@@ -154,8 +176,8 @@ public class WebApplication {
                     "Egzamin końcowy",
                     "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z całego semestru",
                     course1,
-                    Exam.status.ACTIVE,1
-                    );
+                    Exam.status.ACTIVE, 10
+            );
             examRepository.save(exam1);
 
             Exam exam2 = new Exam(
@@ -272,3 +294,4 @@ public class WebApplication {
     }
 
 }
+
