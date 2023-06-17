@@ -10,8 +10,7 @@ import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.*;
-import pl.isa.javasmugglers.web.service.CourseSessionService;
-import pl.isa.javasmugglers.web.service.ExamService;
+
 import java.sql.Date;
 import java.sql.Time;
 
@@ -24,7 +23,6 @@ public class WebApplication {
     }
 
 
-
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository,
                                         BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -35,7 +33,7 @@ public class WebApplication {
                     "bj@gmail.com",
                     bCryptPasswordEncoder.encode("lato23"),
                     UserType.STUDENT
-                    );
+            );
 
             User agata = new User(
                     "Agata",
@@ -43,7 +41,7 @@ public class WebApplication {
                     "agata@gmail.com",
                     bCryptPasswordEncoder.encode("lato24"),
                     UserType.PROFESOR
-                    );
+            );
 
             User tomek = new User(
                     "Tomek",
@@ -51,7 +49,7 @@ public class WebApplication {
                     "tom@gmail.com",
                     bCryptPasswordEncoder.encode("lato25"),
                     UserType.STUDENT
-                    );
+            );
 
             User magda = new User(
                     "Magda",
@@ -59,7 +57,7 @@ public class WebApplication {
                     "magda@gmail.com",
                     bCryptPasswordEncoder.encode("lato26"),
                     UserType.PROFESOR
-                    );
+            );
 
             userRepository.save(blazej);
             userRepository.save(agata);
@@ -130,8 +128,9 @@ public class WebApplication {
                     Date.valueOf("2023-10-15"),
                     Time.valueOf("8:00:00"),
                     Time.valueOf("10:00:00"),
-                     "sala 5c"
+                    "sala 5c"
             );
+
             courseSessionRepository.save(courseSession1);
 
             Course course2 = courseRepository.findById(2L).get();
@@ -141,13 +140,10 @@ public class WebApplication {
                     Time.valueOf("10:30:00"),
                     Time.valueOf("12:30:00"),
                     "sala 212B"
- );
-            course1,
-                    Date.valueOf("2023-10-22"),
-                    Time.valueOf("17:30:00"),
-                    Time.valueOf("19:30:00"),
-                    "sala 6a"
             );
+            courseSessionRepository.save(courseSession2);
+
+
             CourseSession courseSession3 = new CourseSession(
                     course1,
                     Date.valueOf("2023-11-05"),
@@ -155,6 +151,9 @@ public class WebApplication {
                     Time.valueOf("20:00:00"),
                     "sala 5c"
             );
+
+            courseSessionRepository.save(courseSession3);
+
             CourseSession courseSession4 = new CourseSession(
                     course1,
                     Date.valueOf("2023-11-12"),
@@ -163,8 +162,7 @@ public class WebApplication {
                     "sala 5c"
             );
 
-            courseSessionRepository.save(courseSession2);
-
+            courseSessionRepository.save(courseSession4);
         };
     }
 

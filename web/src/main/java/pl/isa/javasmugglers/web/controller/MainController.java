@@ -41,15 +41,15 @@ public class MainController {
     }
 
     @GetMapping("studentTimetable/{id}")
-    String studentTimetable(@PathVariable("id") Long id ,Model model ){
+    String studentTimetable(@PathVariable("id") Long id, Model model) {
         User user = userService.findByID(id);
         List<CourseSession> courseSessions = courseService.coursesListByStudentId(id);
         System.out.println(courseSessions);
-        model.addAttribute("studentTimetable",courseSessions)
+        model.addAttribute("studentTimetable", courseSessions)
                 .addAttribute("content", "studentTimetable")
-                .addAttribute("studentId",id)
+                .addAttribute("studentId", id)
                 .addAttribute("user", user);
-       return "studentTimetable";
+        return "studentTimetable";
     }
 
     @PostMapping("addexam")
@@ -275,23 +275,26 @@ public class MainController {
     public String userDashboard(Model model, @PathVariable("userID") Long userID) {
         User user = userService.findByID(userID);
         model.addAttribute("user", user)
-          .addAttribute("content", "temporary-user-dashboard");
+                .addAttribute("content", "temporary-user-dashboard");
         return "main";
     }
 
-  @GetMapping("/")
-    public String home(){
+    @GetMapping("/")
+    public String home() {
         return "homepage";
     }
+
     @GetMapping("/registrationsuccesfull")
-    public String registrationSuccesfullPage(){
+    public String registrationSuccesfullPage() {
         return "registrationsuccesfull";
     }
+
     @GetMapping("/rf")
-    public String registrationFailedPage(){
+    public String registrationFailedPage() {
         return "rf";
     }
-}
+
+
 
 
     @GetMapping("user-dashboard/courses/{id}")
@@ -300,7 +303,7 @@ public class MainController {
                 .addAttribute("content", "CourseList")
                 .addAttribute("profID", id);
 
-        return "CourseList";
+        return "main";
     }
 }
 

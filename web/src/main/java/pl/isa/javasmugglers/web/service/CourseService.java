@@ -1,19 +1,14 @@
 package pl.isa.javasmugglers.web.service;
 
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseRegistration;
 import pl.isa.javasmugglers.web.model.CourseSession;
-import pl.isa.javasmugglers.web.model.User;
-import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.CourseSessionRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
-
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
