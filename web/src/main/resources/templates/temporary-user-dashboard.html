@@ -1,10 +1,31 @@
-<div th:fragment="content" class="container">
-  <H2>Witaj studencie</H2>
-  <h3 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+<div th:fragment="content" class="container mt-5">
+  <style>
+    .btn-operation {
+      width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-  <a th:href="@{/studentTimetable/{id}(id=*{userID})}">Zobacz plan lekcji</a>
-  </br>
-  <a th:href="@{/showactiveexams/{id}(id=*{userID})}">Wyświetl aktywne egzaminy</a>
-  </br>
-  <a th:href="@{/userexamresults/{id}(id=*{userID})}">Wyświetl wyniki egzaminów</a>
+    .center {
+      text-align: center;
+    }
+  </style>
+  <h3 class="center" th:text="'Witaj '+ ${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+
+  <br>
+
+  <div class="center">
+    <a th:href="@{/studentTimetable/{id}(id=*{userID})}" class="btn btn-success btn-operation mb-2">
+      Zobacz plan lekcji
+    </a>
+    <br>
+    <a th:href="@{/showactiveexams/{id}(id=*{userID})}" class="btn btn-success btn-operation mb-2">
+      Wyświetl aktywne egzaminy
+    </a>
+    <br>
+    <a th:href="@{/userexamresults/{id}(id=*{userID})}" class="btn btn-success btn-operation mb-2">
+      Wyświetl wyniki egzaminów
+    </a>
+  </div>
 </div>

@@ -49,7 +49,7 @@ public class MainController {
                 .addAttribute("content", "studentTimetable")
                 .addAttribute("studentId", id)
                 .addAttribute("user", user);
-        return "studentTimetable";
+        return "main";
     }
 
     @PostMapping("addexam")
@@ -300,8 +300,8 @@ public class MainController {
     @GetMapping("user-dashboard/courses/{id}")
     String courselist(@PathVariable("id") Long id, Model model) {
         model.addAttribute("CourseList", examService.listAllExamsByProfessorId(id))
-                .addAttribute("content", "CourseList")
-                .addAttribute("profID", id);
+                .addAttribute("profID", id)
+                .addAttribute("content", "courseList");
 
         return "main";
     }
