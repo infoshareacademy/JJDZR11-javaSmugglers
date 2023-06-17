@@ -12,7 +12,7 @@
         <input type="hidden" th:value="${remainingTime}" id="remainingTime"/>
         <div th:each="question, questionIndex : ${exam.getExamQuestionList}">
             <p></p>
-            <p th:text="'Pytanie ' + (${questionIndex.index} + 1) + ': '"
+            <p th:text="'Pytanie ' + (${questionIndex.index} + 1) + ': ' +${question.questionText}"
                style="font-weight: bold;"></p>
             <div th:each="answer, answerIndex : ${question.examAnswerList}">
                 <input type="checkbox" th:value="${answer.id}" th:name="'answers['+${question.id}+']'"/>
