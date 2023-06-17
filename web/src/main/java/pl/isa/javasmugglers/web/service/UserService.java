@@ -41,14 +41,8 @@ public class UserService implements UserDetailsService {
 
 
 
-    public String save(User user)
-    {
-        boolean userExists = userRepository
-                .findByEmail(user.getUsername())
-                .isPresent();
-        if (userExists) {
-            throw new IllegalStateException("email already taken");
-        }
+    public String save(User user){
+
         String encodedPassword = passwordEncoder
                 .encode(user.getPassword());
         user.setPassword(encodedPassword);

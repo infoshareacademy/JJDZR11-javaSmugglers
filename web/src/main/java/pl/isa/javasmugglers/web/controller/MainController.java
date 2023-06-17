@@ -274,6 +274,10 @@ public class MainController {
     public String registrationSuccesfullPage(){
         return "registrationsuccesfull";
     }
+    @GetMapping("/rf")
+    public String registrationFailedPage(){
+        return "rf";
+    }
 }
 
 
