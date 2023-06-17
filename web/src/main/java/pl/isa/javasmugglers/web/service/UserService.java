@@ -1,8 +1,6 @@
 package pl.isa.javasmugglers.web.service;
 
 
-import lombok.AllArgsConstructor;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,22 +16,7 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public String signUpUser(User user) {
-        boolean userExists = userRepository
-                .findByEmail(user.getUsername())
-                .isPresent();
-        if (userExists) {
-            throw new IllegalStateException("email already taken");
-        }
-        String encodedPassword = passwordEncoder
-                .encode(user.getPassword());
-        user.setPassword(encodedPassword);
 
-        userRepository.save(user);
-
-        // TODO:SEND CONFIRMATION And tokken
-        return "Użytkownik  " + user.getFirstName() + " " + user.getLastName() + " został zarejestrowany. Proszę czekać na akceptacje użytkownika.";
-    }
 
     private static final String USER_NOT_FOUND = "USER WITH EMAIL %S NOT FOUND.";
 
@@ -51,6 +34,27 @@ public class UserService implements UserDetailsService {
 
     public User findByID (Long id){
        return userRepository.findById(id).orElseThrow();
+    }
+
+
+
+
+
+
+    public String save(User user)
+    {
+        boolean userExists = userRepository
+                .findByEmail(user.getUsername())
+                .isPresent();
+        if (userExists) {
+            throw new IllegalStateException("email already taken");
+        }
+        String encodedPassword = passwordEncoder
+                .encode(user.getPassword());
+        user.setPassword(encodedPassword);
+
+        userRepository.save(user);
+        return "rejestracja udana";
     }
 
 }
