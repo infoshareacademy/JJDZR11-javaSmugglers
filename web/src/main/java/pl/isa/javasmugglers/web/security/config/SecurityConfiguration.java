@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                                 .requestMatchers("registration/**", "registration/professor/**")
                                 .permitAll()
-                                .requestMatchers("/**","login","register/**")
+                                .requestMatchers("/**","login","register/**", "/save/**")
                                 .permitAll()
                 .anyRequest()
                 .authenticated().and()

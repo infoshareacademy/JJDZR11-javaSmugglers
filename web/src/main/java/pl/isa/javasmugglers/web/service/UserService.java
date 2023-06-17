@@ -1,13 +1,13 @@
 package pl.isa.javasmugglers.web.service;
 
 
-import lombok.AllArgsConstructor;
-
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.isa.javasmugglers.web.model.registration.RegistrationRequest;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 
@@ -51,6 +51,32 @@ public class UserService implements UserDetailsService {
 
     public User findByID (Long id){
        return userRepository.findById(id).orElseThrow();
+    }
+
+    public void register(RegistrationRequest user) throws Exception {
+
+        //Let's check if user already registered with us
+        if(checkIfUserExist(user.getEmail())){
+            throw new Exception("User already exists for this email");
+        }
+        User userEntity = new User();
+        BeanUtils.copyProperties(user, userEntity);
+        userRepository.save(userEntity);
+    }
+
+
+
+    public boolean checkIfUserExist(String email) {
+        return userRepository.findByEmail(email) !=null ? true : false;
+    }
+
+    private void encodePassword( User userEntity, RegistrationRequest user){
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
+    public String save(User user)
+    {
+        userRepository.save(user);
+        return "rejestracja udana";
     }
 
 }

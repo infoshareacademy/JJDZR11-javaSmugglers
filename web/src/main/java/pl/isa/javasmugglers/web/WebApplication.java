@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.isa.javasmugglers.web.model.*;
-import pl.isa.javasmugglers.web.model.user.AccountsStatus;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.*;
@@ -39,32 +38,32 @@ public class WebApplication {
                     "Jendrzejewski",
                     "bj@gmail.com",
                     bCryptPasswordEncoder.encode("lato23"),
-                    UserType.STUDENT,
-                    AccountsStatus.ACTIVE);
+                    UserType.STUDENT
+                    );
 
             User agata = new User(
                     "Agata",
                     "Kowalska",
                     "agata@gmail.com",
                     bCryptPasswordEncoder.encode("lato24"),
-                    UserType.PROFESOR,
-                    AccountsStatus.ACTIVE);
+                    UserType.PROFESOR
+                    );
 
             User tomek = new User(
                     "Tomek",
                     "Korek",
                     "tom@gmail.com",
                     bCryptPasswordEncoder.encode("lato25"),
-                    UserType.STUDENT,
-                    AccountsStatus.ACTIVE);
+                    UserType.STUDENT
+                    );
 
             User magda = new User(
                     "Magda",
                     "Kowalska",
                     "magda@gmail.com",
                     bCryptPasswordEncoder.encode("lato26"),
-                    UserType.PROFESOR,
-                    AccountsStatus.ACTIVE);
+                    UserType.PROFESOR
+                    );
 
             userRepository.save(blazej);
             userRepository.save(agata);

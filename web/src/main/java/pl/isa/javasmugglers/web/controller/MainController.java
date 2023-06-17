@@ -270,10 +270,6 @@ public class MainController {
     public String home(){
         return "homepage";
     }
-    @GetMapping("/register")
-    public String showRegistrationForm() {
-        return "register";
-    }
 }
 
 

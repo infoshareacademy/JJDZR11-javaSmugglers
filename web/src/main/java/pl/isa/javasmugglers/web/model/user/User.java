@@ -11,8 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseRegistration;
 import pl.isa.javasmugglers.web.model.ExamResult;
-import pl.isa.javasmugglers.web.model.user.AccountsStatus;
-import pl.isa.javasmugglers.web.model.user.UserType;
+
 
 import java.util.Collection;
 import java.util.Collections;
@@ -66,6 +65,7 @@ public class User implements UserDetails {
     )
     private String password;
 
+
     @Column(
             nullable = false
     )
@@ -76,12 +76,6 @@ public class User implements UserDetails {
     )
     private String lastName;
 
-
-    @Enumerated(EnumType.STRING)
-    @Column(
-            columnDefinition = "enum('ACTIVE', 'PENDING', 'REJECTED')"
-    )
-    private AccountsStatus status;
 
     //relacje do innych tabeli
     @OneToMany(mappedBy = "professorId")
@@ -98,15 +92,15 @@ public class User implements UserDetails {
                 String email,
                 String password,
 
-                UserType type,
-                AccountsStatus status
+                UserType type
+
     ) {
         this.email = email;
         this.type = type;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.status = status;
+
     }
 
 
