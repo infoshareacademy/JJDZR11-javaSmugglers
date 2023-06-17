@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pl.isa.javasmugglers.web.model.registration.RegistrationRequest;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.service.RegistrationService;
 
@@ -25,6 +24,6 @@ public class RegistrationController {
     @PostMapping("/save")
     public String saveTool(@ModelAttribute("user") User user) {
         registrationService.register(user);
-        return "redirect:/";
+        return "redirect:/registrationsuccesfull";
     }
 }
