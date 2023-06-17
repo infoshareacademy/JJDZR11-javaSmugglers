@@ -42,12 +42,14 @@ public class MainController {
     }
 
     @GetMapping("studentTimetable/{id}")
-    String studentTimetable(@PathVariable("id") Long id,Model model){
+    String studentTimetable(@PathVariable("id") Long id ,Model model ){
+        User user = userService.findByID(id);
         List<CourseSession> courseSessions = courseService.coursesListByStudentId(id);
         System.out.println(courseSessions);
         model.addAttribute("studentTimetable",courseSessions)
                 .addAttribute("content", "studentTimetable")
-                .addAttribute("studentId",id);
+                .addAttribute("studentId",id)
+                .addAttribute("user", user);
        return "studentTimetable";
     }
 
@@ -251,6 +253,8 @@ public class MainController {
 
     @GetMapping("user-dashboard/{userID}")
     public String userDashboard(Model model, @PathVariable("userID") Long userID) {
+        User user = userService.findByID(userID);
+        model.addAttribute("user", user);
         return "temporary-user-dashboard";
     }
 

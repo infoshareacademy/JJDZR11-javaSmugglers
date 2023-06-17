@@ -15,21 +15,21 @@ import java.util.List;
 @Service
 public class StudentService {
 
-    private final StudentRepository studentRepository;
-    private CourseService courseService;
-    private CourseRepository courseRepository;
-
-    @Autowired
-    public StudentService(StudentRepository studentRepository) {
-        this.studentRepository = studentRepository;
-    }
-
-    public List<Student> getStudents() {
-            return studentRepository.findAll();
-        }
-
-    public Collection<CourseSession> listAllCoursesByProfessorId(Long professorId) {
-        Collection<Course> professorCoursesList = courseService.coursesListByProfessorId(professorId);
-        return courseRepository.findAllByCourseIdIn(professorCoursesList);
-    }
+//    private final StudentRepository studentRepository;
+//    private CourseService courseService;
+//    private CourseRepository courseRepository;
+//
+//    @Autowired
+//    public StudentService(StudentRepository studentRepository) {
+//        this.studentRepository = studentRepository;
+//    }
+//
+//    public List<Student> getStudents() {
+//            return studentRepository.findAll();
+//        }
+//
+//    public Collection<CourseSession> listAllCoursesByProfessorId(Long professorId) {
+//        Collection<Course> professorCoursesList = courseService.coursesListByProfessorId(professorId);
+//        return courseRepository.findAllByCourseIdIn(professorCoursesList);
+//    }
 }

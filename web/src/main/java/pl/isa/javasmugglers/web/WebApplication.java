@@ -132,35 +132,22 @@ public class WebApplication {
             CourseSession courseSession1 = new CourseSession(
                     course1,
                     Date.valueOf("2023-10-15"),
-                    Time.valueOf("17:30:00"),
-                    Time.valueOf("19:30:00"),
-                     "sala 5c"
-            );
-            CourseSession courseSession2 = new CourseSession(
-                    course1,
-                    Date.valueOf("2023-10-22"),
-                    Time.valueOf("17:30:00"),
-                    Time.valueOf("19:30:00"),
-                    "sala 6a"
-            );
-            CourseSession courseSession3 = new CourseSession(
-                    course1,
-                    Date.valueOf("2023-11-05"),
-                    Time.valueOf("18:00:00"),
-                    Time.valueOf("20:00:00"),
-                    "sala 5c"
-            );
-            CourseSession courseSession4 = new CourseSession(
-                    course1,
-                    Date.valueOf("2023-11-12"),
-                    Time.valueOf("16:00:00"),
-                    Time.valueOf("18:00:00"),
+                    Time.valueOf("8:00:00"),
+                    Time.valueOf("10:00:00"),
                      "sala 5c"
             );
             courseSessionRepository.save(courseSession1);
+
+            Course course2 = courseRepository.findById(2L).get();
+            CourseSession courseSession2 = new CourseSession(
+                    course2,
+                    Date.valueOf("2023-10-25"),
+                    Time.valueOf("10:30:00"),
+                    Time.valueOf("12:30:00"),
+                    "sala 212B"
+            );
+
             courseSessionRepository.save(courseSession2);
-            courseSessionRepository.save(courseSession3);
-            courseSessionRepository.save(courseSession4);
 
         };
     }

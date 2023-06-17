@@ -13,19 +13,19 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-@RestController
-@RequestMapping(path="/student_courses")
-public class StudentController {
-
-    private final StudentService studentService;
-
-    @Autowired
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
-
-    @GetMapping
-    public List<Student> getStudents() {
-        return studentService.getStudents();
-    }
-}
+//@RestController
+//@RequestMapping(path="/student_courses")
+//public class StudentController {
+//
+//    private final StudentService studentService;
+//
+//    @Autowired
+//    public StudentController(StudentService studentService) {
+//        this.studentService = studentService;
+//    }
+//
+//    @GetMapping
+//    public List<Student> getStudents() {
+//        return studentService.getStudents();
+//    }
+//}
