@@ -1,5 +1,8 @@
 <div th:fragment="content" class="container">
-  <H2>Temporary user dashboard - for beta presentation only</H2>
+  <H2>Witaj studencie!</H2>
+  <li><a th:href="@{/studentTimetable/{id}(id=*{userID})}">Zobacz plan lekcji</a></li>
+  <li><a href="/opcja2">Lista przedmiotów, na które jestem zapisany</a></li>
+  <li><a href="/opcja3">Zapisz się na zajęcia</a></li>
   <a th:href="@{/showactiveexams/{id}(id=*{userID})}">Wyświetl aktywne egzaminy</a>
   </br>
   </br>

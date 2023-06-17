@@ -6,6 +6,7 @@ import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseSession;
 
 import java.util.List;
+import java.util.Collection;
 
 @Repository
 public interface CourseSessionRepository extends JpaRepository<CourseSession, Long> {

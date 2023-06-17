@@ -14,19 +14,19 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
-@Controller
-public class ProfesorController {
-
-    @Autowired
-    ProfesorService profesorService;
-
-    @GetMapping("zajecia/{id}")
-    public String ProfesorCorsesList(@PathVariable("id") Long id, Model model) {
-        model.addAttibute("Courslist", CourseService.listAllByProfessorId(id))
-                .addAttribute("content", "Courslist")
-                .addAttribute("profID", id);
-        return "ProfesorMenu";
-    }
-
-}
+//@Controller
+//public class ProfesorController {
+//
+//    @Autowired
+//    ProfesorService profesorService;
+//
+//    @GetMapping("zajecia/{id}")
+//    public String ProfesorCorsesList(@PathVariable("id") Long id, Model model) {
+//        model.addAttibute("Courslist", CourseService.listAllByProfessorId(id))
+//                .addAttribute("content", "Courslist")
+//                .addAttribute("profID", id);
+//        return "ProfesorMenu";
+//    }
+//
+//}
 

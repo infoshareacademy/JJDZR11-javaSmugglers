@@ -42,6 +42,27 @@ public class MainController {
         return "examlist";
     }
 
+//    @GetMapping("studentTimetable/{id}")
+//    String studentTimetable(@PathVariable("id") Long id, Model model) {
+//        List<CourseSession> courseSessions = courseService.coursesListByStudentId(id);
+//        System.out.println(courseSessions);
+//        model.addAttribute("studentTimetable", courseSessions)
+//                .addAttribute("content", "studentTimetable")
+//                .addAttribute("studentId", id);
+//        return "studentTimetable";
+//    }
+
+    @GetMapping("coursesList/{id}")
+    String corsesList(@PathVariable("id") Long id, Model model) {
+        Collection<Course> courseSessions = courseService.coursesListByProfessorId(id);
+        System.out.println(courseSessions);
+        model.addAttribute("coursesList", courseSessions)
+                .addAttribute("content", "CoursesList")
+                .addAttribute("profesorId", id);
+        return "coursesList";
+    }
+
+
     @PostMapping("addexam")
     public String addExam(@ModelAttribute Exam exam) {
         examService.saveExam(exam);
@@ -240,21 +261,9 @@ public class MainController {
         return "userexamlist";
     }
 
-
-    //myślę żeby tego użyć ECTS_POINTS
     @GetMapping("user-dashboard/{userID}")
     public String userDashboard(Model model, @PathVariable("userID") Long userID) {
         return "temporary-user-dashboard";
-    }
-
-    //co tu dalej zrobić
-    @GetMapping("/showCourses/{userID}")
-    public String showCourses(Model model, @PathVariable("userID") Long userID) {
-        User user = userService.findByID(userID);
-        List<CourseRegistration> registrations = courseRegistrationService.findAllRegisteredCourses(user);
-        List<Course> registeredCourses = registrations.stream().map(CourseRegistration::getCourseId).toList();
-
-        return null;
     }
 
     @GetMapping("user-dashboard/courses/{id}")
@@ -271,23 +280,10 @@ public class MainController {
         return "menu";
     }
 
-    @GetMapping("/2")
-    public String executeOption2() {
-        // Logika dla opcji 2
-        return "result";
-    }
-
-    @GetMapping("/3")
-    public String executeOption3() {
-        // Logika dla opcji 3
-        return "result";
-    }
-
-
     @GetMapping("/1")
     public String executeOption1(Model model) {
-    List<Courses> courses = coursesRepository.findAll();
-    model.addAttribute("courses", courses);
+        List<Courses> courses = coursesRepository.findAll();
+        model.addAttribute("courses", courses);
         return "result";
     }
 }
