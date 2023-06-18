@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
-import pl.isa.javasmugglers.web.repository.CoursesRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
@@ -42,14 +41,16 @@ public class MainController {
     }
 
 
-    @GetMapping("coursesList/{id}")
-    String corsesList(@PathVariable("id") Long id, Model model) {
-        Collection<Course> courseSessions = courseService.coursesListByProfessorId(id);
+    @GetMapping("professorTimetable/{id}")
+    String professorTimetable(@PathVariable("id") Long id ,Model model ){
+        User user = userService.findByID(id);
+        List<Course> courseSessions = courseService.coursesListByProfessorId(id);
         System.out.println(courseSessions);
-        model.addAttribute("coursesList", courseSessions)
-                .addAttribute("content", "CoursesList")
-                .addAttribute("profesorId", id);
-        return "coursesList";
+        model.addAttribute("professorTimetable",courseSessions)
+                .addAttribute("content", "professorTimetable")
+                .addAttribute("professorId",id)
+                .addAttribute("user", user);
+        return "professorTimetable";
     }
 
 
@@ -251,9 +252,12 @@ public class MainController {
         return "userexamlist";
     }
 
-    @GetMapping("user-dashboard/{userID}")
+    @GetMapping("DashboardProfessor/{userID}")
     public String userDashboard(Model model, @PathVariable("userID") Long userID) {
-        return "temporary-user-dashboard";
+        User user = userService.findByID(userID);
+        model.addAttribute("user", user)
+                .addAttribute("content", "temporary-user-dashboard");
+        return "DashboardProfessor";
     }
 
     @GetMapping("user-dashboard/courses/{id}")
