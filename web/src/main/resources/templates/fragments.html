@@ -1,0 +1,24 @@
+<head th:fragment="head">
+    <title>CO-STUDY</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<nav th:fragment="navbar" class="navbar navbar-light bg-primary">
+  <div class="container-fluid d-flex justify-content-between">
+    <a th:class="${content == 'back'} ? 'btn btn-light me-2' : 'btn btn-outline-light me-2'" onclick="goBack()">Wróć</a>
+    <img th:src="@{/logo.gif}" alt="LOGO" width="70" height="70" class="mx-auto d-block"/>
+    <a th:class="${content == 'info'} ? 'btn btn-light me-2' : 'btn btn-outline-light me-2'" th:href="@{/login}">Wylogowanie</a>
+  </div>
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</nav>
+
+<footer th:fragment="footer" class="footer bg-primary text-center mt-auto fixed-bottom">
+  <div class="container text-white">
+    <small>Created by <a class="text-white" href="mailto:blazej.jendrzejewski@gmail.com">JavaSmugglers</a> 2023</small>
+  </div>
+</footer>
+

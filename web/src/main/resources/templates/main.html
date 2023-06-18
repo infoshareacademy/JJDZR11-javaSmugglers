@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html class="h-100" lang="pl">
+<head th:replace="~{fragments::head}"></head>
+<body class="h-100">
+<main class="flex-shrink-0">
+    <nav th:replace="~{fragments::navbar}"></nav>
+    <div th:replace="~{${content}::content}"></div>
+</main>
+<footer th:replace="~{fragments::footer}"></footer>
+</body>
+</html>

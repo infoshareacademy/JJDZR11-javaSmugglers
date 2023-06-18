@@ -1,0 +1,48 @@
+<div th:fragment="content" class="container mt-5">
+    <style>
+        .btn-operation {
+            width: 150px;
+        }
+
+        .justify {
+            text-align: justify;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+    <h3 class="center" th:text="'Witaj '+ ${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+    <h3 class="center">Oto twój plan lekcji:</h3>
+    <div th:if="${#lists.isEmpty(studentTimetable)}" class="alert alert-warning">
+        Brak zajęć w planie lekcji
+    </div>
+    <div th:unless="${#lists.isEmpty(studentTimetable)}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">Typ przedmiotu</th>
+                <th class="text-center">Nazwa</th>
+                <th class="text-center">Opis</th>
+                <th class="text-center">Punkty ECTS</th>
+                <th class="text-center">Lokalizacja</th>
+                <th class="text-center">Data</th>
+                <th class="text-center">Godzina rozpoczęcia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="courseSession : ${studentTimetable}">
+                <td class="text-center" th:text="${courseSession.getId()}"></td>
+                <td class="text-center" th:text="${courseSession.getCourseId().courseType}"></td>
+                <td class="text-center" th:text="${courseSession.getCourseId().name}"></td>
+                <td class="justify" th:text="${courseSession.getCourseId().description}"></td>
+                <td class="text-center" th:text="${courseSession.getCourseId().ectsPoints}"></td>
+                <td class="text-center" th:text="${courseSession.getLocation()}"></td>
+                <td class="text-center" th:text="${courseSession.getSessionDate()}"></td>
+                <td class="text-center" th:text="${courseSession.getStartTime()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
