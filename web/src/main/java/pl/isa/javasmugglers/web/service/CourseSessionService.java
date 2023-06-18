@@ -32,4 +32,3 @@ public class CourseSessionService {
     public List<CourseSession> getCourseSession() {
         return courseSessionRepository.findAll();
     }
-}

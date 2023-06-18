@@ -33,11 +33,32 @@ public class CourseService {
         List<Course> professorCoursesList = courseRepository.findAllByProfessorId(user);
         return  professorCoursesList;
     }
+    
 
     public List<CourseSession> coursesListByStudentId(Long studentId) {
         User user = userRepository.findById(studentId).orElseThrow();
         List<CourseRegistration> coursesByStudent = courseRegistrationeRepository.findAllByStudentId(user);
         return coursesByStudent.stream()
+                .map(courseRegistration -> courseRepository.findById(courseRegistration.getId()).orElseThrow())
+                .map(course -> courseSessionRepository.findAllByCourseId(course))
+                .flatMap(c -> c.stream())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return "CourseService{" +
+                "courseRepository=" + courseRepository +
+                ", userRepository=" + userRepository +
+                ", courseSessionRepository=" + courseSessionRepository +
+                ", courseRegistrationeRepository=" + courseRegistrationeRepository +
+                '}';
+    }
+}
+    public List<CourseSession> coursesListByProfessorId2(Long professorId) {
+        User user = userRepository.findById(professorId).orElseThrow();
+        List<Course> coursesByProfessor = courseRepository.findAllByProfessorId(user);
+        return coursesByProfessor.stream()
                 .map(courseRegistration -> courseRepository.findById(courseRegistration.getId()).orElseThrow())
                 .map(course -> courseSessionRepository.findAllByCourseId(course))
                 .flatMap(c -> c.stream())

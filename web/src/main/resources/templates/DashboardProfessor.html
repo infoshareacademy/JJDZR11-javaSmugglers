@@ -1,0 +1,10 @@
+<div th:fragment="content" class="container">
+  <H2>Witaj Profesorze</H2>
+  <h3 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+
+  <a th:href="@{/professorTimetable/{id}(id=*{userID})}">Zobacz plan lekcji</a>
+  </br>
+  <a th:href="@{/addCourses/{id}(id=*{userID})}">Dodaj Przedmiot</a>
+  </br>
+  <a th:href="@{/addexam/{id}(id=*{userID})}">Dodaj Egzamin</a>
+</div>
