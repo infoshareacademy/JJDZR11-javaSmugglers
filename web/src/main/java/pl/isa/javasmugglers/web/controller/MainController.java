@@ -9,7 +9,6 @@ import pl.isa.javasmugglers.web.repository.CoursesRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -30,8 +29,8 @@ public class MainController {
     ExamResultService examResultService;
     @Autowired
     CourseRegistrationService courseRegistrationService;
-    @Autowired
-    CoursesRepository coursesRepository;
+
+
 
     @GetMapping("examlist/{id}")
     String examlist(@PathVariable("id") Long id, Model model) {
@@ -42,15 +41,6 @@ public class MainController {
         return "examlist";
     }
 
-//    @GetMapping("studentTimetable/{id}")
-//    String studentTimetable(@PathVariable("id") Long id, Model model) {
-//        List<CourseSession> courseSessions = courseService.coursesListByStudentId(id);
-//        System.out.println(courseSessions);
-//        model.addAttribute("studentTimetable", courseSessions)
-//                .addAttribute("content", "studentTimetable")
-//                .addAttribute("studentId", id);
-//        return "studentTimetable";
-//    }
 
     @GetMapping("coursesList/{id}")
     String corsesList(@PathVariable("id") Long id, Model model) {
@@ -280,10 +270,10 @@ public class MainController {
         return "menu";
     }
 
-    @GetMapping("/1")
-    public String executeOption1(Model model) {
-        List<Courses> courses = coursesRepository.findAll();
-        model.addAttribute("courses", courses);
-        return "result";
-    }
+//    @GetMapping("/1")
+//    public String executeOption1(Model model) {
+//        List<Course> courses = courseRepository.findAll();
+//        model.addAttribute("courses", courses);
+//        return "result";
+//    }
 }
