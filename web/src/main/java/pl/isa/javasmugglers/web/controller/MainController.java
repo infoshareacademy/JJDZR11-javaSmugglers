@@ -54,15 +54,15 @@ public class MainController {
 
 
     @GetMapping("professorTimetable/{id}")
-    String professorTimetable(@PathVariable("id") Long id ,Model model ){
+    String professorTimetable(@PathVariable("id") Long id, Model model) {
         User user = userService.findByID(id);
-        List<Course> courseSessions = courseService.coursesListByProfessorId(id);
-        System.out.println(courseSessions);
-        model.addAttribute("professorTimetable",courseSessions)
-                .addAttribute("content", "professorTimetable")
-                .addAttribute("professorId",id)
+        List<Course> courseList = courseService.coursesListByProfessorId(id);
+        System.out.println(courseList);
+        model.addAttribute("professorCourseList", courseList)
+                .addAttribute("content", "professorCourseList")
+                .addAttribute("professorId", id)
                 .addAttribute("user", user);
-        return "professorTimetable";
+        return "main";
     }
 
 
@@ -285,14 +285,6 @@ public class MainController {
     }
 
 
-    @GetMapping("user-dashboard/{userID}")
-    public String userDashboard(Model model, @PathVariable("userID") Long userID) {
-        User user = userService.findByID(userID);
-        model.addAttribute("user", user)
-                .addAttribute("content", "temporary-user-dashboard");
-        return "main";
-    }
-
     @GetMapping("/")
     public String home() {
         return "homepage";
@@ -301,20 +293,29 @@ public class MainController {
     @GetMapping("/registrationsuccesfull")
     public String registrationSuccesfullPage() {
         return "registrationsuccesfull";
+    }
+
     @GetMapping("DashboardProfessor/{userID}")
+    public String professorDashboard(Model model, @PathVariable("userID") Long userID) {
+        User user = userService.findByID(userID);
+        model.addAttribute("user", user)
+                .addAttribute("content", "DashboardProfessor");
+        return "main";
+    }
+
+    @GetMapping("user-dashboard/{userID}")
     public String userDashboard(Model model, @PathVariable("userID") Long userID) {
         User user = userService.findByID(userID);
         model.addAttribute("user", user)
-                .addAttribute("content", "temporary-user-dashboard");
-        return "DashboardProfessor";
+                .addAttribute("content", "user-dashboard");
+        return "main";
     }
+
 
     @GetMapping("/rf")
     public String registrationFailedPage() {
         return "rf";
     }
-
-
 
 
     @GetMapping("user-dashboard/courses/{id}")
@@ -325,25 +326,13 @@ public class MainController {
 
         return "main";
     }
-    @GetMapping("user-dashboard/courses/{id}")
-    String courselist(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("CourseList", examService.listAllExamsByProfessorId(id))
-                .addAttribute("content", "CourseList")
-                .addAttribute("profID", id);
 
-        return "CourseList";
-    }
+
 
     @GetMapping("/menu")
     public String showMenu() {
         return "menu";
     }
 
-//    @GetMapping("/1")
-//    public String executeOption1(Model model) {
-//        List<Course> courses = courseRepository.findAll();
-//        model.addAttribute("courses", courses);
-//        return "result";
-//    }
 }
 

@@ -26,7 +26,7 @@ public class SecurityController {
         if (user.getType() == UserType.STUDENT) {
             return "redirect:/user-dashboard/" + id;
         } else if (user.getType() == UserType.PROFESOR) {
-            return "redirect:/examlist/" + id;
+            return "redirect:/DashboardProfessor/" + id;
         } else {
             throw new RuntimeException("Unexpected user type");
         }

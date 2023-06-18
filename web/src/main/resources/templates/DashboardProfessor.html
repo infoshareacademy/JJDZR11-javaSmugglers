@@ -1,10 +1,28 @@
-<div th:fragment="content" class="container">
-  <H2>Witaj Profesorze</H2>
-  <h3 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+<div th:fragment="content" class="container mt-5">
+  <style>
+    .btn-operation {
+      width: 300px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-  <a th:href="@{/professorTimetable/{id}(id=*{userID})}">Zobacz plan lekcji</a>
-  </br>
-  <a th:href="@{/addCourses/{id}(id=*{userID})}">Dodaj Przedmiot</a>
-  </br>
-  <a th:href="@{/addexam/{id}(id=*{userID})}">Dodaj Egzamin</a>
+    .center {
+      text-align: center;
+    }
+  </style>
+  <h3 class="center" th:text="'Witaj Profesorze '+ ${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+
+  <br>
+
+  <div class="center">
+    <a th:href="@{/professorTimetable/{id}(id=*{userID})}" class="btn btn-secondary btn-operation mb-4">
+      Zobacz plan zajęć
+    </a>
+    <br>
+    <a th:href="@{/examlist/{id}(id=*{userID})}" class="btn btn-info btn-operation mb-4">
+      Dodaj lub edytuj egzaminy
+    </a>
+
+  </div>
 </div>

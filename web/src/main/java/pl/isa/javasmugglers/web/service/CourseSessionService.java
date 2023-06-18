@@ -9,18 +9,7 @@ import java.util.List;
 
 @Service
 public class CourseSessionService {
-//    private static CourseService courseService;
-//    private static CourseSessionRepository courseSessionRepository;
-//    @Autowired
-//    public CourseSessionService(CourseService courseService, CourseSessionRepository courseSessionRepository) {
-//        this.courseService = courseService;
-//        this.courseSessionRepository = courseSessionRepository;
-//    }
-//
-//    public static Collection<CourseSession> listAllCourseSessionByStudentId(Long Id){
-//        Collection<Course> studentCoursesList = courseService.coursesListByStudentId(Id);
-//        return courseSessionRepository.findAllByCourseIdIn(studentCoursesList);
-//    }
+
     private final CourseSessionRepository courseSessionRepository;
 
     @Autowired
@@ -32,3 +21,4 @@ public class CourseSessionService {
     public List<CourseSession> getCourseSession() {
         return courseSessionRepository.findAll();
     }
+}

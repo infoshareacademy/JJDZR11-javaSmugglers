@@ -54,7 +54,7 @@ public class CourseService {
                 ", courseRegistrationeRepository=" + courseRegistrationeRepository +
                 '}';
     }
-}
+
     public List<CourseSession> coursesListByProfessorId2(Long professorId) {
         User user = userRepository.findById(professorId).orElseThrow();
         List<Course> coursesByProfessor = courseRepository.findAllByProfessorId(user);
@@ -65,13 +65,5 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public String toString() {
-        return "CourseService{" +
-                "courseRepository=" + courseRepository +
-                ", userRepository=" + userRepository +
-                ", courseSessionRepository=" + courseSessionRepository +
-                ", courseRegistrationeRepository=" + courseRegistrationeRepository +
-                '}';
-    }
+
 }

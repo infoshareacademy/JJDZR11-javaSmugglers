@@ -1,0 +1,44 @@
+<div th:fragment="content" class="container mt-5">
+    <style>
+        .btn-operation {
+            width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .justify {
+            text-align: justify;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+    <h3 class="center" th:text="'Witaj profesorze ' + ${user.getFirstName() + ' ' + user.getLastName()} + ' oto lista twoich zajęć:'"></h3>
+    <div th:if="${#lists.isEmpty(professorCourseList)}" class="alert alert-warning">
+        Brak zajęć w planie lekcji
+    </div>
+    <div th:unless="${#lists.isEmpty(professorCourseList)}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">Typ przedmiotu</th>
+                <th class="text-center">Nazwa</th>
+                <th class="text-center">Opis</th>
+                <th class="text-center">Punkty ECTS</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="courseList : ${professorCourseList}">
+                <td class="text-center" th:text="${courseList.getId()}"></td>
+                <td class="text-center" th:text="${courseList.getCourseType()}"></td>
+                <td class="text-center" th:text="${courseList.getName()}"></td>
+                <td class="justify" th:text="${courseList.getDescription()}"></td>
+                <td class="text-center" th:text="${courseList.getEctsPoints()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
