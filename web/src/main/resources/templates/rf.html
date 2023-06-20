@@ -80,11 +80,16 @@
             box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.4)
         }
 
-        .achievements {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 40px 80px;
+        .error {
+            color: #D8000C;
+            background-color: #FFBABA;
+            background-image: url('https://i.imgur.com/GnyDvKN.png');
+            border: 1px solid;
+            margin: 10px auto;
+            padding: 15px 10px 15px 50px;
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            max-width: 460px;
         }
 
 
@@ -162,9 +167,43 @@
 </header>
 <main>
     <div class="intro">
-        <h1>Użytkownik o podanym adresie email istnieje. Proszę się zalogować lub użyć innego adresu email.</h1>
-        <a href="/login" class="btn btn-primary"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;Zaloguj</a>
-        <a href="/" class="btn btn-primary"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;Strona główna</a>
+        <form action="#" th:action="@{/save}" th:object="${user}"
+              method="POST">
+            <input type="text" th:field="*{firstName}" placeholder="Imię"
+                   class="form-control mb-4 col-4">
+            <br>
+            <input type="text"
+                   th:field="*{lastName}" placeholder="Nazwisko"
+                   class="form-control mb-4 col-4">
+            <br>
+            <input type="text"
+                   th:field="*{email}" placeholder="E-mail"
+                   class="form-control mb-4 col-4">
+            <div class="error">Użytkownik o podanym adresie e-mail już istnieje. Spróbuj ponownie.</div>
+            <input type="text"
+                   th:field="*{password}" placeholder="Hasło"
+                   class="form-control mb-4 col-4">
+            <br>
+            <!--<input type="text" placeholder="PROFESOR/STUDENT"
+                   th:field="*{type}"
+                   class="form-control mb-4 col-4">-->
+            <select th:field="*{type}" class="form-select mb-5 col-2 ">
+                <option value="" disabled selected>PROFESOR/STUDENT</option>
+                <option value="PROFESOR">PROFESOR</option>
+                <option value="STUDENT">STUDENT</option>
+            </select>
+
+            <br>
+            <br>
+
+
+            <button type="button" class="btn-success mt-4 mr-2" onclick="window.location.href='/'"><i
+                    class="fa fa-arrow-circle-o-left"></i>Strona główna
+            </button>
+            <button type="submit" class="btn-primary mt-4 "><i class="fa fa-arrow-circle-o-left"></i>Zarejestruj</button>
+
+
+        </form>
     </div>
 
 </main>
