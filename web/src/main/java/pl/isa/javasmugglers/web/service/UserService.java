@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 
+import java.util.Random;
+
 
 @Service
 public class UserService implements UserDetailsService {
@@ -35,6 +37,9 @@ public class UserService implements UserDetailsService {
     public User findByID (Long id){
        return userRepository.findById(id).orElseThrow();
     }
+    public User findByAuthToken (String authToken){
+        return userRepository.findByAuthToken(authToken);
+    }
 
 
 
@@ -49,6 +54,15 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
         return "rejestracja udana";
+    }
+    public String generateAuthToken (){
+        Random r = new Random();
+        int low = 10;
+        int high = 100;
+        Integer result = r.nextInt(high-low) + low;
+        String authTokenInstance = result.toString();
+        return passwordEncoder.encode(authTokenInstance);
+
     }
 
 }

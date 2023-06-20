@@ -295,19 +295,21 @@ public class MainController {
         return "registrationsuccesfull";
     }
 
-    @GetMapping("DashboardProfessor/{userID}")
-    public String professorDashboard(Model model, @PathVariable("userID") Long userID) {
-        User user = userService.findByID(userID);
+    @GetMapping("DashboardProfessor/{authToken}")
+    public String professorDashboard(Model model, @PathVariable("authToken") String authToken) {
+        User user = userService.findByAuthToken(authToken);
         model.addAttribute("user", user)
-                .addAttribute("content", "DashboardProfessor");
+                .addAttribute("content", "DashboardProfessor")
+                .addAttribute("authToken", user.getAuthToken());
         return "main";
     }
 
-    @GetMapping("user-dashboard/{userID}")
-    public String userDashboard(Model model, @PathVariable("userID") Long userID) {
-        User user = userService.findByID(userID);
+    @GetMapping("user-dashboard/{authToken}")
+    public String userDashboard(Model model, @PathVariable("authToken")  String authToken) {
+        User user = userService.findByAuthToken(authToken);
         model.addAttribute("user", user)
-                .addAttribute("content", "user-dashboard");
+                .addAttribute("content", "user-dashboard")
+                .addAttribute("authToken", user.getAuthToken());
         return "main";
     }
 
