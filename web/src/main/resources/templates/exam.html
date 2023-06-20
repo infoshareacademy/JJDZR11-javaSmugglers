@@ -5,7 +5,7 @@
 
     <p style="font-weight: bold;">Uwaga! Po skończonym czasie egzamin zostanie zakończony automatycznie!</p>
 
-    <form id="examForm" th:action="@{'/startexam/' + ${exam.id} + '/' + ${user.authToken}}" th:object="${answers}"
+    <form id="examForm" th:action="@{'/startexam/' + ${user.authToken} + '/' + ${exam.id}}" th:object="${answers}"
           method="post">
 
         <input type="hidden" th:value="${user}" name="user"/>

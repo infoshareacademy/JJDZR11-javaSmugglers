@@ -51,7 +51,7 @@ public class MainController {
                 .addAttribute("content", "studentTimetable")
                 .addAttribute("studentId", id)
                 .addAttribute("user", user)
-                .addAttribute("authToken", user.getAuthToken());
+                .addAttribute("authToken", authToken);
         return "main";
     }
 
@@ -65,7 +65,7 @@ public class MainController {
                 .addAttribute("content", "professorCourseList")
                 .addAttribute("professorId", id)
                 .addAttribute("user", user)
-                .addAttribute("authToken", user.getAuthToken());
+                .addAttribute("authToken", authToken);
         return "main";
     }
 
