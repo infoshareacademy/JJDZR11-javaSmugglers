@@ -334,5 +334,16 @@ public class MainController {
         return "menu";
     }
 
+    @GetMapping("/admin")
+    public String adminDashboard(Model model) {
+        model.addAttribute("alltoollist", userService.getAllUsers());
+        return "/AdminDashboard";
+    }
+    @GetMapping("/deleteUser/{id}")
+        public String deleteThroughId(@PathVariable(value = "id") long id) {
+           userService.deleteViaId(id);
+           courseService.
+            return "redirect:/admin";
+    }
 }
 

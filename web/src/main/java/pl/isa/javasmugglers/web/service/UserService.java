@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 
+import java.util.List;
+
 
 @Service
 public class UserService implements UserDetailsService {
@@ -36,7 +38,10 @@ public class UserService implements UserDetailsService {
        return userRepository.findById(id).orElseThrow();
     }
 
-
+    public List<User> getAllUsers()
+    {
+        return userRepository.findAll();
+    }
 
 
 
@@ -50,5 +55,10 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         return "rejestracja udana";
     }
-
+    public void deleteViaId(long id)
+    {
+        userRepository.deleteById(id);
+    }
 }
+
+
