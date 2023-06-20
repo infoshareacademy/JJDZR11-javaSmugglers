@@ -42,7 +42,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                                 .requestMatchers("registration/**", "registration/professor/**")
                                 .permitAll()
-                                .requestMatchers("/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif")
+                                .requestMatchers( "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif")
                                 .permitAll()
                 .anyRequest()
                 .authenticated().and()

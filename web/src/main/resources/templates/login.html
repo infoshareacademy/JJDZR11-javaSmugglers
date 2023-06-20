@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl-PL" xmlns="http://www.w3.org/1999/html">
+<html lang="pl-PL" xmlns="http://www.w3.org/1999/html" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 
 <head>
     <meta charset="UTF-8">
@@ -129,6 +129,17 @@
         .footer .copy {
             color: #fff;
         }
+        .error {
+            color: #D8000C;
+            background-color: #FFBABA;
+            background-image: url('https://i.imgur.com/GnyDvKN.png');
+            border: 1px solid;
+            margin: 10px auto;
+            padding: 15px 10px 15px 50px;
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            max-width: 460px;
+        }
 
         .bottom-links {
             display: flex;
@@ -162,8 +173,12 @@
 
 <h3 style="text-align: center;">Proszę wprowadzić dane użytkownika</h3>
 <div class="intro">
+    <div th:if="${param.error}" class="error">
+        Błędne hasło lub e-mail.
+    </div>
     <form name="f" th:action="@{/login}" method="post">
         <fieldset>
+
             <input type="text" id="username" name="username" placeholder="E-mail"/>
             <input type="password" id="password" name="password" placeholder="Hasło"/>
             <div class="form-actions">
