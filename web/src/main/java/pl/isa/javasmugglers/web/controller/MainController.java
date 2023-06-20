@@ -32,7 +32,7 @@ public class MainController {
 
     @GetMapping("examlist/{authToken}")
     String examlist(@PathVariable("authToken") String authToken, Long id, Model model) {
-        User user = userService.findByID(id);
+        User user = userService.findByAuthToken(authToken);
         model.addAttribute("examlist", examService.listAllExamsByProfessorId(id))
                 .addAttribute("content", "examlist")
                 .addAttribute("profID", id)
