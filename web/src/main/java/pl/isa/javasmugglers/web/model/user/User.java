@@ -76,7 +76,9 @@ public class User implements UserDetails {
     )
     private String lastName;
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false
+    )
     private String authToken;
 
 
@@ -94,7 +96,6 @@ public class User implements UserDetails {
                 String lastName,
                 String email,
                 String password,
-
                 UserType type,
                 String authToken
 

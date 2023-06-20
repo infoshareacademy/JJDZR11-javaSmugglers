@@ -61,7 +61,8 @@ public class UserService implements UserDetailsService {
         int high = 100;
         Integer result = r.nextInt(high-low) + low;
         String authTokenInstance = result.toString();
-        return passwordEncoder.encode(authTokenInstance);
+        String s = passwordEncoder.encode(authTokenInstance);
+        return s.replace("/", "q");
 
     }
 
