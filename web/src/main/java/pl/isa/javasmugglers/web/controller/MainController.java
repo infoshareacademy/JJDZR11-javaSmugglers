@@ -43,13 +43,13 @@ public class MainController {
     }
 
     @GetMapping("studentTimetable/{authToken}")
-    String studentTimetable(@PathVariable("authToken") String authToken, Long id, Model model) {
+    String studentTimetable(@PathVariable("authToken") String authToken, Model model) {
         User user = userService.findByAuthToken(authToken);
-        List<CourseSession> courseSessions = courseService.coursesListByStudentId(id);
+        List<CourseSession> courseSessions = courseService.coursesListByStudentId(user.getId());
         System.out.println(courseSessions);
         model.addAttribute("studentTimetable", courseSessions)
                 .addAttribute("content", "studentTimetable")
-                .addAttribute("studentId", id)
+                .addAttribute("studentId", user.getId())
                 .addAttribute("user", user)
                 .addAttribute("authToken", authToken);
         return "main";
@@ -57,13 +57,13 @@ public class MainController {
 
 
     @GetMapping("professorTimetable/{authToken}")
-    String professorTimetable(@PathVariable("authToken")String authToken, Long id, Model model) {
+    String professorTimetable(@PathVariable("authToken")String authToken, Model model) {
         User user = userService.findByAuthToken(authToken);
-        List<Course> courseList = courseService.coursesListByProfessorId(id);
+        List<Course> courseList = courseService.coursesListByProfessorId(user.getId());
         System.out.println(courseList);
         model.addAttribute("professorCourseList", courseList)
                 .addAttribute("content", "professorCourseList")
-                .addAttribute("professorId", id)
+                .addAttribute("professorId", user.getId())
                 .addAttribute("user", user)
                 .addAttribute("authToken", authToken);
         return "main";
