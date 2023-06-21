@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl-PL" xmlns="http://www.w3.org/1999/html">
+<html lang="pl-PL" xmlns="http://www.w3.org/1999/html" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 
 <head>
     <meta charset="UTF-8">
@@ -46,7 +46,7 @@
             align-items: center;
             width: 100%;
             height: 520px;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), url("https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80");
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 00) 100%), url("https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80");
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -80,6 +80,12 @@
             box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.4)
         }
 
+        .achievements {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 40px 80px;
+        }
 
 
         .achievements .work i {
@@ -111,17 +117,6 @@
             color: #585858;
             margin: 10px 0;
         }
-        .error {
-            color: #D8000C;
-            background-color: #FFBABA;
-            background-image: url('https://i.imgur.com/GnyDvKN.png');
-            border: 1px solid;
-            margin: 10px auto;
-            padding: 15px 10px 15px 50px;
-            background-repeat: no-repeat;
-            background-position: 10px center;
-            max-width: 460px;
-        }
 
         .footer {
             display: flex;
@@ -133,6 +128,17 @@
 
         .footer .copy {
             color: #fff;
+        }
+        .error {
+            color: #D8000C;
+            background-color: #FFBABA;
+            background-image: url('https://i.imgur.com/GnyDvKN.png');
+            border: 1px solid;
+            margin: 10px auto;
+            padding: 15px 10px 15px 50px;
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            max-width: 460px;
         }
 
         .bottom-links {
@@ -167,41 +173,20 @@
 
 <h3 style="text-align: center;">Proszę wprowadzić dane użytkownika</h3>
 <div class="intro">
-    <form action="#" th:action="@{/save}" th:object="${user}"
-          method="POST">
-        <input type="text" th:field="*{firstName}" placeholder="Imię"
-               class="form-control mb-4 col-4">
-        <input type="text"
-               th:field="*{lastName}" placeholder="Nazwisko"
-               class="form-control mb-4 col-4">
-        <input type="text"
-               th:field="*{email}" placeholder="E-mail"
-               class="form-control mb-4 col-4">
-        <input type="password"
-               th:field="*{password}" placeholder="Hasło"
-               class="form-control mb-4 col-4">
-        <!--<input type="text" placeholder="PROFESOR/STUDENT"
-               th:field="*{type}"
-               class="form-control mb-4 col-4">-->
-        <select th:field="*{type}" class="form-select mb-5 col-2 ">
-            <option value="" disabled selected>PROFESOR/STUDENT</option>
-            <option value="PROFESOR">PROFESOR</option>
-            <option value="STUDENT">STUDENT</option>
-        </select>
+    <div th:if="${param.error}" class="error">
+        Błędne hasło lub e-mail.
+    </div>
+    <form name="f" th:action="@{/login}" method="post">
+        <fieldset>
 
-        <br>
-        <br>
-
-        <!--
-            <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-circle-o-left"></i>Rejestracja</button>
-            <a href="/" class="btn btn-success"> <i class="fa fa-arrow-circle-o-left"></i>Strona główna</a>
-        -->
-        <button type="button" class="btn-success mt-4 mr-2" onclick="window.location.href='/'">
-            <i class="fa fa-arrow-circle-o-left"></i>Strona główna</button>
-        <button type="submit" class="btn-primary mt-4 ">
-            <i class="fa fa-arrow-circle-o-left"></i>Zarejestruj</button>
-
-
+            <input type="text" id="username" name="username" placeholder="E-mail" style="text-transform:lowercase"/>
+            <input type="password" id="password" name="password" placeholder="Hasło"/>
+            <div class="form-actions">
+                <button type="submit" class="btn-success mt-4 mr-2">Zaloguj</button>
+                <button type="button" class="btn-success mt-4 mr-2" onclick="window.location.href='/'">
+                    <i class="fa fa-arrow-circle-o-left"></i>Strona główna</button>
+            </div>
+        </fieldset>
     </form>
 </div>
 <hr>

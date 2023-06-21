@@ -336,5 +336,10 @@ public class MainController {
         return "menu";
     }
 
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "/login";
+    }
+
 }
 
