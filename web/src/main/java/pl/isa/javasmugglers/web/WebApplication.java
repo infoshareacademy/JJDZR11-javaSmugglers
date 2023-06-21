@@ -68,9 +68,7 @@ public class WebApplication {
 
             userRepository.save(admin);
             userRepository.save(blazej);
-            userRepository.save(agata);
             userRepository.save(tomek);
-            userRepository.save(magda);
 
 
         };

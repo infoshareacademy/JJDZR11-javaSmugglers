@@ -28,5 +28,8 @@ public class ExamResultService {
     public int calculatePercentageScore (double userScore, double maxScore){
         return (int) Math.round(userScore / maxScore * 100);
     }
+    public void deleteByStudentId(long studentId){
+        examResultsRepository.deleteExamResultByStudentId(studentId);
+    }
 
 }

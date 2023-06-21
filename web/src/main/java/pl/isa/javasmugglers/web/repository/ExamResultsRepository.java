@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface ExamResultsRepository extends JpaRepository<ExamResult, Long> {
     List<ExamResult> findAllByStudentId(User user);
+    List<ExamResult> deleteExamResultByStudentId(Long studentId);
 }

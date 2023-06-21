@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -78,14 +80,15 @@ public class User implements UserDetails {
 
 
     //relacje do innych tabeli
-    @OneToMany(mappedBy = "professorId")
+    @OneToMany(mappedBy = "professorId",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Course> courses;
 
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(mappedBy = "studentId",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CourseRegistration> courseRegistrationsList;
 
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(mappedBy = "studentId",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExamResult> examResultList;
+
 
     public User(String firstName,
                 String lastName,
