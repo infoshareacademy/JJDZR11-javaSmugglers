@@ -334,15 +334,15 @@ public class MainController {
         return "menu";
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y")
     public String adminDashboard(Model model) {
         model.addAttribute("alluserlist", userService.getAllUsers());
         return "/AdminDashboard";
     }
-    @GetMapping("/deleteUser/{studentId}")
-        public String deleteThroughId(@PathVariable(value = "studentId") long studentId) {
-           userService.deleteViaId(studentId);
-            return "redirect:/admin";
+    @GetMapping("/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}")
+        public String deleteThroughId(@PathVariable(value = "userId") long userId) {
+           userService.deleteViaId(userId);
+            return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y";
     }
 }
 

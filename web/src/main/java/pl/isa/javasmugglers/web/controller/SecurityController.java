@@ -29,7 +29,7 @@ public class SecurityController {
             return "redirect:/DashboardProfessor/" + id;
         }
         else if (user.getType() == UserType.ADMIN) {
-            return "redirect:/admin";
+            return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y";
         } else {
             throw new RuntimeException("Unexpected user type");
         }
