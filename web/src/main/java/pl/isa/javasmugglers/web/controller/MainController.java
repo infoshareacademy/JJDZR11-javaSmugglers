@@ -31,11 +31,10 @@ public class MainController {
     CourseRegistrationService courseRegistrationService;
 
     @GetMapping("examlist/{authToken}")
-    String examlist(@PathVariable("authToken") String authToken, Long id, Model model) {
+    String examlist(@PathVariable("authToken") String authToken, Model model) {
         User user = userService.findByAuthToken(authToken);
-        model.addAttribute("examlist", examService.listAllExamsByProfessorId(id))
-                .addAttribute("content", "examlist")
-                .addAttribute("profID", id)
+        model.addAttribute("examlist", examService.listAllExamsByProfessorId(user.getId()))
+                .addAttribute("profID", user.getId())
                 .addAttribute("content", "examlist")
                 .addAttribute("authToken", user.getAuthToken());
 
@@ -77,10 +76,12 @@ public class MainController {
         return "redirect:/examlist/" + activeUserId;
     }
 
-    @GetMapping("addexam/{id}")
-    public String showAddExamForm(Model model, @PathVariable("id") Long id) {
+    @GetMapping("addexam/{authToken}")
+    public String showAddExamForm(Model model, @PathVariable("authToken")String authToken) {
+        User user = userService.findByAuthToken(authToken);
         model.addAttribute("exam", new Exam())
-                .addAttribute("courseList", courseService.coursesListByProfessorId(id))
+                .addAttribute("courseList", courseService.coursesListByProfessorId(user.getId()))
+                .addAttribute("authToken", authToken)
                 .addAttribute("content", "addexam");
         return "main";
     }
