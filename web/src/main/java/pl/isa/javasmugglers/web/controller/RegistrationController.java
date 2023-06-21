@@ -29,7 +29,7 @@ public class RegistrationController {
                 .findByEmail(user.getUsername())
                 .isPresent();
         if (userExists) {
-            return "redirect:/rf";
+            return "redirect:/registrationFailed";
         } else {
             registrationService.register(user);
             return "redirect:/registrationsuccesfull";

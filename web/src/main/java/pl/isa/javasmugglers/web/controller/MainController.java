@@ -312,9 +312,11 @@ public class MainController {
     }
 
 
-    @GetMapping("/rf")
-    public String registrationFailedPage() {
-        return "rf";
+    @GetMapping("/registrationFailed")
+    public String registrationFailedPage(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "/rf";
     }
 
 
