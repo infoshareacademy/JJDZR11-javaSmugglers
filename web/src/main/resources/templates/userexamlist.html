@@ -19,12 +19,12 @@
       <td th:text="${exam.name}"></td>
       <td th:text="${exam.description}"></td>
       <td>
-        <form th:action="@{/startexam/{userID}/{examId}(userID=${userID}, examId=${exam.id})}" method="get">
+        <form th:action="@{/startexam/{authToken}/{examId}(authToken=${authToken}, examId=${exam.id})}" method="get">
           <button type="submit" class="btn btn-secondary">Rozpocznij egzamin</button>
         </form>
       </td>
     </tr>
     </tbody>
   </table>
-  <a th:href="@{/user-dashboard/{id}(id=${userID})}" class="btn btn-success mb-2 mt-2">Powrót</a>
+  <a th:href="@{/user-dashboard/{authToken}(authToken=${authToken})}" class="btn btn-success mb-2 mt-2">Powrót</a>
 </div>

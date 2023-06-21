@@ -21,12 +21,12 @@ public class SecurityController {
     public String currentUserNameSimple(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
-        Long id = user.getId();
+        String authToken = user.getAuthToken();
 
         if (user.getType() == UserType.STUDENT) {
-            return "redirect:/user-dashboard/" + id;
+            return "redirect:/user-dashboard/" + authToken;
         } else if (user.getType() == UserType.PROFESOR) {
-            return "redirect:/DashboardProfessor/" + id;
+            return "redirect:/DashboardProfessor/" + authToken;
         } else {
             throw new RuntimeException("Unexpected user type");
         }

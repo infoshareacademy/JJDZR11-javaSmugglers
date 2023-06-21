@@ -30,38 +30,42 @@ public class MainController {
     @Autowired
     CourseRegistrationService courseRegistrationService;
 
-    @GetMapping("examlist/{id}")
-    String examlist(@PathVariable("id") Long id, Model model) {
+    @GetMapping("examlist/{authToken}")
+    String examlist(@PathVariable("authToken") String authToken, Long id, Model model) {
+        User user = userService.findByAuthToken(authToken);
         model.addAttribute("examlist", examService.listAllExamsByProfessorId(id))
                 .addAttribute("content", "examlist")
                 .addAttribute("profID", id)
-                .addAttribute("content", "examlist");
+                .addAttribute("content", "examlist")
+                .addAttribute("authToken", user.getAuthToken());
 
         return "main";
     }
 
-    @GetMapping("studentTimetable/{id}")
-    String studentTimetable(@PathVariable("id") Long id, Model model) {
-        User user = userService.findByID(id);
-        List<CourseSession> courseSessions = courseService.coursesListByStudentId(id);
+    @GetMapping("studentTimetable/{authToken}")
+    String studentTimetable(@PathVariable("authToken") String authToken, Model model) {
+        User user = userService.findByAuthToken(authToken);
+        List<CourseSession> courseSessions = courseService.coursesListByStudentId(user.getId());
         System.out.println(courseSessions);
         model.addAttribute("studentTimetable", courseSessions)
                 .addAttribute("content", "studentTimetable")
-                .addAttribute("studentId", id)
-                .addAttribute("user", user);
+                .addAttribute("studentId", user.getId())
+                .addAttribute("user", user)
+                .addAttribute("authToken", authToken);
         return "main";
     }
 
 
-    @GetMapping("professorTimetable/{id}")
-    String professorTimetable(@PathVariable("id") Long id, Model model) {
-        User user = userService.findByID(id);
-        List<Course> courseList = courseService.coursesListByProfessorId(id);
+    @GetMapping("professorTimetable/{authToken}")
+    String professorTimetable(@PathVariable("authToken")String authToken, Model model) {
+        User user = userService.findByAuthToken(authToken);
+        List<Course> courseList = courseService.coursesListByProfessorId(user.getId());
         System.out.println(courseList);
         model.addAttribute("professorCourseList", courseList)
                 .addAttribute("content", "professorCourseList")
-                .addAttribute("professorId", id)
-                .addAttribute("user", user);
+                .addAttribute("professorId", user.getId())
+                .addAttribute("user", user)
+                .addAttribute("authToken", authToken);
         return "main";
     }
 
@@ -194,10 +198,10 @@ public class MainController {
     }
 
 
-    @GetMapping("startexam/{userId}/{examId}")
-    public String startExam(@PathVariable Long examId, @PathVariable Long userId, Model model) {
+    @GetMapping("startexam/{authToken}/{examId}")
+    public String startExam(@PathVariable Long examId, @PathVariable String authToken, Model model) {
         Exam exam = examService.findById(examId);
-        User user = userService.findByID(userId);
+        User user = userService.findByAuthToken(authToken);
         UserExamAnswers userExamAnswers = new UserExamAnswers();
 
 
@@ -206,16 +210,17 @@ public class MainController {
                 .addAttribute("user", user)
                 .addAttribute("remainingTime", exam.getDuration())
                 .addAttribute("answers", userExamAnswers)
-                .addAttribute("content", "exam");
+                .addAttribute("content", "exam")
+                .addAttribute("authToken", user.getAuthToken());
         return "main";
 
     }
 
-    @PostMapping("startexam/{userId}/{examId}")
-    public String submitAnswers(@PathVariable Long examId, @PathVariable Long userId,
+    @PostMapping("startexam/{authToken}/{examId}")
+    public String submitAnswers(@PathVariable Long examId, @PathVariable String authToken,
                                 @ModelAttribute UserExamAnswers userExamAnswers) {
         Exam exam = examService.findById(examId);
-        User user = userService.findByID(userId);
+        User user = userService.findByAuthToken(authToken);
         Double maxScore = examService.calculateExamMaxScore(exam);
         Double userScore = examService.calculateUserScore(userExamAnswers);
 
@@ -226,13 +231,13 @@ public class MainController {
         examResult.setStudentId(user);
 
         examResultService.save(examResult);
-        return "redirect:/userexamresults/" + userId;
+        return "redirect:/userexamresults/" + authToken;
     }
 
 
-    @GetMapping("userexamresults/{userID}")
-    public String showExamResults(Model model, @PathVariable("userID") Long userID) {
-        User user = userService.findByID(userID);
+    @GetMapping("userexamresults/{authToken}")
+    public String showExamResults(Model model, @PathVariable("authToken") String authToken) {
+        User user = userService.findByAuthToken(authToken);
         List<ExamResult> examResults = examResultService.findUserExamResults(user);
         List<Integer> percentageScores = new ArrayList<>();
         for (ExamResult result : examResults) {
@@ -244,14 +249,15 @@ public class MainController {
         model.addAttribute("examResults", examResults)
                 .addAttribute("percentageScores", percentageScores)
                 .addAttribute("user", user)
-                .addAttribute("content", "userexamresults");
+                .addAttribute("content", "userexamresults")
+                .addAttribute("authToken", user.getAuthToken());
         return "main";
     }
 
 
-    @GetMapping("/showactiveexams/{userID}")
-    public String showActiveExams(Model model, @PathVariable("userID") Long userID) {
-        User user = userService.findByID(userID);
+    @GetMapping("/showactiveexams/{authToken}")
+    public String showActiveExams(Model model, @PathVariable("authToken") String authToken) {
+        User user = userService.findByAuthToken(authToken);
         List<CourseRegistration> registrations = courseRegistrationService.findAllRegisteredCourses(user);
         List<Course> registeredCourses = registrations.stream().map(CourseRegistration::getCourseId).toList();
         List<Exam> allRegisteredExams = examService.findAllByCourseList(registeredCourses);
@@ -265,7 +271,8 @@ public class MainController {
 
         model.addAttribute("exams", examsToTake)
                 .addAttribute("user", user)
-                .addAttribute("content", "userexamlist");
+                .addAttribute("content", "userexamlist")
+                .addAttribute("authToken", user.getAuthToken());
 
 
         return "main";
@@ -295,19 +302,21 @@ public class MainController {
         return "registrationsuccesfull";
     }
 
-    @GetMapping("DashboardProfessor/{userID}")
-    public String professorDashboard(Model model, @PathVariable("userID") Long userID) {
-        User user = userService.findByID(userID);
+    @GetMapping("DashboardProfessor/{authToken}")
+    public String professorDashboard(Model model, @PathVariable("authToken") String authToken) {
+        User user = userService.findByAuthToken(authToken);
         model.addAttribute("user", user)
-                .addAttribute("content", "DashboardProfessor");
+                .addAttribute("content", "DashboardProfessor")
+                .addAttribute("authToken", user.getAuthToken());
         return "main";
     }
 
-    @GetMapping("user-dashboard/{userID}")
-    public String userDashboard(Model model, @PathVariable("userID") Long userID) {
-        User user = userService.findByID(userID);
+    @GetMapping("user-dashboard/{authToken}")
+    public String userDashboard(Model model, @PathVariable("authToken")  String authToken) {
+        User user = userService.findByAuthToken(authToken);
         model.addAttribute("user", user)
-                .addAttribute("content", "user-dashboard");
+                .addAttribute("content", "user-dashboard")
+                .addAttribute("authToken", user.getAuthToken());
         return "main";
     }
 
