@@ -76,6 +76,11 @@ public class User implements UserDetails {
     )
     private String lastName;
 
+    @Column(
+            nullable = false
+    )
+    private String authToken;
+
 
     //relacje do innych tabeli
     @OneToMany(mappedBy = "professorId")
@@ -91,8 +96,8 @@ public class User implements UserDetails {
                 String lastName,
                 String email,
                 String password,
-
-                UserType type
+                UserType type,
+                String authToken
 
     ) {
         this.email = email;
@@ -100,6 +105,7 @@ public class User implements UserDetails {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.authToken = authToken;
 
     }
 

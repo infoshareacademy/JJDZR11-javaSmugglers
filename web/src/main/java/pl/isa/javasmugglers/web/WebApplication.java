@@ -10,6 +10,7 @@ import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.*;
+import pl.isa.javasmugglers.web.service.UserService;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -25,14 +26,16 @@ public class WebApplication {
 
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository,
-                                        BCryptPasswordEncoder bCryptPasswordEncoder) {
+                                        BCryptPasswordEncoder bCryptPasswordEncoder,
+                                        UserService userService) {
         return args -> {
             User blazej = new User(
                     "Błażej",
                     "Jendrzejewski",
                     "bj@gmail.com",
                     bCryptPasswordEncoder.encode("lato23"),
-                    UserType.STUDENT
+                    UserType.STUDENT,
+                    userService.generateAuthToken()
             );
 
             User agata = new User(
@@ -40,7 +43,8 @@ public class WebApplication {
                     "Kowalska",
                     "agata@gmail.com",
                     bCryptPasswordEncoder.encode("lato24"),
-                    UserType.PROFESOR
+                    UserType.PROFESOR,
+                    userService.generateAuthToken()
             );
 
             User tomek = new User(
@@ -48,7 +52,8 @@ public class WebApplication {
                     "Korek",
                     "tom@gmail.com",
                     bCryptPasswordEncoder.encode("lato25"),
-                    UserType.STUDENT
+                    UserType.STUDENT,
+                    userService.generateAuthToken()
             );
 
             User magda = new User(
@@ -56,7 +61,8 @@ public class WebApplication {
                     "Kowalska",
                     "magda@gmail.com",
                     bCryptPasswordEncoder.encode("lato26"),
-                    UserType.PROFESOR
+                    UserType.PROFESOR,
+                    userService.generateAuthToken()
             );
 
             userRepository.save(blazej);

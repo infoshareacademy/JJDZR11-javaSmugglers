@@ -18,5 +18,5 @@
             <td th:text="${percentageScores[i.index]} + '%'"></td>
         </tr>
     </table>
-    <a th:href="@{/user-dashboard/{id}(id=${userID})}" class="btn btn-success">Powrót</a>
+    <a th:href="@{/user-dashboard/{authToken}(authToken=${authToken})}" class="btn btn-success">Powrót</a>
 </div>

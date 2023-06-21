@@ -22,7 +22,8 @@ public class RegistrationService {
                         request.getLastName(),
                         request.getEmail().toLowerCase(),
                         request.getPassword(),
-                        request.getType()
+                        request.getType(),
+                        userService.generateAuthToken()
                       )
         );
     }
