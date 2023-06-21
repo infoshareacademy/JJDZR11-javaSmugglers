@@ -20,10 +20,9 @@ public class SecurityController {
 
     @RequestMapping(value = "/succeslogin.html", method = RequestMethod.GET)
     public String currentUserNameSimple(HttpServletRequest request) {
-        Principal principal = request.getUserPrincipal();
+        Principal principal = request.getUserPrincipal()    ;
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
         Long id = user.getId();
-
         if (user.getType() == UserType.STUDENT) {
             return "redirect:/user-dashboard/" + id;
         } else if (user.getType() == UserType.PROFESOR) {
