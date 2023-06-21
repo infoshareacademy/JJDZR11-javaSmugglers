@@ -47,11 +47,14 @@ public class Course {
     @JoinColumn(name="professor_id", referencedColumnName = "id")
     private User professorId;
 
-    @OneToMany(mappedBy = "courseId")
+    @OneToMany(mappedBy = "courseId", orphanRemoval = true)
     private List<CourseRegistration> courseRegistrationList;
 
-    @OneToMany(mappedBy = "courseId")
+    @OneToMany(mappedBy = "courseId", orphanRemoval = true)
     private List<CourseSession> courseSessionList;
+
+    @OneToMany(mappedBy = "courseId", orphanRemoval = true)
+    private List<Exam> examList;
 
     public Course() {
     }

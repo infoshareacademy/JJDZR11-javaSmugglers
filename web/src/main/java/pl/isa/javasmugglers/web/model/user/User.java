@@ -80,13 +80,13 @@ public class User implements UserDetails {
 
 
     //relacje do innych tabeli
-    @OneToMany(mappedBy = "professorId",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "professorId", orphanRemoval = true)
     private List<Course> courses;
 
-    @OneToMany(mappedBy = "studentId",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "studentId", orphanRemoval = true)
     private List<CourseRegistration> courseRegistrationsList;
 
-    @OneToMany(mappedBy = "studentId",cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "studentId", orphanRemoval = true)
     private List<ExamResult> examResultList;
 
 
