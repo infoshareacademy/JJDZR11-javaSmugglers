@@ -1,8 +1,8 @@
 
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>Tool</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -11,6 +11,11 @@
 </head>
 <body>
 <div class="container my-2" align="center">
+    <script>
+        function confirmDelete(userId) {
+            return confirm('Czy na pewno chcesz usunąć tego użytkownika?');
+        }
+    </script>
 
     <h3>Tools List</h3>
     <table style="width:80%" border="1"
@@ -31,7 +36,7 @@
             <td th:text="${user.lastName}"></td>
             <td th:text="${user.email}"></td>
               <td>  <a th:href="@{/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}(userId=${user.id})}"
-                   class="btn btn-danger">Delete</a>
+                   class="btn btn-danger" onclick="return confirmDelete('${user.id}')">Delete</a>
             </td>
         </tr>
         </tbody>

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
@@ -336,7 +337,10 @@ public class MainController {
 
     @GetMapping("/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y")
     public String adminDashboard(Model model) {
-        model.addAttribute("alluserlist", userService.getAllUsers());
+        List<User> userList = userService.getAllUsers().stream().filter(user -> user.getType() != UserType.ADMIN).toList();
+
+
+        model.addAttribute("alluserlist", userList);
         return "/AdminDashboard";
     }
     @GetMapping("/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}")
