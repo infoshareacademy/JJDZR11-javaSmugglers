@@ -340,8 +340,10 @@ public class MainController {
         List<User> userList = userService.getAllUsers().stream().filter(user -> user.getType() != UserType.ADMIN).toList();
 
 
-        model.addAttribute("alluserlist", userList);
-        return "/AdminDashboard";
+        model.addAttribute("alluserlist", userList)
+                .addAttribute("content", "AdminDashboard");
+
+        return "/main";
     }
     @GetMapping("/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}")
         public String deleteThroughId(@PathVariable(value = "userId") long userId) {

@@ -1,9 +1,8 @@
 
-<!DOCTYPE html>
-<html lang="pl-PL" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="content" class="container mt-5">
 <head>
     <meta charset="UTF-8">
-    <title>Tool</title>
+    <title>AdminDashboard</title>
     <link rel="stylesheet"
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
@@ -17,15 +16,16 @@
         }
     </script>
 
-    <h3>Tools List</h3>
+    <h3>Lista użytkowników</h3>
     <table style="width:80%" border="1"
            class = "table table-striped table-responsive-md">
         <thead>
         <tr>
             <th>ID</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
             <th>E-mail</th>
+            <th>Typ użytkownika</th>
 
         </tr>
         </thead>
@@ -35,12 +35,13 @@
             <td th:text="${user.firstName}"></td>
             <td th:text="${user.lastName}"></td>
             <td th:text="${user.email}"></td>
+            <td th:text="${user.type}"></td>
               <td>  <a th:href="@{/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}(userId=${user.id})}"
-                   class="btn btn-danger" onclick="return confirmDelete('${user.id}')">Delete</a>
+                   class="btn btn-danger" onclick="return confirmDelete('${user.id}')">Usuń</a>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
 </body>
-</html>
+</div>
