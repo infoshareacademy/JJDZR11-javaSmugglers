@@ -72,12 +72,12 @@ public class MainController {
     @PostMapping("addexam")
     public String addExam(@ModelAttribute Exam exam) {
         examService.saveExam(exam);
-        Long activeUserId = exam.getCourseId().getProfessorId().getId();
-        return "redirect:/examlist/" + activeUserId;
+        String authToken = exam.getCourseId().getProfessorId().getAuthToken();
+        return "redirect:/examlist/" + authToken;
     }
 
     @GetMapping("addexam/{authToken}")
-    public String showAddExamForm(Model model, @PathVariable("authToken")String authToken) {
+    public String showAddExamForm(Model model, @PathVariable("authToken") String authToken) {
         User user = userService.findByAuthToken(authToken);
         model.addAttribute("exam", new Exam())
                 .addAttribute("courseList", courseService.coursesListByProfessorId(user.getId()))
@@ -104,9 +104,9 @@ public class MainController {
         existingExam.setName(exam.getName());
         existingExam.setDescription(exam.getDescription());
         existingExam.setStatus(exam.getStatus());
-        examService.saveExam(exam);
-        Long profId = exam.getCourseId().getProfessorId().getId();
-        return "redirect:/examlist/" + profId;
+        examService.saveExam(existingExam);
+        String authToken = exam.getCourseId().getProfessorId().getAuthToken();
+        return "redirect:/examlist/" + authToken;
     }
 
     @GetMapping("questionlist/{id}")
