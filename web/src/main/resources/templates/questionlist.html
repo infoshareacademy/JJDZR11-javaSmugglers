@@ -68,7 +68,7 @@
                     <form th:action="@{/delete/question/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(question.getId)})}" method="post">
                         <input type="hidden" name="examID" th:value="${examID}">
                         <button type="submit" class="btn btn-danger btn-operation text-center"
-                                onclick="return confirmDelete('${question.id}')">Usuń pytanie</button>
+                                onclick="return confirmDelete('${question.getId()}')">Usuń pytanie</button>
                     </form>
 
                 </td>

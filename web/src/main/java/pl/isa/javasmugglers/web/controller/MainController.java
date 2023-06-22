@@ -295,11 +295,12 @@ public class MainController {
         return "redirect:/examlist/" + authToken;
     }
 
-    @PostMapping("delete/question/{id}")
-    public String deleteQuestion(@PathVariable("id") Long questionID, @RequestParam("examID") Long examID) {
-        examAnswerService.deleteAswersByQuestionID(questionID);
-        examQuestionService.deleteQuestion(questionID);
-        return "redirect:/questionlist/" + examID;
+    @PostMapping("delete/question/{encodedID}")
+    public String deleteQuestion(@PathVariable("encodedID") String encodedID, @RequestParam("examID") String ecodedExamID) {
+        Long decodedID = PathEncoderDecoder.decodePath(encodedID);
+        examAnswerService.deleteAswersByQuestionID(decodedID);
+        examQuestionService.deleteQuestion(decodedID);
+        return "redirect:/questionlist/" + ecodedExamID;
     }
 
 
