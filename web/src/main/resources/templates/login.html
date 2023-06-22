@@ -176,18 +176,22 @@
     <div th:if="${param.error}" class="error">
         Błędne hasło lub e-mail.
     </div>
+    <div style="align-self: center">
     <form name="f" th:action="@{/login}" method="post">
         <fieldset>
 
             <input type="text" id="username" name="username" placeholder="E-mail" style="text-transform:lowercase"/>
             <input type="password" id="password" name="password" placeholder="Hasło"/>
             <div class="form-actions">
+                <br>
+                <br>
                 <button type="submit" class="btn-success mt-4 mr-2">Zaloguj</button>
                 <button type="button" class="btn-success mt-4 mr-2" onclick="window.location.href='/'">
                     <i class="fa fa-arrow-circle-o-left"></i>Strona główna</button>
             </div>
         </fieldset>
     </form>
+    </div>
 </div>
 <hr>
 <footer class="footer" style="background-color: #0275d8; color: white; padding: 10px;">

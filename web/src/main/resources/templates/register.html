@@ -171,18 +171,20 @@
           method="POST">
         <input type="text" th:field="*{firstName}" placeholder="Imię"
                class="form-control mb-4 col-4">
+        <br>
         <input type="text"
                th:field="*{lastName}" placeholder="Nazwisko"
                class="form-control mb-4 col-4">
+        <br>
         <input type="text"
                th:field="*{email}" placeholder="E-mail"
                class="form-control mb-4 col-4">
+        <br>
         <input type="password"
                th:field="*{password}" placeholder="Hasło"
                class="form-control mb-4 col-4">
-        <!--<input type="text" placeholder="PROFESOR/STUDENT"
-               th:field="*{type}"
-               class="form-control mb-4 col-4">-->
+        <br>
+
         <select th:field="*{type}" class="form-select mb-5 col-2 ">
             <option value="" disabled selected>PROFESOR/STUDENT</option>
             <option value="PROFESOR">PROFESOR</option>
@@ -192,10 +194,7 @@
         <br>
         <br>
 
-        <!--
-            <button type="submit" class="btn btn-primary"><i class="fa fa-arrow-circle-o-left"></i>Rejestracja</button>
-            <a href="/" class="btn btn-success"> <i class="fa fa-arrow-circle-o-left"></i>Strona główna</a>
-        -->
+
         <button type="button" class="btn-success mt-4 mr-2" onclick="window.location.href='/'">
             <i class="fa fa-arrow-circle-o-left"></i>Strona główna</button>
         <button type="submit" class="btn-primary mt-4 ">
