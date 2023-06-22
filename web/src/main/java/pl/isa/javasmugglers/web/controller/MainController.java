@@ -144,10 +144,11 @@ public class MainController {
         return "redirect:/questionlist/" + PathEncoderDecoder.encodePath(currentExamId);
     }
 
-    @GetMapping("edit-answers/{id}")
-    public String editAnswers(@PathVariable("id") Long id, Model model) {
-        ExamQuestion examQuestion = examQuestionService.findByID(id);
-        List<ExamAnswer> examAnswerList = examAnswerService.findAllAnswersByQuestionID(id);
+    @GetMapping("edit-answers/{encodedID}")
+    public String editAnswers(@PathVariable("encodedID") String encodedID, Model model) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        ExamQuestion examQuestion = examQuestionService.findByID(decodedId);
+        List<ExamAnswer> examAnswerList = examAnswerService.findAllAnswersByQuestionID(decodedId);
         ExamAnswerWrapper examAnswerWrapper = new ExamAnswerWrapper();
         examAnswerWrapper.setExamAnswers(examAnswerList);
         List<Character> alphabet = IntStream.rangeClosed('a', 'z')
@@ -163,16 +164,16 @@ public class MainController {
     }
 
 
-    @PostMapping("update-answers/{id}")
-    public String updateAnswers(@PathVariable("id") Long id, @ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper) {
+    @PostMapping("update-answers/{encodedID}")
+    public String updateAnswers(@PathVariable("encodedID") String encodedID, @ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper) {
         for (ExamAnswer examAnswer : examAnswerWrapper.getExamAnswers()) {
             examAnswerService.saveAnswer(examAnswer);
         }
 
         ExamQuestion questionID = examAnswerWrapper.getExamAnswers().get(0).getQuestionId();
         Long currentExamID = examService.findByExamQuestion(questionID).getId();
-
-        return "redirect:/questionlist/" + currentExamID;
+        String encodedCurrentExamID = PathEncoderDecoder.encodePath(currentExamID);
+        return "redirect:/questionlist/" + encodedCurrentExamID;
     }
 
     @GetMapping("addquestion/{examId}")
