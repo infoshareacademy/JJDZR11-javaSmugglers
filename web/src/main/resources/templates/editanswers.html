@@ -2,7 +2,7 @@
 
     <h3>Edytuj odpowiedzi na pytanie:</h3>
     <h4 th:text="${examQuestion.questionText}"></h4>
-    <form th:action="@{/update-answers/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(examQuestion.id)})}" method="post" th:object="${examAnswers}">
+    <form th:action="@{/update-answers}" method="post" th:object="${examAnswers}">
         <table>
             <thead>
             <tr>

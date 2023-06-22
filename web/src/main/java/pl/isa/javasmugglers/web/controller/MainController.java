@@ -164,8 +164,8 @@ public class MainController {
     }
 
 
-    @PostMapping("update-answers/{encodedID}")
-    public String updateAnswers(@PathVariable("encodedID") String encodedID, @ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper) {
+    @PostMapping("update-answers")
+    public String updateAnswers(@ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper) {
         for (ExamAnswer examAnswer : examAnswerWrapper.getExamAnswers()) {
             examAnswerService.saveAnswer(examAnswer);
         }
