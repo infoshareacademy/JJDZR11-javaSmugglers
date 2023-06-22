@@ -340,7 +340,8 @@ public class MainController {
         return "/rf";
     }
 
-
+    // jakiś nieużywany kod, chyba Dominika
+/*
     @GetMapping("user-dashboard/courses/{id}")
     String courselist(@PathVariable("id") Long id, Model model) {
         model.addAttribute("CourseList", examService.listAllExamsByProfessorId(id))
@@ -348,7 +349,7 @@ public class MainController {
                 .addAttribute("content", "courseList");
 
         return "main";
-    }
+    }*/
 
 
 
