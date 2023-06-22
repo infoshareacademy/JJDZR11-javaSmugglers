@@ -109,11 +109,12 @@ public class MainController {
         return "redirect:/examlist/" + authToken;
     }
 
-    @GetMapping("questionlist/{id}")
-    public String questionList(@PathVariable("id") Long id, Model model) {
-        List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(id);
-        Long profID = examService.findById(id).getCourseId().getProfessorId().getId();
-        Long examID = examService.findById(id).getId();
+    @GetMapping("questionlist/{encodedID}")
+    public String questionList(@PathVariable("encodedID") String encodedID, Model model) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(decodedId);
+        String profID = examService.findById(decodedId).getCourseId().getProfessorId().getAuthToken();
+        String examID = PathEncoderDecoder.encodePath(examService.findById(decodedId).getId());
         model.addAttribute("questionList", questionList)
                 .addAttribute("profId", profID)
                 .addAttribute("examID", examID)
@@ -121,23 +122,26 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping("edit-question/{id}")
-    public String editQuestion(@PathVariable("id") Long id, Model model) {
-        ExamQuestion examQuestion = examQuestionService.findByID(id);
+    @GetMapping("edit-question/{encodedID}")
+    public String editQuestion(@PathVariable("encodedID") String encodedID, Model model) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        ExamQuestion examQuestion = examQuestionService.findByID(decodedId);
         model.addAttribute("examQuestion", examQuestion)
                 .addAttribute("content", "editquestion");
         return "main";
     }
 
 
-    @PostMapping("edit-question/update-question/{id}")
-    public String updateQuestion(@PathVariable("id") Long id, @ModelAttribute ExamQuestion examQuestion) {
-        ExamQuestion existingQuestion = examQuestionService.findByID(id);
+    @PostMapping("edit-question/update-question/{encodedID}")
+    public String updateQuestion(@PathVariable("encodedID") String encodedID, @ModelAttribute ExamQuestion examQuestion) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        ExamQuestion existingQuestion = examQuestionService.findByID(decodedId);
         existingQuestion.setQuestionText(examQuestion.getQuestionText());
         existingQuestion.setType(examQuestion.getType());
         examQuestionService.saveQuestion(existingQuestion);
         Long currentExamId = existingQuestion.getExamId().getId();
-        return "redirect:/questionlist/" + currentExamId;
+
+        return "redirect:/questionlist/" + PathEncoderDecoder.encodePath(currentExamId);
     }
 
     @GetMapping("edit-answers/{id}")
