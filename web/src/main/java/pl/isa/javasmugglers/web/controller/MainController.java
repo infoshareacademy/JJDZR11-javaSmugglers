@@ -176,9 +176,10 @@ public class MainController {
         return "redirect:/questionlist/" + encodedCurrentExamID;
     }
 
-    @GetMapping("addquestion/{examId}")
-    public String showAddQuestionForm(@PathVariable("examId") Long examId, Model model) {
-        Exam exam = examService.findById(examId);
+    @GetMapping("addquestion/{encodedID}")
+    public String showAddQuestionForm(@PathVariable("encodedID") String encodedID, Model model) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        Exam exam = examService.findById(decodedId);
         ExamQuestion question = new ExamQuestion();
         question.setExamId(exam);
         model.addAttribute("question", question);
@@ -187,9 +188,10 @@ public class MainController {
         return "main";
     }
 
-    @PostMapping("addquestion/{examId}")
-    public String saveQuestion(@PathVariable("examId") Long examId, ExamQuestion question, @RequestParam("answers[]") String[] answers, @RequestParam("isCorrect") List<Integer> correctAnswers, Model model) {
-        Exam exam = examService.findById(examId);
+    @PostMapping("addquestion/{encodedID}")
+    public String saveQuestion(@PathVariable("encodedID") String encodedID, ExamQuestion question, @RequestParam("answers[]") String[] answers, @RequestParam("isCorrect") List<Integer> correctAnswers, Model model) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        Exam exam = examService.findById(decodedId);
         question.setExamId(exam);
         examQuestionService.saveQuestion(question);
 
@@ -202,7 +204,7 @@ public class MainController {
         }
 
         model.addAttribute("exam", exam);
-        return "redirect:/questionlist/" + examId;
+        return "redirect:/questionlist/" + encodedID;
     }
 
 
