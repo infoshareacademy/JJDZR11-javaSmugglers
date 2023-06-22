@@ -40,6 +40,7 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
+                                .requestMatchers("/examlist/**").hasAuthority("PROFESOR") // Tylko użytkownicy z rolą PROFESOR mają dostęp
                                 .requestMatchers("registration/**", "registration/professor/**")
                                 .permitAll()
                                 .requestMatchers( "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif")
@@ -50,7 +51,12 @@ public class SecurityConfiguration {
                     .loginProcessingUrl("/login")
                     .loginPage("/login")
                     .permitAll()
-                    .defaultSuccessUrl("/succeslogin.html", true);
+                    .defaultSuccessUrl("/succeslogin.html", true)
+                //przekierowanie jeśli warunek authenticated() nie jest spełniony
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/login");
+
 
 
         return http.build();
