@@ -40,7 +40,7 @@
                 <td class="justify" th:text="${exam.getDescription}"></td>
                 <td class="text-center" th:text="${exam.getStatus}"></td>
                 <td class="center">
-                    <a th:href="@{/edit-exam/{id}(id=${exam.id})}"
+                    <a th:href="@{/edit-exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}"
                        class="btn btn-secondary btn-operation mb-2 text-center">Edytuj egzamin</a>
                     <a th:href="@{/questionlist/{id}(id=${exam.id})}"
                        class="btn btn-primary btn-operation mb-2 text-center">Edytuj pytania</a>

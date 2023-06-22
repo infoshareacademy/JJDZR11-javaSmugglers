@@ -86,9 +86,10 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping("edit-exam/{id}")
-    public String editExam(@PathVariable("id") Long id, Model model) {
-        Exam exam = examService.findById(id);
+    @GetMapping("edit-exam/{encodedID}")
+    public String editExam(@PathVariable("encodedID") String encodedID, Model model) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        Exam exam = examService.findById(decodedId);
         model.addAttribute("exam", exam)
                 .addAttribute("courseList",
                         courseService.coursesListByProfessorId(exam.getCourseId().getProfessorId().getId()))

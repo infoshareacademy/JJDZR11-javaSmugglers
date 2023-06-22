@@ -40,6 +40,7 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
+                                .requestMatchers("/examlist/**").authenticated()
                                 .requestMatchers("registration/**", "registration/professor/**")
                                 .permitAll()
                                 .requestMatchers( "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif")
