@@ -97,9 +97,10 @@ public class MainController {
         return "main";
     }
 
-    @PostMapping("edit-exam/update-exam/{id}")
-    public String updateExam(@PathVariable("id") Long id, @ModelAttribute Exam exam) {
-        Exam existingExam = examService.findById(id);
+    @PostMapping("edit-exam/update-exam/{encodedID}")
+    public String updateExam(@PathVariable("encodedID") String encodedID, @ModelAttribute Exam exam) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        Exam existingExam = examService.findById(decodedId);
         existingExam.setName(exam.getName());
         existingExam.setDescription(exam.getDescription());
         existingExam.setStatus(exam.getStatus());
@@ -280,10 +281,11 @@ public class MainController {
         return "main";
     }
 
-    @PostMapping("delete/exam/{id}")
-    public String deleteExam(@PathVariable("id") Long examID, @RequestParam("userID") Long userID) {
-        examService.deleteExam(examID);
-        return "redirect:/examlist/" + userID;
+    @PostMapping("delete/exam/{encodedID}")
+    public String deleteExam(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
+        Long decodedID = PathEncoderDecoder.decodePath(encodedID);
+        examService.deleteExam(decodedID);
+        return "redirect:/examlist/" + authToken;
     }
 
     @PostMapping("delete/question/{id}")
