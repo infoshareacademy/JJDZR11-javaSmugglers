@@ -2,6 +2,8 @@ package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 @Entity(name = "exams")
@@ -30,13 +32,12 @@ public class Exam {
     @JoinColumn(name = "courseId", referencedColumnName = "id")
     private Course courseId;
 
-    public enum status {ACTIVE, INACTIVE}
+    private Date startDate;
+    private Time startTime;
+    private Date endDate;
+    private Time endTime;
+    private Integer passingThreshold;
 
-    @Enumerated(EnumType.STRING)
-    @Column(
-            columnDefinition = "enum('ACTIVE', 'INACTIVE')"
-    )
-    private status status;
 
     private Integer duration;
 
@@ -50,11 +51,17 @@ public class Exam {
     public Exam() {
     }
 
-    public Exam(String name, String description, Course courseId, Exam.status status, Integer duration) {
+
+
+    public Exam(String name, String description, Course courseId, Date startDate, Time startTime, Date endDate, Time endTime, Integer passingThreshold, Integer duration) {
         this.name = name;
         this.description = description;
         this.courseId = courseId;
-        this.status = status;
+        this.startDate = startDate;
+        this.startTime = startTime;
+        this.endDate = endDate;
+        this.endTime = endTime;
+        this.passingThreshold = passingThreshold;
         this.duration = duration;
     }
 
@@ -90,14 +97,6 @@ public class Exam {
         this.courseId = courseId;
     }
 
-    public Exam.status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Exam.status status) {
-        this.status = status;
-    }
-
     public Integer getDuration() {
         return duration;
     }
@@ -120,5 +119,45 @@ public class Exam {
 
     public void setExamResultList(List<ExamResult> examResultList) {
         this.examResultList = examResultList;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Time getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
+
+    public Integer getPassingThreshold() {
+        return passingThreshold;
+    }
+
+    public void setPassingThreshold(Integer passingThreshold) {
+        this.passingThreshold = passingThreshold;
     }
 }

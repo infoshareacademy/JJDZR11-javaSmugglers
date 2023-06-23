@@ -180,15 +180,23 @@ public class WebApplication {
                     "Egzamin końcowy",
                     "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z całego semestru",
                     course1,
-                    Exam.status.ACTIVE, 10
-            );
+                    Date.valueOf("2023-06-10"),
+                    Time.valueOf("12:00:00"),
+                    Date.valueOf("2023-08-10"),
+                    Time.valueOf("12:00:00"),
+                    60,
+                    10);
             examRepository.save(exam1);
 
             Exam exam2 = new Exam(
                     "Egzamin mid-semetralny",
                     "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z dotychczasowego materiału omawianego na zajęciach",
                     course1,
-                    Exam.status.INACTIVE,
+                    Date.valueOf("2023-08-10"),
+                    Time.valueOf("12:00:00"),
+                    Date.valueOf("2023-10-10"),
+                    Time.valueOf("12:00:00"),
+                    70,
                     15);
             examRepository.save(exam2);
         };

@@ -8,6 +8,7 @@ import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.service.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -103,7 +104,9 @@ public class MainController {
         Exam existingExam = examService.findById(decodedId);
         existingExam.setName(exam.getName());
         existingExam.setDescription(exam.getDescription());
+/*
         existingExam.setStatus(exam.getStatus());
+*/
         examService.saveExam(existingExam);
         String authToken = exam.getCourseId().getProfessorId().getAuthToken();
         return "redirect:/examlist/" + authToken;
@@ -274,8 +277,9 @@ public class MainController {
         List<Exam> takenExams = examResultService.findUserExamResults(user).stream().map(ExamResult::getExamId).toList();
 
         List<Exam> examsToTake = allRegisteredExams.stream()
-                .filter(exam -> exam.getStatus() == Exam.status.ACTIVE &&
-                        takenExams.stream().noneMatch(takenExam -> takenExam.getId().equals(exam.getId())))
+                .filter(exam -> LocalDateTime.now().isAfter(LocalDateTime.of(exam.getStartDate().toLocalDate(), exam.getStartTime().toLocalTime())) &&
+                        LocalDateTime.now().isBefore(LocalDateTime.of(exam.getEndDate().toLocalDate(), exam.getEndTime().toLocalTime())) &&
+                takenExams.stream().noneMatch(takenExam -> takenExam.getId().equals(exam.getId())))
                 .toList();
 
 
