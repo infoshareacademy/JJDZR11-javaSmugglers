@@ -1,6 +1,7 @@
 package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -33,10 +34,17 @@ public class Exam {
     private Course courseId;
 
     private Date startDate;
+
     private Time startTime;
+
     private Date endDate;
+
     private Time endTime;
+
     private Integer passingThreshold;
+
+
+
 
 
     private Integer duration;

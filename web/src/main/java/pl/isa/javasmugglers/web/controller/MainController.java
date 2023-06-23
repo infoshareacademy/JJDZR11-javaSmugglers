@@ -8,6 +8,7 @@ import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.service.*;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,11 +72,22 @@ public class MainController {
 
 
     @PostMapping("addexam")
-    public String addExam(@ModelAttribute Exam exam) {
-        examService.saveExam(exam);
-        String authToken = exam.getCourseId().getProfessorId().getAuthToken();
-        return "redirect:/examlist/" + authToken;
+    public String addExam(@ModelAttribute Exam exam,
+                          @RequestParam("startTimeString") String startTimeString,
+                          @RequestParam("endTimeString") String endTimeString) {
+
+            java.sql.Time startTime = java.sql.Time.valueOf(startTimeString + ":00");
+            java.sql.Time endTime = java.sql.Time.valueOf(endTimeString + ":00");
+
+            exam.setStartTime(startTime);
+            exam.setEndTime(endTime);
+
+            examService.saveExam(exam);
+            String authToken = exam.getCourseId().getProfessorId().getAuthToken();
+            return "redirect:/examlist/" + authToken;
+
     }
+
 
     @GetMapping("addexam/{authToken}")
     public String showAddExamForm(Model model, @PathVariable("authToken") String authToken) {
