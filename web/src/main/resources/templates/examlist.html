@@ -11,6 +11,7 @@
         .center {
             text-align: center;
         }
+
     </style>
     <script>
         function confirmDelete(examId) {
@@ -32,6 +33,9 @@
                 <th class="text-center">Godzina rozpoczęcia</th>
                 <th class="text-center">Data zakończenia</th>
                 <th class="text-center">Godzina zakończenia</th>
+                <th class="text-center">Próg zdawalności</th>
+
+
                 <th class="text-center">Operacje</th>
             </tr>
             </thead>
@@ -45,6 +49,8 @@
                 <td class="text-center" th:text="${exam.startTime}"></td>
                 <td class="text-center" th:text="${exam.endDate}"></td>
                 <td class="text-center" th:text="${exam.endTime}"></td>
+                <td class="text-center" th:text="${exam.passingThreshold} + '%'"></td>
+
 
                 <td class="center">
                     <a th:href="@{/edit-exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}"
