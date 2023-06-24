@@ -1,11 +1,16 @@
 package pl.isa.javasmugglers.web.controller;
 
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.EntityManagerHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserStatus;
+import pl.isa.javasmugglers.web.model.user.UserType;
+import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
@@ -29,6 +34,9 @@ public class MainController {
     ExamResultService examResultService;
     @Autowired
     CourseRegistrationService courseRegistrationService;
+    @Autowired
+    UserRepository userRepository;
+
 
     @GetMapping("examlist/{authToken}")
     String examlist(@PathVariable("authToken") String authToken, Model model) {
@@ -352,10 +360,38 @@ public class MainController {
     }*/
 
 
-
     @GetMapping("/menu")
     public String showMenu() {
         return "menu";
+    }
+
+
+    @GetMapping("/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y")
+    public String adminDashboard(Model model) {;
+
+                model.addAttribute("content", "AdminDashboard");
+
+        return "/main";
+    }
+    @GetMapping("/n3pNjrMZhvD53qMF35ukZn9UeJZdkJJy57SUdweuyy7hf6uiQEBFwtgZucr7")
+    public String UserList(Model model) {
+        List<User> userList = userService.getAllUsers().stream().filter(user -> user.getType() != UserType.ADMIN).toList();
+
+
+        model.addAttribute("alluserlist", userList)
+                .addAttribute("content", "UserList");
+
+        return "/main";
+    }
+    @GetMapping("/eLL8RkECTB2BDSX43bZhRYH5329BrUbVtxcRavNetipcENgeXRfCcSKGcvuz")
+    public String inactiveUserList(Model model) {
+        List<User> userList = userService.getAllUsers().stream().filter(user -> user.getStatus() == UserStatus.WAITING_FOR_CONFIRMATION).toList();
+
+
+        model.addAttribute("unactiveuserlist", userList)
+                .addAttribute("content", "UnactiveUserList");
+
+        return "/main";
     }
 
     @GetMapping("/login")
@@ -365,3 +401,21 @@ public class MainController {
 
 }
 
+
+    @GetMapping("/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}")
+    public String deleteThroughId(@PathVariable(value = "userId") long userId) {
+        userService.deleteViaId(userId);
+        return "redirect:/n3pNjrMZhvD53qMF35ukZn9UeJZdkJJy57SUdweuyy7hf6uiQEBFwtgZucr7";
+    }
+
+    @GetMapping("/pmgNnEdgHMLZKfxCbxWTy7uDGMmiwqqjDvQj8z3feArW9gJD2bpB9ppd6zMQ/{userId}")
+    public String makeUserActive(@PathVariable(value = "userId") long userId) {
+        UserStatus status = UserStatus.ACTIVE;
+        userRepository.updateStatus(userId, status);
+        return "redirect:/eLL8RkECTB2BDSX43bZhRYH5329BrUbVtxcRavNetipcENgeXRfCcSKGcvuz";
+    }
+    @GetMapping("/userinactive")
+    public String ui() {
+        return "/userinactive";
+    }
+}

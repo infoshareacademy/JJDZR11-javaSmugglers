@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.*;
 import pl.isa.javasmugglers.web.service.UserService;
@@ -35,7 +36,11 @@ public class WebApplication {
                     "bj@gmail.com",
                     bCryptPasswordEncoder.encode("lato23"),
                     UserType.STUDENT,
+
+                    UserStatus.ACTIVE
+
                     userService.generateAuthToken()
+
             );
 
             User agata = new User(
@@ -44,7 +49,11 @@ public class WebApplication {
                     "agata@gmail.com",
                     bCryptPasswordEncoder.encode("lato24"),
                     UserType.PROFESOR,
+
+                    UserStatus.ACTIVE
+
                     userService.generateAuthToken()
+
             );
 
             User tomek = new User(
@@ -53,7 +62,11 @@ public class WebApplication {
                     "tom@gmail.com",
                     bCryptPasswordEncoder.encode("lato25"),
                     UserType.STUDENT,
+
+                    UserStatus.ACTIVE
+
                     userService.generateAuthToken()
+
             );
 
             User magda = new User(
@@ -62,13 +75,27 @@ public class WebApplication {
                     "magda@gmail.com",
                     bCryptPasswordEncoder.encode("lato26"),
                     UserType.PROFESOR,
+
+                    UserStatus.ACTIVE
+            );
+            User admin = new User(
+                    "admin",
+                    "admin",
+                    "admin",
+                    bCryptPasswordEncoder.encode("admin"),
+                    UserType.ADMIN,
+                    UserStatus.ACTIVE
+
                     userService.generateAuthToken()
+
             );
 
+            userRepository.save(admin);
             userRepository.save(blazej);
             userRepository.save(agata);
             userRepository.save(tomek);
             userRepository.save(magda);
+
 
         };
     }

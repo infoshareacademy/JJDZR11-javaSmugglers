@@ -4,6 +4,7 @@ import pl.isa.javasmugglers.web.model.registration.UserValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserStatus;
 
 @Service
 @AllArgsConstructor
@@ -23,7 +24,9 @@ public class RegistrationService {
                         request.getEmail().toLowerCase(),
                         request.getPassword(),
                         request.getType(),
+                        UserStatus.WAITING_FOR_CONFIRMATION
                         userService.generateAuthToken()
+
                       )
         );
     }

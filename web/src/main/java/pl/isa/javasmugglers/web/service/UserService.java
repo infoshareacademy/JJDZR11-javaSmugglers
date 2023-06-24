@@ -8,8 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.UserRepository;
-
+import java.util.List;
 import java.util.Random;
+
 
 
 @Service
@@ -41,7 +42,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findByAuthToken(authToken);
     }
 
-
+    public List<User> getAllUsers()
+    {
+        return userRepository.findAll();
+    }
 
 
 
@@ -55,6 +59,12 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
         return "rejestracja udana";
     }
+
+    public void deleteViaId(long id)
+    {
+        userRepository.deleteById(id);
+    }
+
     public String generateAuthToken (){
         Random r = new Random();
         int low = 10;
@@ -65,3 +75,5 @@ public class UserService implements UserDetailsService {
     }
 
 }
+
+

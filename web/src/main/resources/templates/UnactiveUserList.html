@@ -1,0 +1,44 @@
+
+<div th:fragment="content" class="container mt-5">
+  <head>
+    <meta charset="UTF-8">
+    <title>AdminDashboard</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+  </head>
+  <body>
+  <div class="container my-2" align="center">
+
+    <h3>Lista użytkowników</h3>
+    <table style="width:80%" border="1"
+           class = "table table-striped table-responsive-md">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Imię</th>
+        <th>Nazwisko</th>
+        <th>E-mail</th>
+        <th>Typ użytkownika</th>
+        <th>Status użytkownika</th>
+
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user:${unactiveuserlist}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.firstName}"></td>
+        <td th:text="${user.lastName}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.type}"></td>
+        <td th:text="${user.status}"></td>
+        <td>  <a th:href="@{/pmgNnEdgHMLZKfxCbxWTy7uDGMmiwqqjDvQj8z3feArW9gJD2bpB9ppd6zMQ/{userId}(userId=${user.id})}"
+                 class="btn btn-danger">Aktywuj</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  </body>
+</div>
