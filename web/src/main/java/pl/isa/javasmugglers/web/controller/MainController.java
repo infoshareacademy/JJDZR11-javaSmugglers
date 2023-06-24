@@ -1,6 +1,8 @@
 package pl.isa.javasmugglers.web.controller;
 
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.EntityManagerHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +10,7 @@ import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
+import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
@@ -31,6 +34,9 @@ public class MainController {
     ExamResultService examResultService;
     @Autowired
     CourseRegistrationService courseRegistrationService;
+    @Autowired
+    UserRepository userRepository;
+
 
     @GetMapping("examlist/{id}")
     String examlist(@PathVariable("id") Long id, Model model) {
@@ -354,9 +360,12 @@ public class MainController {
 
     @GetMapping("/makeactive/{userId}")
     public String makeUserActive(@PathVariable(value = "userId") long userId) {
-        User user = userService.findByID(userId);
-        user.setStatus(UserStatus.ACTIVE);
-        userService.save(user);
+        UserStatus status = UserStatus.ACTIVE;
+        userRepository.updateStatus(userId, status);
         return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y";
+    }
+    @GetMapping("/userinactive")
+    public String ui() {
+        return "/userinactive";
     }
 }

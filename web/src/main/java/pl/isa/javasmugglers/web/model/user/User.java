@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseRegistration;
 import pl.isa.javasmugglers.web.model.ExamResult;
+import pl.isa.javasmugglers.web.model.UserListener;
 
 
 import java.util.Collection;
@@ -27,6 +28,7 @@ import java.util.List;
 )
 @Getter
 @Setter
+@EntityListeners(UserListener.class)
 @EqualsAndHashCode
 @NoArgsConstructor
 public class User implements UserDetails {
@@ -113,6 +115,18 @@ public class User implements UserDetails {
 
     }
 
+    public User(String password, Long id, String email, UserType type, UserStatus status, String firstName, String lastName, List<Course> courses, List<CourseRegistration> courseRegistrationsList, List<ExamResult> examResultList) {
+       this.password = password;
+        this.id = id;
+        this.email = email;
+        this.type = type;
+        this.status = status;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.courses = courses;
+        this.courseRegistrationsList = courseRegistrationsList;
+        this.examResultList = examResultList;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

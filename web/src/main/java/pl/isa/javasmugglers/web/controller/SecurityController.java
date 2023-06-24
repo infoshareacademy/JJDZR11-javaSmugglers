@@ -23,17 +23,15 @@ public class SecurityController {
         Principal principal = request.getUserPrincipal();
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
         Long id = user.getId();
-        if (user.getStatus() == UserStatus.WAITING_FOR_CONFIRMATION){
-            return "redirect:/userinactive/";
-        } else if (user.getType() == UserType.STUDENT) {
+         if (user.getType() == UserType.STUDENT && user.getStatus() == UserStatus.ACTIVE) {
             return "redirect:/user-dashboard/" + id;
-        } else if (user.getType() == UserType.PROFESOR) {
+        } else if (user.getType() == UserType.PROFESOR && user.getStatus() == UserStatus.ACTIVE) {
             return "redirect:/DashboardProfessor/" + id;
         }
         else if (user.getType() == UserType.ADMIN) {
             return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y";
         } else {
-            throw new RuntimeException("Unexpected user type");
+            return "redirect:/userinactive";
         }
     }
 }
