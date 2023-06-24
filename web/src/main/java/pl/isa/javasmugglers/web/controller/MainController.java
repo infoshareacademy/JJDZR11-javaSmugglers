@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.service.*;
 
@@ -329,7 +330,6 @@ public class MainController {
     }
 
 
-
     @GetMapping("/menu")
     public String showMenu() {
         return "menu";
@@ -345,10 +345,18 @@ public class MainController {
 
         return "/main";
     }
+
     @GetMapping("/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}")
-        public String deleteThroughId(@PathVariable(value = "userId") long userId) {
-           userService.deleteViaId(userId);
-            return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y";
+    public String deleteThroughId(@PathVariable(value = "userId") long userId) {
+        userService.deleteViaId(userId);
+        return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y";
+    }
+
+    @GetMapping("/makeactive/{userId}")
+    public String makeUserActive(@PathVariable(value = "userId") long userId) {
+        User user = userService.findByID(userId);
+        user.setStatus(UserStatus.ACTIVE);
+        userService.save(user);
+        return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y";
     }
 }
-

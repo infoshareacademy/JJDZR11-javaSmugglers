@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 
@@ -22,8 +23,9 @@ public class SecurityController {
         Principal principal = request.getUserPrincipal();
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
         Long id = user.getId();
-
-        if (user.getType() == UserType.STUDENT) {
+        if (user.getStatus() == UserStatus.WAITING_FOR_CONFIRMATION){
+            return "redirect:/userinactive/";
+        } else if (user.getType() == UserType.STUDENT) {
             return "redirect:/user-dashboard/" + id;
         } else if (user.getType() == UserType.PROFESOR) {
             return "redirect:/DashboardProfessor/" + id;

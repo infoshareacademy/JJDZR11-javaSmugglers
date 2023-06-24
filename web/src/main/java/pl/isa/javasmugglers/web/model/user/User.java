@@ -61,6 +61,11 @@ public class User implements UserDetails {
     )
     private UserType type;
 
+    @Enumerated(EnumType.STRING)
+    @Column(
+            columnDefinition = "enum('ACTIVE', 'WAITING_FOR_CONFIRMATION')"
+    )
+    private UserStatus status;
 
     @Column(
             nullable = false
@@ -95,7 +100,8 @@ public class User implements UserDetails {
                 String email,
                 String password,
 
-                UserType type
+                UserType type,
+                UserStatus status
 
     ) {
         this.email = email;
@@ -103,6 +109,7 @@ public class User implements UserDetails {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.status = status;
 
     }
 

@@ -26,6 +26,7 @@
             <th>Nazwisko</th>
             <th>E-mail</th>
             <th>Typ użytkownika</th>
+            <th>Status użytkownika</th>
 
         </tr>
         </thead>
@@ -36,8 +37,12 @@
             <td th:text="${user.lastName}"></td>
             <td th:text="${user.email}"></td>
             <td th:text="${user.type}"></td>
+            <td th:text="${user.status}"></td>
               <td>  <a th:href="@{/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}(userId=${user.id})}"
                    class="btn btn-danger" onclick="return confirmDelete('${user.id}')">Usuń</a>
+            </td>
+            <td>  <a th:href="@{/makeactive/{userId}(userId=${user.id})}"
+                     class="btn btn-danger">Aktywuj</a>
             </td>
         </tr>
         </tbody>

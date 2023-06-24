@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.*;
 
@@ -32,7 +33,8 @@ public class WebApplication {
                     "Jendrzejewski",
                     "bj@gmail.com",
                     bCryptPasswordEncoder.encode("lato23"),
-                    UserType.STUDENT
+                    UserType.STUDENT,
+                    UserStatus.ACTIVE
             );
 
             User agata = new User(
@@ -40,7 +42,8 @@ public class WebApplication {
                     "Kowalska",
                     "agata@gmail.com",
                     bCryptPasswordEncoder.encode("lato24"),
-                    UserType.PROFESOR
+                    UserType.PROFESOR,
+                    UserStatus.ACTIVE
             );
 
             User tomek = new User(
@@ -48,7 +51,8 @@ public class WebApplication {
                     "Korek",
                     "tom@gmail.com",
                     bCryptPasswordEncoder.encode("lato25"),
-                    UserType.STUDENT
+                    UserType.STUDENT,
+                    UserStatus.ACTIVE
             );
 
             User magda = new User(
@@ -56,14 +60,16 @@ public class WebApplication {
                     "Kowalska",
                     "magda@gmail.com",
                     bCryptPasswordEncoder.encode("lato26"),
-                    UserType.PROFESOR
+                    UserType.PROFESOR,
+                    UserStatus.ACTIVE
             );
             User admin = new User(
                     "admin",
                     "admin",
                     "admin",
                     bCryptPasswordEncoder.encode("admin"),
-                    UserType.ADMIN
+                    UserType.ADMIN,
+                    UserStatus.ACTIVE
             );
 
             userRepository.save(admin);
