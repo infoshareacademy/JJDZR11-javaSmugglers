@@ -342,12 +342,29 @@ public class MainController {
     }
 
     @GetMapping("/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y")
-    public String adminDashboard(Model model) {
+    public String adminDashboard(Model model) {;
+
+                model.addAttribute("content", "AdminDashboard");
+
+        return "/main";
+    }
+    @GetMapping("/n3pNjrMZhvD53qMF35ukZn9UeJZdkJJy57SUdweuyy7hf6uiQEBFwtgZucr7")
+    public String UserList(Model model) {
         List<User> userList = userService.getAllUsers().stream().filter(user -> user.getType() != UserType.ADMIN).toList();
 
 
         model.addAttribute("alluserlist", userList)
-                .addAttribute("content", "AdminDashboard");
+                .addAttribute("content", "UserList");
+
+        return "/main";
+    }
+    @GetMapping("/eLL8RkECTB2BDSX43bZhRYH5329BrUbVtxcRavNetipcENgeXRfCcSKGcvuz")
+    public String inactiveUserList(Model model) {
+        List<User> userList = userService.getAllUsers().stream().filter(user -> user.getStatus() == UserStatus.WAITING_FOR_CONFIRMATION).toList();
+
+
+        model.addAttribute("unactiveuserlist", userList)
+                .addAttribute("content", "UnactiveUserList");
 
         return "/main";
     }
@@ -355,14 +372,14 @@ public class MainController {
     @GetMapping("/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}")
     public String deleteThroughId(@PathVariable(value = "userId") long userId) {
         userService.deleteViaId(userId);
-        return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y";
+        return "redirect:/n3pNjrMZhvD53qMF35ukZn9UeJZdkJJy57SUdweuyy7hf6uiQEBFwtgZucr7";
     }
 
-    @GetMapping("/makeactive/{userId}")
+    @GetMapping("/pmgNnEdgHMLZKfxCbxWTy7uDGMmiwqqjDvQj8z3feArW9gJD2bpB9ppd6zMQ/{userId}")
     public String makeUserActive(@PathVariable(value = "userId") long userId) {
         UserStatus status = UserStatus.ACTIVE;
         userRepository.updateStatus(userId, status);
-        return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y";
+        return "redirect:/eLL8RkECTB2BDSX43bZhRYH5329BrUbVtxcRavNetipcENgeXRfCcSKGcvuz";
     }
     @GetMapping("/userinactive")
     public String ui() {
