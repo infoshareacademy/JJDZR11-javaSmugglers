@@ -23,8 +23,8 @@ public class RegistrationService {
                         request.getLastName(),
                         request.getEmail().toLowerCase(),
                         request.getPassword(),
+                        UserStatus.WAITING_FOR_CONFIRMATION,
                         request.getType(),
-                        UserStatus.WAITING_FOR_CONFIRMATION
                         userService.generateAuthToken()
 
                       )

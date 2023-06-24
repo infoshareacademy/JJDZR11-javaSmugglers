@@ -35,9 +35,10 @@ public class WebApplication {
                     "Jendrzejewski",
                     "bj@gmail.com",
                     bCryptPasswordEncoder.encode("lato23"),
+                    UserStatus.ACTIVE,
                     UserType.STUDENT,
 
-                    UserStatus.ACTIVE
+
 
                     userService.generateAuthToken()
 
@@ -48,9 +49,10 @@ public class WebApplication {
                     "Kowalska",
                     "agata@gmail.com",
                     bCryptPasswordEncoder.encode("lato24"),
+                    UserStatus.ACTIVE,
                     UserType.PROFESOR,
 
-                    UserStatus.ACTIVE
+
 
                     userService.generateAuthToken()
 
@@ -61,9 +63,10 @@ public class WebApplication {
                     "Korek",
                     "tom@gmail.com",
                     bCryptPasswordEncoder.encode("lato25"),
+                    UserStatus.ACTIVE,
                     UserType.STUDENT,
 
-                    UserStatus.ACTIVE
+
 
                     userService.generateAuthToken()
 
@@ -74,17 +77,21 @@ public class WebApplication {
                     "Kowalska",
                     "magda@gmail.com",
                     bCryptPasswordEncoder.encode("lato26"),
+                    UserStatus.ACTIVE,
                     UserType.PROFESOR,
+                    userService.generateAuthToken()
 
-                    UserStatus.ACTIVE
+
+
             );
             User admin = new User(
                     "admin",
                     "admin",
                     "admin",
                     bCryptPasswordEncoder.encode("admin"),
+                    UserStatus.ACTIVE,
                     UserType.ADMIN,
-                    UserStatus.ACTIVE
+
 
                     userService.generateAuthToken()
 

@@ -22,14 +22,13 @@ public class SecurityController {
     public String currentUserNameSimple(HttpServletRequest request) {
         Principal principal = request.getUserPrincipal();
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
-        Long id = user.getId();
         String authToken = user.getAuthToken();
          if (user.getType() == UserType.STUDENT && user.getStatus() == UserStatus.ACTIVE) {
             return "redirect:/user-dashboard/" + authToken;
         } else if (user.getType() == UserType.PROFESOR && user.getStatus() == UserStatus.ACTIVE) {
             return "redirect:/DashboardProfessor/" + authToken;
          } else if (user.getType() == UserType.ADMIN) {
-            return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y"
+            return "redirect:/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y";
         } else {
             return "redirect:/userinactive";
         }

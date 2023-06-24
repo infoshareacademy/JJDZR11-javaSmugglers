@@ -399,7 +399,7 @@ public class MainController {
         return "/login";
     }
 
-}
+
 
 
     @GetMapping("/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}")

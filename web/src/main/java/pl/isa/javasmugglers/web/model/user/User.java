@@ -104,7 +104,7 @@ public class User implements UserDetails {
                 String lastName,
                 String email,
                 String password,
-                UserStatus status
+                UserStatus status,
                 UserType type,
                 String authToken
 
