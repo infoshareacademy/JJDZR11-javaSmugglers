@@ -61,14 +61,14 @@
 
 
                 <td class="center">
-                    <a th:href="@{/edit-question/{id}(id=${question.getId})}"
+                    <a th:href="@{/edit-question/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(question.getId)})}"
                        class="btn btn-secondary btn-operation mb-2 text-center">Edytuj pytanie</a>
-                    <a th:href="@{/edit-answers/{id}(id=${question.getId})}"
+                    <a th:href="@{/edit-answers/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(question.getId)})}"
                        class="btn btn-primary btn-operation mb-2 text-center">Edytuj odpowiedzi</a>
-                    <form th:action="@{/delete/question/{id}(id=${question.getId})}" method="post">
+                    <form th:action="@{/delete/question/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(question.getId)})}" method="post">
                         <input type="hidden" name="examID" th:value="${examID}">
                         <button type="submit" class="btn btn-danger btn-operation text-center"
-                                onclick="return confirmDelete('${question.id}')">Usuń pytanie</button>
+                                onclick="return confirmDelete('${question.getId()}')">Usuń pytanie</button>
                     </form>
 
                 </td>

@@ -4,7 +4,9 @@ package pl.isa.javasmugglers.web.security.config;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -13,6 +15,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pl.isa.javasmugglers.web.service.UserService;
 
 
@@ -35,16 +40,24 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
+                                .requestMatchers("/examlist/**").hasAuthority("PROFESOR") // Tylko użytkownicy z rolą PROFESOR mają dostęp
                                 .requestMatchers("registration/**", "registration/professor/**")
                                 .permitAll()
-                                .requestMatchers("/userinactive/**", "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif")
+                                .requestMatchers("/userinactive/**","/registrationFailed", "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif")
                                 .permitAll()
                 .anyRequest()
                 .authenticated().and()
                 .formLogin()
                     .passwordParameter(bCryptPasswordEncoder.toString())
                     .loginProcessingUrl("/login")
-                    .defaultSuccessUrl("/succeslogin.html", true);
+                    .loginPage("/login")
+                    .permitAll()
+                    .defaultSuccessUrl("/succeslogin.html", true)
+                //przekierowanie jeśli warunek authenticated() nie jest spełniony
+                .and()
+                .exceptionHandling()
+                .accessDeniedPage("/login");
+
 
 
         return http.build();

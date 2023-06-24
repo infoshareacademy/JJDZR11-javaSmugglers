@@ -21,10 +21,12 @@ public class RegistrationService {
         return userService.save(
                 new User(request.getFirstName(),
                         request.getLastName(),
-                        request.getEmail(),
+                        request.getEmail().toLowerCase(),
                         request.getPassword(),
                         request.getType(),
                         UserStatus.WAITING_FOR_CONFIRMATION
+                        userService.generateAuthToken()
+
                       )
         );
     }

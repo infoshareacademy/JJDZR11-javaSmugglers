@@ -2,7 +2,7 @@
 
     <h3>Edytuj odpowiedzi na pytanie:</h3>
     <h4 th:text="${examQuestion.questionText}"></h4>
-    <form th:action="@{/update-answers/{id}(id=${examQuestion.id})}" method="post" th:object="${examAnswers}">
+    <form th:action="@{/update-answers}" method="post" th:object="${examAnswers}">
         <table>
             <thead>
             <tr>
@@ -30,7 +30,7 @@
 
             </tbody>
         </table>
-        <button class="btn btn-primary mr-2" th:href="@{/questionlist/{id}(id=${examQuestion.id})}">Powrót</button>
+        <button class="btn btn-primary mr-2" th:href="@{/questionlist/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(examQuestion.id)})}">Powrót</button>
         <button type="submit" class="btn btn-primary">Zapisz</button>
     </form>
 </div>

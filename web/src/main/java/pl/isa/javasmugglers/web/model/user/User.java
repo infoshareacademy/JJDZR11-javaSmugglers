@@ -83,6 +83,11 @@ public class User implements UserDetails {
     )
     private String lastName;
 
+    @Column(
+            nullable = false
+    )
+    private String authToken;
+
 
     //relacje do innych tabeli
     @OneToMany(mappedBy = "professorId", orphanRemoval = true)
@@ -99,9 +104,9 @@ public class User implements UserDetails {
                 String lastName,
                 String email,
                 String password,
-
-                UserType type,
                 UserStatus status
+                UserType type,
+                String authToken
 
     ) {
         this.email = email;
@@ -110,6 +115,8 @@ public class User implements UserDetails {
         this.firstName = firstName;
         this.lastName = lastName;
         this.status = status;
+        this.authToken = authToken;
+
 
     }
 

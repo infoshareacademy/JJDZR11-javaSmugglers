@@ -11,6 +11,7 @@ import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.*;
+import pl.isa.javasmugglers.web.service.UserService;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -26,7 +27,8 @@ public class WebApplication {
 
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository,
-                                        BCryptPasswordEncoder bCryptPasswordEncoder) {
+                                        BCryptPasswordEncoder bCryptPasswordEncoder,
+                                        UserService userService) {
         return args -> {
             User blazej = new User(
                     "Błażej",
@@ -34,7 +36,11 @@ public class WebApplication {
                     "bj@gmail.com",
                     bCryptPasswordEncoder.encode("lato23"),
                     UserType.STUDENT,
+
                     UserStatus.ACTIVE
+
+                    userService.generateAuthToken()
+
             );
 
             User agata = new User(
@@ -43,7 +49,11 @@ public class WebApplication {
                     "agata@gmail.com",
                     bCryptPasswordEncoder.encode("lato24"),
                     UserType.PROFESOR,
+
                     UserStatus.ACTIVE
+
+                    userService.generateAuthToken()
+
             );
 
             User tomek = new User(
@@ -52,7 +62,11 @@ public class WebApplication {
                     "tom@gmail.com",
                     bCryptPasswordEncoder.encode("lato25"),
                     UserType.STUDENT,
+
                     UserStatus.ACTIVE
+
+                    userService.generateAuthToken()
+
             );
 
             User magda = new User(
@@ -61,6 +75,7 @@ public class WebApplication {
                     "magda@gmail.com",
                     bCryptPasswordEncoder.encode("lato26"),
                     UserType.PROFESOR,
+
                     UserStatus.ACTIVE
             );
             User admin = new User(
@@ -70,6 +85,9 @@ public class WebApplication {
                     bCryptPasswordEncoder.encode("admin"),
                     UserType.ADMIN,
                     UserStatus.ACTIVE
+
+                    userService.generateAuthToken()
+
             );
 
             userRepository.save(admin);

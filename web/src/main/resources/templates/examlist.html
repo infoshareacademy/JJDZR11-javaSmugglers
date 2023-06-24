@@ -40,11 +40,11 @@
                 <td class="justify" th:text="${exam.getDescription}"></td>
                 <td class="text-center" th:text="${exam.getStatus}"></td>
                 <td class="center">
-                    <a th:href="@{/edit-exam/{id}(id=${exam.id})}"
+                    <a th:href="@{/edit-exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}"
                        class="btn btn-secondary btn-operation mb-2 text-center">Edytuj egzamin</a>
-                    <a th:href="@{/questionlist/{id}(id=${exam.id})}"
+                    <a th:href="@{/questionlist/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}"
                        class="btn btn-primary btn-operation mb-2 text-center">Edytuj pytania</a>
-                    <form th:action="@{/delete/exam/{id}(id=${exam.id}, userID=${profID})}" method="post">
+                    <form th:action="@{/delete/exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)}, authToken=${authToken})}" method="post">
                         <button type="submit" class="btn btn-danger btn-operation text-center"
                                 onclick="return confirmDelete('${exam.id}')">Usuń egzamin</button>
                     </form>
@@ -52,7 +52,7 @@
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/addexam/{id}(id=*{profID})}" class="btn btn-success btn-operation">Dodaj egzamin</a>
+        <a th:href="@{/addexam/{authToken}(authToken=*{authToken})}" class="btn btn-success btn-operation">Dodaj egzamin</a>
     </div>
 </div>
 

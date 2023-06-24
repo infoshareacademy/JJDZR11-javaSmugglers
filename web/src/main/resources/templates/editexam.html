@@ -1,6 +1,6 @@
 <div th:fragment="content" class="container">
     <h2>Edytuj egzamin:</h2>
-    <form th:object="${exam}" th:action="@{update-exam/{id}(id=${exam.id})}" method="post">
+    <form th:object="${exam}" th:action="@{update-exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}" method="post">
         <div class="form-group">
             <label for="courseId">Select Course:</label>
             <select class="form-control" id="courseId" th:field="*{courseId}">
