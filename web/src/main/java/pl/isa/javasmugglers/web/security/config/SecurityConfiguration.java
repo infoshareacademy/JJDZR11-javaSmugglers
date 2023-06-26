@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -43,15 +44,18 @@ public class SecurityConfiguration {
                                 .requestMatchers("/examlist/**").hasAuthority("PROFESOR") // Tylko użytkownicy z rolą PROFESOR mają dostęp
                                 .requestMatchers("registration/**", "registration/professor/**")
                                 .permitAll()
-                                .requestMatchers("/registrationFailed", "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif")
+                                .requestMatchers("/userinactive/**","/registrationFailed", "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif")
                                 .permitAll()
                 .anyRequest()
                 .authenticated().and()
                 .formLogin()
+                    .passwordParameter(bCryptPasswordEncoder.toString())
                     .loginProcessingUrl("/login")
                     .loginPage("/login")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
                     .permitAll()
-                    .defaultSuccessUrl("/succeslogin.html", true)
+                    .defaultSuccessUrl("/succeslogin.html", false)
                 //przekierowanie jeśli warunek authenticated() nie jest spełniony
                 .and()
                 .exceptionHandling()

@@ -18,5 +18,7 @@ public class CourseRegistrationService {
     public List<CourseRegistration> findAllRegisteredCourses(User user){
        return courseRegistrationRepository.findAllByStudentId(user);
     }
-
+    public void deleteByStudentId(Long studentId){
+        courseRegistrationRepository.deleteCourseRegistrationByStudentId(studentId);
+    }
 }

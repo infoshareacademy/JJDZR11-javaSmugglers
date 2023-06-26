@@ -50,10 +50,10 @@ public class Exam {
     private Integer duration;
 
     //referencje do innych tabel
-    @OneToMany(mappedBy = "examId")
+    @OneToMany(mappedBy = "examId", orphanRemoval = true)
     private List<ExamQuestion> examQuestionList;
 
-    @OneToMany(mappedBy = "examId")
+    @OneToMany(mappedBy = "examId", orphanRemoval = true)
     private List<ExamResult> examResultList;
 
     public Exam() {

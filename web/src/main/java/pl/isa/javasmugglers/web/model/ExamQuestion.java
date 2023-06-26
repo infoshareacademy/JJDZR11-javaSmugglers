@@ -35,7 +35,7 @@ public class ExamQuestion {
     @JoinColumn(columnDefinition = "examId", referencedColumnName = "id")
     private Exam examId;
 
-    @OneToMany(mappedBy = "questionId")
+    @OneToMany(mappedBy = "questionId", orphanRemoval = true)
     private List<ExamAnswer> examAnswerList;
 
     public ExamQuestion() {

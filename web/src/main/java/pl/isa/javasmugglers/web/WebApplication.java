@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.*;
 import pl.isa.javasmugglers.web.service.UserService;
@@ -34,8 +35,13 @@ public class WebApplication {
                     "Jendrzejewski",
                     "bj@gmail.com",
                     bCryptPasswordEncoder.encode("lato23"),
+                    UserStatus.ACTIVE,
                     UserType.STUDENT,
+
+
+
                     userService.generateAuthToken()
+
             );
 
             User agata = new User(
@@ -43,8 +49,13 @@ public class WebApplication {
                     "Kowalska",
                     "agata@gmail.com",
                     bCryptPasswordEncoder.encode("lato24"),
+                    UserStatus.ACTIVE,
                     UserType.PROFESOR,
+
+
+
                     userService.generateAuthToken()
+
             );
 
             User tomek = new User(
@@ -52,8 +63,13 @@ public class WebApplication {
                     "Korek",
                     "tom@gmail.com",
                     bCryptPasswordEncoder.encode("lato25"),
+                    UserStatus.ACTIVE,
                     UserType.STUDENT,
+
+
+
                     userService.generateAuthToken()
+
             );
 
             User magda = new User(
@@ -61,14 +77,32 @@ public class WebApplication {
                     "Kowalska",
                     "magda@gmail.com",
                     bCryptPasswordEncoder.encode("lato26"),
+                    UserStatus.ACTIVE,
                     UserType.PROFESOR,
                     userService.generateAuthToken()
+
+
+
+            );
+            User admin = new User(
+                    "admin",
+                    "admin",
+                    "admin",
+                    bCryptPasswordEncoder.encode("admin"),
+                    UserStatus.ACTIVE,
+                    UserType.ADMIN,
+
+
+                    userService.generateAuthToken()
+
             );
 
+            userRepository.save(admin);
             userRepository.save(blazej);
             userRepository.save(agata);
             userRepository.save(tomek);
             userRepository.save(magda);
+
 
         };
     }
