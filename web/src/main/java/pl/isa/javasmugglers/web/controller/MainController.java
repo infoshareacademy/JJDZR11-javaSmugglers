@@ -376,17 +376,6 @@ public class MainController {
         return "/rf";
     }
 
-    // jakiś nieużywany kod, chyba Dominika
-/*
-    @GetMapping("user-dashboard/courses/{id}")
-    String courselist(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("CourseList", examService.listAllExamsByProfessorId(id))
-                .addAttribute("profID", id)
-                .addAttribute("content", "courseList");
-
-        return "main";
-    }*/
-
 
     @GetMapping("/menu")
     public String showMenu() {
