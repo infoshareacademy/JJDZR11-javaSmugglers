@@ -110,14 +110,14 @@ public class WebApplication {
     @Bean
     CommandLineRunner commandLineRunner2(CourseRepository courseRepository, UserRepository userRepository) {
         return args -> {
-            User professor = userRepository.findById(2L).get();
+            User professor = userRepository.findById(3L).get();
             Course programowanie = new Course("Java",
                     "Programowanie Java",
                     Date.valueOf("2023-10-10"),
                     Date.valueOf("2024-01-10"), 45, Course.CourseType.LECTURE, professor);
 
 
-            User professor2 = userRepository.findById(2L).get();
+            User professor2 = userRepository.findById(3L).get();
             Course arytmetyka = new Course("arytmetyka",
                     "Dział nauki zajmujący się liczbami",
                     Date.valueOf("2023-10-06"),
@@ -134,7 +134,7 @@ public class WebApplication {
     @Bean
     CommandLineRunner commandLineRunner3(CourseRegistrationRepository courseRegistrationRepository, UserRepository userRepository, CourseRepository courseRepository) {
         return args -> {
-            User student1 = userRepository.findById(1L).get();
+            User student1 = userRepository.findById(2L).get();
             Course course1 = courseRepository.findById(1L).get();
             CourseRegistration courseRegistration1 = new CourseRegistration(
                     student1,
@@ -145,7 +145,7 @@ public class WebApplication {
                     student1,
                     course2);
 
-            User student2 = userRepository.findById(3L).get();
+            User student2 = userRepository.findById(4L).get();
             Course course3 = courseRepository.findById(2L).get();
             CourseRegistration courseRegistration3 = new CourseRegistration(
                     student2,
@@ -329,7 +329,7 @@ public class WebApplication {
     CommandLineRunner commandLineRunner8(ExamResultsRepository examResultsRepository, ExamRepository examRepository, UserRepository userRepository) {
         return args -> {
             Exam exam1 = examRepository.findById(1L).get();
-            User student1 = userRepository.findById(3L).get();
+            User student1 = userRepository.findById(4L).get();
             ExamResult student1Results = new ExamResult(
                     student1,
                     exam1,

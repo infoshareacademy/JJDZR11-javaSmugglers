@@ -44,7 +44,6 @@ public class MainController {
                 .addAttribute("profID", user.getId())
                 .addAttribute("content", "examlist")
                 .addAttribute("authToken", user.getAuthToken());
-
         return "main";
     }
 
