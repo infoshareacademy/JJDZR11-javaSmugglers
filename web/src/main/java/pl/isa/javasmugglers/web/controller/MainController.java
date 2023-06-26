@@ -8,7 +8,6 @@ import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.service.*;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,7 @@ public class MainController {
 
 
     @GetMapping("professorTimetable/{authToken}")
-    String professorTimetable(@PathVariable("authToken")String authToken, Model model) {
+    String professorTimetable(@PathVariable("authToken") String authToken, Model model) {
         User user = userService.findByAuthToken(authToken);
         List<Course> courseList = courseService.coursesListByProfessorId(user.getId());
         System.out.println(courseList);
@@ -76,15 +75,15 @@ public class MainController {
                           @RequestParam("startTimeString") String startTimeString,
                           @RequestParam("endTimeString") String endTimeString) {
 
-            java.sql.Time startTime = java.sql.Time.valueOf(startTimeString + ":00");
-            java.sql.Time endTime = java.sql.Time.valueOf(endTimeString + ":00");
+        java.sql.Time startTime = java.sql.Time.valueOf(startTimeString + ":00");
+        java.sql.Time endTime = java.sql.Time.valueOf(endTimeString + ":00");
 
-            exam.setStartTime(startTime);
-            exam.setEndTime(endTime);
+        exam.setStartTime(startTime);
+        exam.setEndTime(endTime);
 
-            examService.saveExam(exam);
-            String authToken = exam.getCourseId().getProfessorId().getAuthToken();
-            return "redirect:/examlist/" + authToken;
+        examService.saveExam(exam);
+        String authToken = exam.getCourseId().getProfessorId().getAuthToken();
+        return "redirect:/examlist/" + authToken;
 
     }
 
@@ -111,14 +110,35 @@ public class MainController {
     }
 
     @PostMapping("edit-exam/update-exam/{encodedID}")
-    public String updateExam(@PathVariable("encodedID") String encodedID, @ModelAttribute Exam exam) {
+    public String updateExam(@PathVariable("encodedID") String encodedID,
+                             @ModelAttribute Exam exam,
+                             @RequestParam("startTimeString") String startTimeString,
+                             @RequestParam("endTimeString") String endTimeString) {
         Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+
+        long colonCountInStartTime = startTimeString.chars().filter(ch -> ch == ':').count();
+        long colonCountInEndTime = endTimeString.chars().filter(ch -> ch == ':').count();
+        if (colonCountInStartTime == 1) {
+            startTimeString += ":00";
+        }
+
+        if (colonCountInEndTime == 1) {
+            endTimeString += ":00";
+        }
+        java.sql.Time startTime = java.sql.Time.valueOf(startTimeString);
+        java.sql.Time endTime = java.sql.Time.valueOf(endTimeString);
+
+
         Exam existingExam = examService.findById(decodedId);
         existingExam.setName(exam.getName());
         existingExam.setDescription(exam.getDescription());
-/*
-        existingExam.setStatus(exam.getStatus());
-*/
+        existingExam.setDuration(exam.getDuration());
+        existingExam.setStartDate(exam.getStartDate());
+        existingExam.setStartTime(startTime);
+        existingExam.setEndDate(exam.getEndDate());
+        existingExam.setEndTime(endTime);
+        existingExam.setPassingThreshold(exam.getPassingThreshold());
+
         examService.saveExam(existingExam);
         String authToken = exam.getCourseId().getProfessorId().getAuthToken();
         return "redirect:/examlist/" + authToken;
@@ -291,7 +311,7 @@ public class MainController {
         List<Exam> examsToTake = allRegisteredExams.stream()
                 .filter(exam -> LocalDateTime.now().isAfter(LocalDateTime.of(exam.getStartDate().toLocalDate(), exam.getStartTime().toLocalTime())) &&
                         LocalDateTime.now().isBefore(LocalDateTime.of(exam.getEndDate().toLocalDate(), exam.getEndTime().toLocalTime())) &&
-                takenExams.stream().noneMatch(takenExam -> takenExam.getId().equals(exam.getId())))
+                        takenExams.stream().noneMatch(takenExam -> takenExam.getId().equals(exam.getId())))
                 .toList();
 
 
@@ -340,7 +360,7 @@ public class MainController {
     }
 
     @GetMapping("user-dashboard/{authToken}")
-    public String userDashboard(Model model, @PathVariable("authToken")  String authToken) {
+    public String userDashboard(Model model, @PathVariable("authToken") String authToken) {
         User user = userService.findByAuthToken(authToken);
         model.addAttribute("user", user)
                 .addAttribute("content", "user-dashboard")
@@ -366,7 +386,6 @@ public class MainController {
 
         return "main";
     }*/
-
 
 
     @GetMapping("/menu")
