@@ -9,6 +9,7 @@
       <th>Przedmiot</th>
       <th>Egzamin</th>
       <th>Opis</th>
+      <th>Próg zaliczenia</th>
       <th></th>
     </tr>
     </thead>
@@ -18,9 +19,11 @@
       <td th:text="${exam.courseId.name}"></td>
       <td th:text="${exam.name}"></td>
       <td th:text="${exam.description}"></td>
+      <td th:text="${exam.passingThreshold} + '%'"></td>
+      
       <td>
         <form th:action="@{/startexam/{authToken}/{examId}(authToken=${authToken}, examId=${exam.id})}" method="get">
-          <button type="submit" class="btn btn-secondary">Rozpocznij egzamin</button>
+          <button type="submit" class="btn-danger btn-operation">Rozpocznij egzamin</button>
         </form>
       </td>
     </tr>
