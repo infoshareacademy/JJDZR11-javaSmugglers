@@ -2,19 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Kursy</title>
+    <title>Professors</title>
+    <style>
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        .professor-row {
+            cursor: pointer;
+            background-color: lightgray;
+            margin-bottom: 10px;
+        }
+        .course-details {
+            margin-left: 20px;
+        }
+    </style>
 </head>
 <body>
-<h1>Lista profesorów z dostępnymi kursami</h1>
-<ul>
-    <li th:each="professor : ${professors}">
-        <h2 th:text="${professor.firstName} + ' ' + ${professor.lastName}"></h2>
-        <ul>
-            <li th:each="course : ${professor.courses}">
-                <span th:text="${course.name}"></span> - <span th:text="${course.description}"></span>
-            </li>
-        </ul>
-    </li>
-</ul>
+<h1>Professors</h1>
+<div th:each="professor : ${professors}">
+    <details class="professor-row">
+        <summary>
+            <span th:text="${professor.firstName}"></span>
+            <span th:text="${professor.lastName}"></span>
+        </summary>
+        <div class="course-details">
+            <h2>Courses</h2>
+            <table>
+                <tr>
+                    <th>Course Name</th>
+                    <th>Description</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>ECTS Points</th>
+                    <th>Course Type</th>
+                </tr>
+                <tr th:each="course : ${professor.courses}">
+                    <td th:text="${course.name}"></td>
+                    <td th:text="${course.description}"></td>
+                    <td th:text="${course.startDate}"></td>
+                    <td th:text="${course.endDate}"></td>
+                    <td th:text="${course.ectsPoints}"></td>
+                    <td th:text="${course.courseType}"></td>
+                </tr>
+            </table>
+        </div>
+    </details>
+</div>
 </body>
 </html>

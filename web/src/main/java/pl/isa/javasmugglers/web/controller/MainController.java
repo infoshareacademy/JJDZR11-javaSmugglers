@@ -359,6 +359,26 @@ public class MainController {
             return "courseSessions";
         }
 
+        @PostMapping("/{studentId}/courses/{courseId}/register")
+        public ResponseEntity<CourseRegistration> registerStudentForCourse(
+                @PathVariable Long studentId,
+                @PathVariable Long courseId) {
+            CourseRegistration courseRegistration = professorService.registerStudentForCourse(studentId, courseId);
+            return ResponseEntity.ok(courseRegistration);
+        }
+
+        @GetMapping("/{studentId}/schedule")
+        public ResponseEntity<List<CourseRegistration>> getStudentSchedule(@PathVariable Long studentId) {
+            List<CourseRegistration> schedule = professorService.getStudentCourseRegistrations(studentId);
+            return ResponseEntity.ok(schedule);
+        }
+
+        @GetMapping("/courses/{courseId}/registrations")
+        public ResponseEntity<List<CourseRegistration>> getCourseRegistrations(@PathVariable Long courseId) {
+            List<CourseRegistration> registrations = professorService.getCourseRegistrationsByCourseId(courseId);
+            return ResponseEntity.ok(registrations);
+        }
+
     }
 }
 
