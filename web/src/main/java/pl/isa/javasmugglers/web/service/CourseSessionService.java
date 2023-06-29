@@ -17,8 +17,4 @@ public class CourseSessionService {
         this.courseSessionRepository = courseSessionRepository;
     }
 
-
-    public List<CourseSession> getCourseSession() {
-        return courseSessionRepository.findAll();
-    }
 }

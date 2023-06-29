@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Professors and Courses</title>
+</head>
+<body>
+<h1>Professors and Courses</h1>
+
+<!-- Wyświetlanie kursów profesora -->
+<h2>Courses by Professor</h2>
+<ul id="coursesList"></ul>
+
+<!-- Wyświetlanie sesji danego kursu -->
+<h2>Sessions for Course</h2>
+<select id="courseSelect"></select>
+<ul id="sessionsList"></ul>
+
+<script>
+    // Pobranie kursów profesora
+    fetch('/professors/{professorId}/courses')
+        .then(response => response.json())
+        .then(data => {
+            const coursesList = document.getElementById('coursesList');
+            data.forEach(course => {
+                const courseItem = document.createElement('li');
+                courseItem.innerText = course.name;
+                coursesList.appendChild(courseItem);
+            });
+        });
+
+    // Obsługa zmiany wybranego kursu
+    const courseSelect = document.getElementById('courseSelect');
+    courseSelect.addEventListener('change', () => {
+        const courseId = courseSelect.value;
+
+        // Pobranie sesji danego kursu
+        fetch(`/professors/courses/${courseId}/sessions`)
+            .then(response => response.json())
+            .then(data => {
+                const sessionsList = document.getElementById('sessionsList');
+                sessionsList.innerHTML = '';
+
+                data.forEach(session => {
+                    const sessionItem = document.createElement('li');
+                    sessionItem.innerText = session.session_date;
+                    sessionsList.appendChild(sessionItem);
+                });
+            });
+    });
+
+    // Pobranie kursów i wypełnienie listy rozwijanej
+    fetch('/professors/{professorId}/courses')
+        .then(response => response.json())
+        .then(data => {
+            const courseSelect = document.getElementById('courseSelect');
+            data.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course.id;
+                option.innerText = course.name;
+                courseSelect.appendChild(option);
+            });
+        });
+</script>
+</body>
+</html>

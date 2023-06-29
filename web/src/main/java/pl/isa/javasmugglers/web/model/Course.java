@@ -1,5 +1,6 @@
 package pl.isa.javasmugglers.web.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserType;
@@ -43,13 +44,16 @@ public class Course {
     private CourseType CourseType;
 
     //relacje do innych tabel
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="professor_id", referencedColumnName = "id")
     private User professorId;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "courseId")
     private List<CourseRegistration> courseRegistrationList;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "courseId")
     private List<CourseSession> courseSessionList;
 

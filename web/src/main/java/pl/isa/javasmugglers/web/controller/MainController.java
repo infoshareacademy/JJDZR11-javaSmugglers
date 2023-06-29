@@ -1,11 +1,14 @@
 package pl.isa.javasmugglers.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.repository.CourseRepository;
+import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
@@ -327,11 +330,32 @@ public class MainController {
         return "main";
     }
 
-
-
     @GetMapping("/menu")
     public String showMenu() {
         return "menu";
+    }
+
+    @RestController
+    @RequestMapping("/professors")
+    public class ProfessorController {
+
+        private final ProfessorService professorService;
+
+        public ProfessorController(ProfessorService professorService) {
+            this.professorService = professorService;
+        }
+
+        @GetMapping("/{professorId}/courses")
+        public ResponseEntity<List<Course>> getCoursesByProfessorId(@PathVariable Long professorId) {
+            List<Course> courses = professorService.getCoursesByProfessorId(professorId);
+            return ResponseEntity.ok(courses);
+        }
+
+        @GetMapping("/courses/{courseId}/sessions")
+        public ResponseEntity<List<CourseSession>> getSessionsByCourseId(@PathVariable Long courseId) {
+            List<CourseSession> sessions = professorService.getSessionsByCourseId(courseId);
+            return ResponseEntity.ok(sessions);
+        }
     }
 
 }

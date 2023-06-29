@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseSession;
 
-import java.util.Collection;
 import java.util.List;
 
 @Repository

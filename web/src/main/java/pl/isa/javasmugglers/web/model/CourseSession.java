@@ -1,5 +1,6 @@
 package pl.isa.javasmugglers.web.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.sql.Date;
@@ -23,6 +24,7 @@ public class CourseSession {
     )
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "courseId", referencedColumnName = "id")
     private Course courseId;
