@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.isa.javasmugglers.web.StudentConfig.ProfessorDTO;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
@@ -335,8 +336,7 @@ public class MainController {
         return "menu";
     }
 
-    @RestController
-    @RequestMapping("/professors")
+    @Controller
     public class ProfessorController {
 
         private final ProfessorService professorService;
@@ -345,18 +345,20 @@ public class MainController {
             this.professorService = professorService;
         }
 
-        @GetMapping("/{professorId}/courses")
-        public ResponseEntity<List<Course>> getCoursesByProfessorId(@PathVariable Long professorId) {
-            List<Course> courses = professorService.getCoursesByProfessorId(professorId);
-            return ResponseEntity.ok(courses);
+        @GetMapping("/professors")
+        public String showProfessors(Model model) {
+            List<ProfessorDTO> professors = professorService.getAllProfessors();
+            model.addAttribute("professors", professors);
+            return "professors";
         }
 
-        @GetMapping("/courses/{courseId}/sessions")
-        public ResponseEntity<List<CourseSession>> getSessionsByCourseId(@PathVariable Long courseId) {
+        @GetMapping("/professors/{professorId}/courses/{courseId}")
+        public String showCourseSessions(@PathVariable Long professorId, @PathVariable Long courseId, Model model) {
             List<CourseSession> sessions = professorService.getSessionsByCourseId(courseId);
-            return ResponseEntity.ok(sessions);
+            model.addAttribute("sessions", sessions);
+            return "courseSessions";
         }
-    }
 
+    }
 }
 
