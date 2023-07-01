@@ -15,6 +15,10 @@
         .course-details {
             margin-left: 20px;
         }
+        .flash-message {
+            color: red;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -57,5 +61,11 @@
         </div>
     </details>
 </div>
+
+<!-- Komunikat Flash -->
+<div th:if="${message}" class="flash-message">
+    <span th:text="${message}"></span>
+</div>
+
 </body>
 </html>

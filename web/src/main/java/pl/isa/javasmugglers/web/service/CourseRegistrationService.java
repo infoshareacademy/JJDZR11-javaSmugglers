@@ -28,15 +28,23 @@ public class CourseRegistrationService {
         return courseRegistrationRepository.findAllByStudentId(user);
     }
 
-    public void registerCourse(Long studentId, Long courseId) {
+    public boolean registerCourse(Long studentId, Long courseId) {
         User student = userRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + studentId));
 
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid course ID: " + courseId));
 
-        CourseRegistration courseRegistration = new CourseRegistration(student, course);
-        courseRegistrationRepository.save(courseRegistration);
+        boolean isAlreadyRegistered = courseRegistrationRepository.existsByStudentIdAndCourseId(student, course);
+
+        if (isAlreadyRegistered) {
+            return false; // Zwracamy false, jeśli student jest już zapisany na kurs
+        } else {
+            CourseRegistration courseRegistration = new CourseRegistration(student, course);
+            courseRegistrationRepository.save(courseRegistration);
+            return true; // Zwracamy true, jeśli zapis przebiegł pomyślnie
+        }
     }
+
 }
 

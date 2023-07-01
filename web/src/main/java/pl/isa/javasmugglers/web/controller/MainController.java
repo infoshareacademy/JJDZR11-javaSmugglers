@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.isa.javasmugglers.web.StudentConfig.ProfessorDTO;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
@@ -366,10 +367,18 @@ public class MainController {
             }
 
             @PostMapping("/students/{studentId}/courses/{courseId}/register")
-            public String registerForCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId) {
-                courseRegistrationService.registerCourse(studentId, courseId);
-                return "redirect:/students/" + studentId + "/schedule";
+            public String registerForCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId, RedirectAttributes redirectAttributes) {
+                boolean registrationStatus = courseRegistrationService.registerCourse(studentId, courseId);
+
+                if (registrationStatus) {
+                    return "redirect:/students/" + studentId + "/schedule";
+                } else {
+                    redirectAttributes.addFlashAttribute("message", "Student is already registered for this course");
+                    return "redirect:/students/" + studentId + "/schedule";
+                }
             }
+
+
 
             @GetMapping("/students/{studentId}/schedule")
             public String getStudentSchedule(@PathVariable Long studentId, Model model) {
