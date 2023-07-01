@@ -6,13 +6,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
-import pl.isa.javasmugglers.web.model.user.UserType;
-
-import java.util.List;
 
 
 @Service

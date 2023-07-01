@@ -35,6 +35,7 @@
                     <th>End Date</th>
                     <th>ECTS Points</th>
                     <th>Course Type</th>
+                    <th>ZAPISZ SIĘ!</th>
                 </tr>
                 <tr th:each="course : ${professor.courses}">
                     <td th:text="${course.name}"></td>
@@ -43,6 +44,14 @@
                     <td th:text="${course.endDate}"></td>
                     <td th:text="${course.ectsPoints}"></td>
                     <td th:text="${course.courseType}"></td>
+                    <td>
+                        <!-- Guzik "Zapisz się" -->
+                        <form th:action="@{/students/{studentId}/courses/{courseId}/register(studentId=${studentId}, courseId=${course.id})}" method="post">
+                            <input type="hidden" name="studentId" th:value="${studentId}">
+                            <input type="hidden" name="courseId" th:value="${course.id}">
+                            <button type="submit">Zapisz się</button>
+                        </form>
+                    </td>
                 </tr>
             </table>
         </div>

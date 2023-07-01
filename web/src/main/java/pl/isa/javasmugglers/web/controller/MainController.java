@@ -1,13 +1,13 @@
 package pl.isa.javasmugglers.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.isa.javasmugglers.web.StudentConfig.ProfessorDTO;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
@@ -336,49 +336,47 @@ public class MainController {
         return "menu";
     }
 
-    @Controller
-    public class ProfessorController {
+        @Controller
+        public class ProfessorController {
 
-        private final ProfessorService professorService;
+            private final ProfessorService professorService;
+            private final CourseRegistrationService courseRegistrationService;
+            private final StudentScheduleService studentScheduleService;
+            private final UserRepository userRepository;
+            private final CourseRepository courseRepository;
+            private final CourseRegistrationRepository courseRegistrationRepository;
 
-        public ProfessorController(ProfessorService professorService) {
-            this.professorService = professorService;
+            @Autowired
+            public ProfessorController(ProfessorService professorService, CourseRegistrationService courseRegistrationService, StudentScheduleService studentScheduleService, UserRepository userRepository, CourseRepository courseRepository, CourseRegistrationRepository courseRegistrationRepository) {
+                this.professorService = professorService;
+                this.courseRegistrationService = courseRegistrationService;
+                this.studentScheduleService = studentScheduleService;
+                this.userRepository = userRepository;
+                this.courseRepository = courseRepository;
+                this.courseRegistrationRepository = courseRegistrationRepository;
+            }
+
+            @GetMapping("/professors/{id}")
+            public String showProfessors(@PathVariable("id") Long id, Model model) {
+                User user = userService.findByID(id);
+                List<ProfessorDTO> professors = professorService.getAllProfessors();
+                model.addAttribute("professors", professors);
+                model.addAttribute("studentId", id);
+                return "professors";
+            }
+
+            @PostMapping("/students/{studentId}/courses/{courseId}/register")
+            public String registerForCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId) {
+                courseRegistrationService.registerCourse(studentId, courseId);
+                return "redirect:/students/" + studentId + "/schedule";
+            }
+
+            @GetMapping("/students/{studentId}/schedule")
+            public String getStudentSchedule(@PathVariable Long studentId, Model model) {
+                List<CourseSession> schedule = studentScheduleService.getStudentSchedule(studentId);
+                model.addAttribute("schedule", schedule);
+                return "student-schedule";
+            }
         }
-
-        @GetMapping("/professors")
-        public String showProfessors(Model model) {
-            List<ProfessorDTO> professors = professorService.getAllProfessors();
-            model.addAttribute("professors", professors);
-            return "professors";
-        }
-
-        @GetMapping("/professors/{professorId}/courses/{courseId}")
-        public String showCourseSessions(@PathVariable Long professorId, @PathVariable Long courseId, Model model) {
-            List<CourseSession> sessions = professorService.getSessionsByCourseId(courseId);
-            model.addAttribute("sessions", sessions);
-            return "courseSessions";
-        }
-
-        @PostMapping("/{studentId}/courses/{courseId}/register")
-        public ResponseEntity<CourseRegistration> registerStudentForCourse(
-                @PathVariable Long studentId,
-                @PathVariable Long courseId) {
-            CourseRegistration courseRegistration = professorService.registerStudentForCourse(studentId, courseId);
-            return ResponseEntity.ok(courseRegistration);
-        }
-
-        @GetMapping("/{studentId}/schedule")
-        public ResponseEntity<List<CourseRegistration>> getStudentSchedule(@PathVariable Long studentId) {
-            List<CourseRegistration> schedule = professorService.getStudentCourseRegistrations(studentId);
-            return ResponseEntity.ok(schedule);
-        }
-
-        @GetMapping("/courses/{courseId}/registrations")
-        public ResponseEntity<List<CourseRegistration>> getCourseRegistrations(@PathVariable Long courseId) {
-            List<CourseRegistration> registrations = professorService.getCourseRegistrationsByCourseId(courseId);
-            return ResponseEntity.ok(registrations);
-        }
-
     }
-}
 

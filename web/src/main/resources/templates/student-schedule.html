@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Plan zajęć studenta</title>
+</head>
+<body>
+<h2>Plan zajęć studenta</h2>
+<table>
+  <tr>
+    <th>Kurs</th>
+    <th>Data</th>
+    <th>Godzina rozpoczęcia</th>
+    <th>Godzina zakończenia</th>
+    <th>Miejsce</th>
+  </tr>
+  <tr th:each="courseSession : ${schedule}">
+    <td th:text="${courseSession.courseId.name}"></td>
+    <td th:text="${courseSession.sessionDate}"></td>
+    <td th:text="${courseSession.startTime}"></td>
+    <td th:text="${courseSession.endTime}"></td>
+    <td th:text="${courseSession.location}"></td>
+  </tr>
+</table>
+</body>
+</html>
