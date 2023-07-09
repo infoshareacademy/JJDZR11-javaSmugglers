@@ -357,7 +357,7 @@ public class MainController {
                 this.courseRegistrationRepository = courseRegistrationRepository;
             }
 
-            @GetMapping("/professors/{id}")
+            @GetMapping("/students/{id}/register")
             public String showProfessors(@PathVariable("id") Long id, Model model) {
                 User user = userService.findByID(id);
                 List<ProfessorDTO> professors = professorService.getAllProfessors();

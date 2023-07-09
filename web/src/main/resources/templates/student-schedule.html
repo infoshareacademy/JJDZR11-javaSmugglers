@@ -2,17 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Plan zajęć studenta</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <style>
+    body {
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
 <h2>Plan zajęć studenta</h2>
-<table>
+<table class="table">
+  <thead class="thead-dark">
   <tr>
-    <th>Kurs</th>
-    <th>Data</th>
-    <th>Godzina rozpoczęcia</th>
-    <th>Godzina zakończenia</th>
-    <th>Miejsce</th>
+    <th scope="col">Kurs</th>
+    <th scope="col">Data</th>
+    <th scope="col">Godzina rozpoczęcia</th>
+    <th scope="col">Godzina zakończenia</th>
+    <th scope="col">Miejsce</th>
   </tr>
+  </thead>
+  <tbody>
   <tr th:each="courseSession : ${schedule}">
     <td th:text="${courseSession.courseId.name}"></td>
     <td th:text="${courseSession.sessionDate}"></td>
@@ -20,6 +29,9 @@
     <td th:text="${courseSession.endTime}"></td>
     <td th:text="${courseSession.location}"></td>
   </tr>
+  </tbody>
 </table>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>

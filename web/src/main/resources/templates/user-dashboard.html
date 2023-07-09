@@ -16,8 +16,11 @@
   <br>
 
   <div class="center">
-    <a th:href="@{/studentTimetable/{id}(id=*{userID})}" class="btn btn-secondary btn-operation mb-4">
+    <a th:href="@{/students/{id}/schedule(id=*{userID})}" class="btn btn-secondary btn-operation mb-4">
       Zobacz plan lekcji
+    </a>
+    <a th:href="@{/students/{id}/register(id=*{userID})}" class="btn btn-secondary btn-operation mb-4">
+      Zapisz się na zajęcia
     </a>
     <br>
     <a th:href="@{/showactiveexams/{id}(id=*{userID})}" class="btn btn-info btn-operation mb-4">

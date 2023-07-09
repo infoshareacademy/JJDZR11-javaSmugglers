@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Professors</title>
+    <title>Zapisz się na zajęcia po profesorach</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <style>
         summary::-webkit-details-marker {
             display: none;
@@ -22,7 +23,7 @@
     </style>
 </head>
 <body>
-<h1>Professors</h1>
+<h1>Zapisz się na zajęcia po profesorach</h1>
 <div th:each="professor : ${professors}">
     <details class="professor-row">
         <summary>
@@ -30,17 +31,20 @@
             <span th:text="${professor.lastName}"></span>
         </summary>
         <div class="course-details">
-            <h2>Courses</h2>
-            <table>
+            <h2>Kursy:</h2>
+            <table class="table">
+                <thead class="thead-dark">
                 <tr>
-                    <th>Course Name</th>
-                    <th>Description</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>ECTS Points</th>
-                    <th>Course Type</th>
+                    <th>Nazwa Kursu</th>
+                    <th>Opis</th>
+                    <th>Godzina rozpoczęcia</th>
+                    <th>Godzina zakończenia</th>
+                    <th>Punkty ECTS</th>
+                    <th>Typ</th>
                     <th>ZAPISZ SIĘ!</th>
                 </tr>
+                </thead>
+                <tbody>
                 <tr th:each="course : ${professor.courses}">
                     <td th:text="${course.name}"></td>
                     <td th:text="${course.description}"></td>
@@ -53,19 +57,21 @@
                         <form th:action="@{/students/{studentId}/courses/{courseId}/register(studentId=${studentId}, courseId=${course.id})}" method="post">
                             <input type="hidden" name="studentId" th:value="${studentId}">
                             <input type="hidden" name="courseId" th:value="${course.id}">
-                            <button type="submit">Zapisz się</button>
+                            <button type="submit" class="btn btn-primary">Zapisz się</button>
                         </form>
                     </td>
                 </tr>
+                </tbody>
             </table>
         </div>
     </details>
 </div>
 
 <!-- Komunikat Flash -->
-<div th:if="${message}" class="flash-message">
+<div th:if="${message}" class="flash-message alert alert-danger">
     <span th:text="${message}"></span>
 </div>
 
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>
