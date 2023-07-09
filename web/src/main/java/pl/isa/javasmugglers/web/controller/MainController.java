@@ -15,6 +15,7 @@ import pl.isa.javasmugglers.web.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
@@ -378,14 +379,27 @@ public class MainController {
                 }
             }
 
-
-
             @GetMapping("/students/{studentId}/schedule")
             public String getStudentSchedule(@PathVariable Long studentId, Model model) {
                 List<CourseSession> schedule = studentScheduleService.getStudentSchedule(studentId);
                 model.addAttribute("schedule", schedule);
                 return "student-schedule";
             }
+
+            @GetMapping("/students/{studentId}/registered-courses")
+            public String showRegisteredCourses(@PathVariable("studentId") Long studentId, Model model) {
+                User student = userRepository.findById(studentId)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + studentId));
+
+                List<Course> registeredCourses = courseRegistrationRepository.findAllByStudentId(student)
+                        .stream()
+                        .map(CourseRegistration::getCourseId)
+                        .collect(Collectors.toList());
+
+                model.addAttribute("registeredCourses", registeredCourses);
+                return "registered-courses";
+            }
+
         }
     }
 
