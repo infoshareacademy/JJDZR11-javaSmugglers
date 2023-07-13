@@ -360,12 +360,26 @@ public class MainController {
 
             @GetMapping("/students/{id}/register")
             public String showProfessors(@PathVariable("id") Long id, Model model) {
-                User user = userService.findByID(id);
+                User student = userService.findByID(id);
                 List<ProfessorDTO> professors = professorService.getAllProfessors();
+                List<Long> registeredCourseIds = courseRegistrationRepository.findRegisteredCourseIdsByStudentId(id);
+
+                List<Course> availableCourses = new ArrayList<>();
+                for (ProfessorDTO professor : professors) {
+                    for (Course course : professor.getCourses()) {
+                        if (!registeredCourseIds.contains(course.getId())) {
+                            availableCourses.add(course);
+                        }
+                    }
+                }
+
                 model.addAttribute("professors", professors);
                 model.addAttribute("studentId", id);
+                model.addAttribute("availableCourses", availableCourses);
+
                 return "professors";
             }
+
 
             @PostMapping("/students/{studentId}/courses/{courseId}/register")
             public String registerForCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId, RedirectAttributes redirectAttributes) {

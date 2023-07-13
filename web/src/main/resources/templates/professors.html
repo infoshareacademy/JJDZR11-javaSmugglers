@@ -45,7 +45,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="course : ${professor.courses}">
+                <tr th:each="course : ${availableCourses}">
                     <td th:text="${course.name}"></td>
                     <td th:text="${course.description}"></td>
                     <td th:text="${course.startDate}"></td>
@@ -65,11 +65,6 @@
             </table>
         </div>
     </details>
-</div>
-
-<!-- Komunikat Flash -->
-<div th:if="${message}" class="flash-message alert alert-danger">
-    <span th:text="${message}"></span>
 </div>
 
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
