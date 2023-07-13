@@ -400,6 +400,23 @@ public class MainController {
                 return "registered-courses";
             }
 
+            @PostMapping("/students/{studentId}/courses/{courseId}/unregister")
+            public String unregisterFromCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId) {
+                User student = userRepository.findById(studentId)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + studentId));
+
+                Course course = courseRepository.findById(courseId)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid course ID: " + courseId));
+
+                CourseRegistration courseRegistration = courseRegistrationRepository.findAllByStudentIdAndCourseId(student, course)
+                        .orElseThrow(() -> new IllegalArgumentException("Student is not registered for this course"));
+
+                courseRegistrationRepository.delete(courseRegistration);
+
+                return "redirect:/students/" + studentId + "/registered-courses";
+            }
+
+
         }
     }
 
