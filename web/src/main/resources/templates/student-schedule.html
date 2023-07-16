@@ -11,6 +11,10 @@
 </head>
 <body>
 <h2>Plan zajęć studenta</h2>
+<form th:action="@{/students/{studentId}/schedule(studentId=${studentId})}" method="post">
+  <input type="date" name="selectedDate" required />
+  <button type="submit">Wyświetl</button>
+</form>
 <table class="table">
   <thead class="thead-dark">
   <tr>

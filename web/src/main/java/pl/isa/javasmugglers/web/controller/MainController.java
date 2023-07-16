@@ -1,6 +1,7 @@
 package pl.isa.javasmugglers.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,9 @@ import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -45,19 +48,6 @@ public class MainController {
 
         return "main";
     }
-
-    @GetMapping("studentTimetable/{id}")
-    String studentTimetable(@PathVariable("id") Long id, Model model) {
-        User user = userService.findByID(id);
-        List<CourseSession> courseSessions = courseService.coursesListByStudentId(id);
-        System.out.println(courseSessions);
-        model.addAttribute("studentTimetable", courseSessions)
-                .addAttribute("content", "studentTimetable")
-                .addAttribute("studentId", id)
-                .addAttribute("user", user);
-        return "main";
-    }
-
 
     @GetMapping("professorTimetable/{id}")
     String professorTimetable(@PathVariable("id") Long id, Model model) {
@@ -385,20 +375,34 @@ public class MainController {
             public String registerForCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId, RedirectAttributes redirectAttributes) {
                 boolean registrationStatus = courseRegistrationService.registerCourse(studentId, courseId);
 
-                if (registrationStatus) {
-                    return "redirect:/students/" + studentId + "/schedule";
-                } else {
+                if (!registrationStatus) {
                     redirectAttributes.addFlashAttribute("message", "Student is already registered for this course");
-                    return "redirect:/students/" + studentId + "/schedule";
                 }
+                return "redirect:/students/" + studentId + "/schedule";
             }
 
             @GetMapping("/students/{studentId}/schedule")
             public String getStudentSchedule(@PathVariable Long studentId, Model model) {
-                List<CourseSession> schedule = studentScheduleService.getStudentSchedule(studentId);
+                LocalDate currentDate = LocalDate.now();
+                List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentId, currentDate);
+                System.out.println("Student ID: " + studentId);
+                System.out.println("Current Date: " + currentDate);
+                System.out.println("Schedule: " + schedule);
+                model.addAttribute("schedule", schedule);
+                model.addAttribute("currentDate", currentDate);
+                return "student-schedule";
+            }
+
+            @PostMapping("/students/{studentId}/schedule")
+            public String getStudentScheduleByDate(@PathVariable("studentId") Long studentId, @RequestParam("selectedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate selectedDate, Model model) {
+                List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentId, selectedDate);
+                System.out.println("Student ID: " + studentId);
+                System.out.println("Selected Date: " + selectedDate);
+                System.out.println("Schedule: " + schedule);
                 model.addAttribute("schedule", schedule);
                 return "student-schedule";
             }
+
 
             @GetMapping("/students/{studentId}/registered-courses")
             public String showRegisteredCourses(@PathVariable("studentId") Long studentId, Model model) {

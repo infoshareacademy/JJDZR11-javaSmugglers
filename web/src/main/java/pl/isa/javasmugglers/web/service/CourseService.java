@@ -9,40 +9,32 @@ import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.CourseSessionRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
+
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Service
 public class CourseService {
-    private CourseRepository courseRepository;
-    private UserRepository userRepository;
-    private CourseSessionRepository courseSessionRepository;
-    private CourseRegistrationRepository courseRegistrationeRepository;
+    private final CourseRepository courseRepository;
+    private final UserRepository userRepository;
+    private final CourseSessionRepository courseSessionRepository;
+    private final CourseRegistrationRepository courseRegistrationRepository;
 
     public CourseService(CourseRepository courseRepository, UserRepository userRepository,
                          CourseSessionRepository courseSessionRepository,
-                         CourseRegistrationRepository courseRegistrationeRepository) {
+                         CourseRegistrationRepository courseRegistrationRepository) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
         this.courseSessionRepository = courseSessionRepository;
-        this.courseRegistrationeRepository = courseRegistrationeRepository;
+        this.courseRegistrationRepository = courseRegistrationRepository;
     }
 
     public List<Course> coursesListByProfessorId(Long professorId){
         User user = userRepository.findById(professorId).orElseThrow();
-        List<Course> professorCoursesList = courseRepository.findAllByProfessorId(user);
-        return  professorCoursesList;
-    }
-    
-
-    public List<CourseSession> coursesListByStudentId(Long studentId) {
-        User user = userRepository.findById(studentId).orElseThrow();
-        List<CourseRegistration> coursesByStudent = courseRegistrationeRepository.findAllByStudentId(user);
-        return coursesByStudent.stream()
-                .map(courseRegistration -> courseRepository.findById(courseRegistration.getId()).orElseThrow())
-                .map(course -> courseSessionRepository.findAllByCourseId(course))
-                .flatMap(c -> c.stream())
-                .collect(Collectors.toList());
+        return courseRepository.findAllByProfessorId(user);
     }
 
     @Override
@@ -51,18 +43,8 @@ public class CourseService {
                 "courseRepository=" + courseRepository +
                 ", userRepository=" + userRepository +
                 ", courseSessionRepository=" + courseSessionRepository +
-                ", courseRegistrationeRepository=" + courseRegistrationeRepository +
+                ", courseRegistrationRepository=" + courseRegistrationRepository +
                 '}';
-    }
-
-    public List<CourseSession> coursesListByProfessorId2(Long professorId) {
-        User user = userRepository.findById(professorId).orElseThrow();
-        List<Course> coursesByProfessor = courseRepository.findAllByProfessorId(user);
-        return coursesByProfessor.stream()
-                .map(courseRegistration -> courseRepository.findById(courseRegistration.getId()).orElseThrow())
-                .map(course -> courseSessionRepository.findAllByCourseId(course))
-                .flatMap(c -> c.stream())
-                .collect(Collectors.toList());
     }
 
 }

@@ -9,8 +9,11 @@ import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 import pl.isa.javasmugglers.web.repository.CourseSessionRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentScheduleService {
@@ -40,8 +43,39 @@ public class StudentScheduleService {
                     .findAllByCourseId(course);
             studentSchedule.addAll(courseSessions);
         }
-
         return studentSchedule;
     }
+
+    public List<CourseSession> getStudentScheduleByDate(Long studentId, LocalDate date) {
+        User student = userRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + studentId));
+
+        List<CourseRegistration> registrations = courseRegistrationRepository.findAllByStudentId(student);
+        List<Long> registeredCourseIds = registrations.stream()
+                .map(registration -> registration.getCourseId().getId())
+                .toList();
+
+        Date sqlDate = Date.valueOf(date);
+
+        List<CourseSession> schedule = courseSessionRepository.findAllBySessionDateAndIdIn(sqlDate, registeredCourseIds);
+
+        return schedule;
+    }
+
+
+    public List<Course> coursesListByStudentId(Long studentId) {
+        User student = userRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + studentId));
+
+        List<CourseRegistration> registrations = courseRegistrationRepository.findAllByStudentId(student);
+
+        return registrations.stream()
+                .map(CourseRegistration::getRegisteredSessions)
+                .flatMap(List::stream)
+                .map(CourseSession::getCourseId)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
 }
 

@@ -1,8 +1,11 @@
 package pl.isa.javasmugglers.web.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserType;
+
+import java.util.List;
 
 @Entity(name = "courseRegistrations")
 public class CourseRegistration {
@@ -63,6 +66,23 @@ public class CourseRegistration {
 
     public void setCourseId(Course courseId) {
         this.courseId = courseId;
+    }
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "registration_sessions",
+            joinColumns = @JoinColumn(name = "registration_id"),
+            inverseJoinColumns = @JoinColumn(name = "session_id")
+    )
+    private List<CourseSession> registeredSessions;
+
+    public List<CourseSession> getRegisteredSessions() {
+        return registeredSessions;
+    }
+
+    public void setRegisteredSessions(List<CourseSession> registeredSessions) {
+        this.registeredSessions = registeredSessions;
     }
 
 }

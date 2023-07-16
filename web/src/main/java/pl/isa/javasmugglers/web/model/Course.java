@@ -41,7 +41,7 @@ public class Course {
     @Column(
             columnDefinition = "enum('LECTURE', 'SEMINAR', 'LAB', 'OTHER')"
     )
-    private CourseType CourseType;
+    private CourseType courseType;
 
     //relacje do innych tabel
     @JsonIgnore
@@ -67,7 +67,7 @@ public class Course {
         this.startDate = startDate;
         this.endDate = endDate;
         this.ectsPoints = ectsPoints;
-        this.CourseType = CourseType;
+        this.courseType = CourseType;
         this.professorId = professorId;
     }
 
@@ -130,11 +130,10 @@ public class Course {
     }
 
     public CourseType getCourseType() {
-        return CourseType;
+        return courseType;
     }
 
-    public void setCourseType(CourseType type) {
-        this.CourseType = type;
+    public void setCourseType(CourseType type) {this.courseType = type;
     }
 
     public void setProfessorId(User professorId) {

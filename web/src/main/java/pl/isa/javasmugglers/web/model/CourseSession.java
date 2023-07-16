@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 @Entity(name = "courseSessions")
 public class CourseSession {
@@ -32,15 +33,7 @@ public class CourseSession {
     private Date sessionDate;
     private Time startTime;
     private Time endTime;
-
-
-
     private String location;
-
-    //relacje do innych tabel
-
-
-
 
     public CourseSession() {
     }
@@ -93,12 +86,23 @@ public class CourseSession {
         this.endTime = endTime;
     }
 
-
     public String getLocation() {
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "registeredSessions")
+    private List<CourseRegistration> courseRegistrations;
+
+    public List<CourseRegistration> getCourseRegistrations() {
+        return courseRegistrations;
+    }
+
+    public void setCourseRegistrations(List<CourseRegistration> courseRegistrations) {
+        this.courseRegistrations = courseRegistrations;
     }
 }
