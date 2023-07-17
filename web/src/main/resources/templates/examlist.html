@@ -13,11 +13,13 @@
         }
 
     </style>
+
     <script>
         function confirmDelete(examId) {
             return confirm('Czy na pewno chcesz usunąć ten egzamin?');
         }
     </script>
+
     <div th:if="${#lists.isEmpty(examlist)}" class="alert alert-warning">
         Brak dodanych egzaminów
     </div>

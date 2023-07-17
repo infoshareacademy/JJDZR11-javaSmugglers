@@ -438,4 +438,14 @@ public class MainController {
     public String ui() {
         return "/userinactive";
     }
+
+
+    @GetMapping("addcourse/{authToken}")
+    public String showAddCourseForm(Model model, @PathVariable("authToken") String authToken) {
+        model.addAttribute("course", new Course())
+                .addAttribute("courseSession", new CourseSession())
+                .addAttribute("authToken", authToken)
+                .addAttribute("content", "addcourse");
+        return "main";
+    }
 }
