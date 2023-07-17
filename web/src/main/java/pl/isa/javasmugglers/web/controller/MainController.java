@@ -448,4 +448,16 @@ public class MainController {
                 .addAttribute("content", "addcourse");
         return "main";
     }
+
+    @PostMapping("addcourse")
+    public String submitCourseForm(
+            @ModelAttribute("course") Course course,
+            @RequestParam("sessionFrequency") Integer frequency,
+            @RequestParam("sessionStartTime") String startTime ,
+            @RequestParam("sessionEndTime") String endTime,
+            @RequestParam("sessionLocation") String location){
+
+        return null;
+    }
+
 }
