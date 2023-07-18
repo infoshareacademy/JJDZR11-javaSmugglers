@@ -4,7 +4,7 @@
     <h3> Uwaga! sesje zostaną dodane automatycznie na podstawie danych podanych poniżej. Poszczególne zajęcia (sesje)
         można edytować w planie zajęć</h3>
 
-    <form action="#" th:action="@{/new-course}" method="post">
+    <form action="#" th:action="@{/addcourse}" method="post">
 
         <h3>Szczegóły przedmiotu:</h3>
 
@@ -41,13 +41,14 @@
         </select><br>
 
         <label for="sessionStartTime">Godzina rozpoczęcia:</label>
-        <input type="time" id="sessionStartTime" required><br>
+        <input type="time" id="sessionStartTime" name="sessionStartTime" required><br>
 
         <label for="sessionEndTime">End Time:</label>
-        <input type="time" id="sessionEndTime" required><br>
+        <input type="time" id="sessionEndTime" name="sessionEndTime" required><br>
 
         <label for="sessionLocation">Miejsce odbycia się zajęć:</label>
-        <input type="text" id="sessionLocation" required><br>
+        <input type="text" id="sessionLocation" name="sessionLocation" required><br>
+
 
 
         <button type="submit">Zapisz</button>

@@ -36,6 +36,8 @@ public class MainController {
     CourseRegistrationService courseRegistrationService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    CourseSessionService courseSessionService;
 
 
     @GetMapping("examlist/{authToken}")
@@ -450,7 +452,7 @@ public class MainController {
         session.setAttribute("user", user);
 
         model.addAttribute("course", new Course())
-                .addAttribute("content", "addcourse");
+                .addAttribute("content", "addCourse");
         return "main";
     }
 
@@ -468,9 +470,9 @@ public class MainController {
         course.setProfessorId(user);
         courseService.saveCourse(course);
 
+        courseSessionService.addMultipleSession(frequency, startTime, endTime, location, course);
 
-
-        return null;
+        return "redirect:/examlist/" + user.getAuthToken();
     }
 
 }

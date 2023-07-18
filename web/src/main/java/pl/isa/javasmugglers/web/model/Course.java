@@ -5,6 +5,7 @@ import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserType;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "courses")
@@ -28,8 +29,8 @@ public class Course {
 
     @Column(columnDefinition = "TEXT")
     private String description;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     private Integer ectsPoints;
 
@@ -60,7 +61,7 @@ public class Course {
     }
 
 
-    public Course(String name, String description, Date startDate, Date endDate, Integer ectsPoints, CourseType CourseType, User professorId) {
+    public Course(String name, String description, LocalDate startDate, LocalDate endDate, Integer ectsPoints, CourseType CourseType, User professorId) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
@@ -94,19 +95,19 @@ public class Course {
         this.description = description;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

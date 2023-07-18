@@ -15,6 +15,7 @@ import pl.isa.javasmugglers.web.service.UserService;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 
 @SpringBootApplication
 @EntityScan()
@@ -113,15 +114,15 @@ public class WebApplication {
             User professor = userRepository.findById(3L).get();
             Course programowanie = new Course("Java",
                     "Programowanie Java",
-                    Date.valueOf("2023-10-10"),
-                    Date.valueOf("2024-01-10"), 45, Course.CourseType.LECTURE, professor);
+                    LocalDate.parse("2023-10-10"),
+                    LocalDate.parse("2024-01-10"), 45, Course.CourseType.LECTURE, professor);
 
 
             User professor2 = userRepository.findById(3L).get();
             Course arytmetyka = new Course("arytmetyka",
                     "Dział nauki zajmujący się liczbami",
-                    Date.valueOf("2023-10-06"),
-                    Date.valueOf("2024-01-16"), 65, Course.CourseType.SEMINAR,
+                    LocalDate.parse("2023-10-06"),
+                    LocalDate.parse("2024-01-16"), 65, Course.CourseType.SEMINAR,
                     professor2
             );
 
@@ -165,7 +166,7 @@ public class WebApplication {
             Course course1 = courseRepository.findById(1L).get();
             CourseSession courseSession1 = new CourseSession(
                     course1,
-                    Date.valueOf("2023-10-15"),
+                    LocalDate.parse("2023-10-15"),
                     Time.valueOf("8:00:00"),
                     Time.valueOf("10:00:00"),
                     "sala 5c"
@@ -176,7 +177,7 @@ public class WebApplication {
             Course course2 = courseRepository.findById(2L).get();
             CourseSession courseSession2 = new CourseSession(
                     course2,
-                    Date.valueOf("2023-10-25"),
+                    LocalDate.parse("2023-10-25"),
                     Time.valueOf("10:30:00"),
                     Time.valueOf("12:30:00"),
                     "sala 212B"
@@ -186,7 +187,7 @@ public class WebApplication {
 
             CourseSession courseSession3 = new CourseSession(
                     course1,
-                    Date.valueOf("2023-11-05"),
+                    LocalDate.parse("2023-11-05"),
                     Time.valueOf("18:00:00"),
                     Time.valueOf("20:00:00"),
                     "sala 5c"
@@ -196,7 +197,7 @@ public class WebApplication {
 
             CourseSession courseSession4 = new CourseSession(
                     course1,
-                    Date.valueOf("2023-11-12"),
+                    LocalDate.parse("2023-11-12"),
                     Time.valueOf("16:00:00"),
                     Time.valueOf("18:00:00"),
                     "sala 5c"
