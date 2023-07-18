@@ -9,6 +9,7 @@ import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.CourseSessionRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,12 +29,12 @@ public class CourseService {
         this.courseRegistrationeRepository = courseRegistrationeRepository;
     }
 
-    public List<Course> coursesListByProfessorId(Long professorId){
+    public List<Course> coursesListByProfessorId(Long professorId) {
         User user = userRepository.findById(professorId).orElseThrow();
         List<Course> professorCoursesList = courseRepository.findAllByProfessorId(user);
-        return  professorCoursesList;
+        return professorCoursesList;
     }
-    
+
 
     public List<CourseSession> coursesListByStudentId(Long studentId) {
         User user = userRepository.findById(studentId).orElseThrow();
@@ -65,5 +66,8 @@ public class CourseService {
                 .collect(Collectors.toList());
     }
 
+    public Course saveCourse(Course course) {
+        return courseRepository.save(course);
+    }
 
 }

@@ -1,5 +1,6 @@
 package pl.isa.javasmugglers.web.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -387,12 +388,14 @@ public class MainController {
 
 
     @GetMapping("/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y")
-    public String adminDashboard(Model model) {;
+    public String adminDashboard(Model model) {
+        ;
 
-                model.addAttribute("content", "AdminDashboard");
+        model.addAttribute("content", "AdminDashboard");
 
         return "/main";
     }
+
     @GetMapping("/n3pNjrMZhvD53qMF35ukZn9UeJZdkJJy57SUdweuyy7hf6uiQEBFwtgZucr7")
     public String UserList(Model model) {
         List<User> userList = userService.getAllUsers().stream().filter(user -> user.getType() != UserType.ADMIN).toList();
@@ -403,6 +406,7 @@ public class MainController {
 
         return "/main";
     }
+
     @GetMapping("/eLL8RkECTB2BDSX43bZhRYH5329BrUbVtxcRavNetipcENgeXRfCcSKGcvuz")
     public String inactiveUserList(Model model) {
         List<User> userList = userService.getAllUsers().stream().filter(user -> user.getStatus() == UserStatus.WAITING_FOR_CONFIRMATION).toList();
@@ -420,8 +424,6 @@ public class MainController {
     }
 
 
-
-
     @GetMapping("/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}")
     public String deleteThroughId(@PathVariable(value = "userId") long userId) {
         userService.deleteViaId(userId);
@@ -434,6 +436,7 @@ public class MainController {
         userRepository.updateStatus(userId, status);
         return "redirect:/eLL8RkECTB2BDSX43bZhRYH5329BrUbVtxcRavNetipcENgeXRfCcSKGcvuz";
     }
+
     @GetMapping("/userinactive")
     public String ui() {
         return "/userinactive";
@@ -441,10 +444,12 @@ public class MainController {
 
 
     @GetMapping("addcourse/{authToken}")
-    public String showAddCourseForm(Model model, @PathVariable("authToken") String authToken) {
+    public String showAddCourseForm(Model model, @PathVariable("authToken") String authToken, HttpSession session) {
+        User user = userService.findByAuthToken(authToken);
+
+        session.setAttribute("user", user);
+
         model.addAttribute("course", new Course())
-                .addAttribute("courseSession", new CourseSession())
-                .addAttribute("authToken", authToken)
                 .addAttribute("content", "addcourse");
         return "main";
     }
@@ -453,9 +458,17 @@ public class MainController {
     public String submitCourseForm(
             @ModelAttribute("course") Course course,
             @RequestParam("sessionFrequency") Integer frequency,
-            @RequestParam("sessionStartTime") String startTime ,
+            @RequestParam("sessionStartTime") String startTime,
             @RequestParam("sessionEndTime") String endTime,
-            @RequestParam("sessionLocation") String location){
+            @RequestParam("sessionLocation") String location,
+            HttpSession session) {
+
+        User user = (User) session.getAttribute("user");
+
+        course.setProfessorId(user);
+        courseService.saveCourse(course);
+
+
 
         return null;
     }
