@@ -1,56 +1,106 @@
-<div th:fragment="content" class="container mt-5">
+<div th:fragment="content" class="container mt-5 d-flex justify-content-center">
+    <form action="#" th:action="@{/addcourse}" method="post" class="w-100">
+        <h2 class="text-center">Formularz dodania przedmiotu wraz z sesjami</h2>
+        <h5 class="text-center">Uwaga! sesje zostaną dodane automatycznie na podstawie danych podanych poniżej.
+            Poszczególne zajęcia (sesje) można edytować w planie zajęć</h5>
+        <br>
+        <h3 class="text-center">Szczegóły przedmiotu:</h3>
 
-    <h2>Formularz dodania przedmiotu wraz z sesjami</h2>
-    <h3> Uwaga! sesje zostaną dodane automatycznie na podstawie danych podanych poniżej. Poszczególne zajęcia (sesje)
-        można edytować w planie zajęć</h3>
+        <div class="row mb-3">
+            <label for="courseName" class="col-sm-4 col-form-label text-end">Nazwa przedmiotu:</label>
+            <div class="col-sm-8">
+                <input type="text" id="courseName" th:field="*{course.name}" class="form-control" required>
+            </div>
+        </div>
 
-    <form action="#" th:action="@{/addcourse}" method="post">
+        <div class="row mb-3">
+            <label for="courseDesc" class="col-sm-4 col-form-label text-end">Opis przedmiotu:</label>
+            <div class="col-sm-8">
+                <textarea id="courseDesc" th:field="*{course.description}" class="form-control" required></textarea>
+            </div>
+        </div>
 
-        <h3>Szczegóły przedmiotu:</h3>
+        <div class="row mb-3">
+            <label for="courseStartDate" class="col-sm-4 col-form-label text-end">Data rozpoczęcia przedmiotu (data
+                pierwszych zajęć):</label>
+            <div class="col-sm-2">
+                <input type="date" id="courseStartDate" th:field="*{course.startDate}" class="form-control" required>
+            </div>
+        </div>
 
-        <label for="courseName">Nazwa przedmiotu:</label>
-        <input type="text" id="courseName" th:field="*{course.name}" required><br>
+        <div class="row mb-3">
+            <label for="courseEndDate" class="col-sm-4 col-form-label text-end">Data zakończenia przedmiotu (data
+                ostatnich zajęć):</label>
+            <div class="col-sm-2">
+                <input type="date" id="courseEndDate" th:field="*{course.endDate}" class="form-control" required>
+            </div>
+        </div>
 
-        <label for="courseDesc">Opis przedmiotu:</label>
-        <textarea id="courseDesc" th:field="*{course.description}" required></textarea><br>
+        <div class="row mb-3">
+            <label for="courseEcts" class="col-sm-4 col-form-label text-end">Punkty ECTS:</label>
+            <div class="col-sm-2">
+                <input type="number" id="courseEcts" th:field="*{course.ectsPoints}" class="form-control" min="0"
+                       required>
+            </div>
+        </div>
 
-        <label for="courseStartDate">Data rozpoczęcia przedmiotu (data pierwszych zajęć):</label>
-        <input type="date" id="courseStartDate" th:field="*{course.startDate}" required><br>
+        <div class="row mb-3">
+            <label for="courseType" class="col-sm-4 col-form-label text-end">Typ przedmiotu:</label>
+            <div class="col-sm-8">
+                <select id="courseType" th:field="*{course.courseType}" class="form-select">
+                    <option value="LECTURE">Wykład</option>
+                    <option value="SEMINAR">Seminarium</option>
+                    <option value="LAB">Laboratorium</option>
+                    <option value="OTHER">Inne</option>
+                </select>
+            </div>
+        </div>
 
-        <label for="courseEndDate">Data zakończenia przedmiotu (data ostatnich zajęć):</label>
-        <input type="date" id="courseEndDate" th:field="*{course.endDate}" required><br>
+        <h3 class="text-center">Szczegóły poszczególnych zajęć:</h3>
 
-        <label for="courseEcts">Punkty ECTS:</label>
-        <input type="number" id="courseEcts" th:field="*{course.ectsPoints}" min="0" required><br>
+        <div class="row mb-3">
+            <label for="sessionFrequency" class="col-sm-4 col-form-label text-end">Jak często będą odbywać się
+                zajęcia?:</label>
+            <div class="col-sm-8">
+                <select id="sessionFrequency" name="sessionFrequency" class="form-select">
+                    <option value="1">Co tydzień</option>
+                    <option value="2">Co dwa tygodnie</option>
+                    <option value="4">Co miesiąc</option>
+                </select>
+            </div>
+        </div>
 
-        <label for="courseType">Typ przedmiotu:</label>
-        <select id="courseType" th:field="*{course.courseType}">
-            <option value="LECTURE">Lecture</option>
-            <option value="SEMINAR">Seminar</option>
-            <option value="LAB">Lab</option>
-            <option value="OTHER">Other</option>
-        </select><br>
+        <div class="row mb-3">
+            <label for="sessionStartTime" class="col-sm-4 col-form-label text-end">Godzina rozpoczęcia:</label>
+            <div class="col-sm-2">
+                <input type="time" id="sessionStartTime" name="sessionStartTime" class="form-control" required>
+            </div>
+        </div>
 
-        <h3>Szczegóły poszczególnych zajęć:</h3>
+        <div class="row mb-3">
+            <label for="sessionEndTime" class="col-sm-4 col-form-label text-end">Godzina zakończenia:</label>
+            <div class="col-sm-2">
+                <input type="time" id="sessionEndTime" name="sessionEndTime" class="form-control" required>
+            </div>
+        </div>
 
-        <label for="sessionFrequency">Jak często będą odbywać się zajęcia?:</label>
-        <select id="sessionFrequency" name="sessionFrequency">
-            <option value="1">Co tydzień</option>
-            <option value="2">Co dwa tygodnie</option>
-            <option value="4">Co miesiąc</option>
-        </select><br>
+        <div class="row mb-3">
+            <label for="sessionLocation" class="col-sm-4 col-form-label text-end">Miejsce odbycia się zajęć:</label>
+            <div class="col-sm-8">
+                <input type="text" id="sessionLocation" name="sessionLocation" class="form-control" required>
+            </div>
+        </div>
 
-        <label for="sessionStartTime">Godzina rozpoczęcia:</label>
-        <input type="time" id="sessionStartTime" name="sessionStartTime" required><br>
+        <div class="row justify-content-center mt-4">
+            <div class="col-4">
+                <button type="button" class="btn btn-success w-50" th:data-auth-token="${authToken}" onclick="window.location.href='/DashboardProfessor/' + this.dataset.authToken">Powrót</button>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-primary w-50">Zapisz</button>
+            </div>
+        </div>
 
-        <label for="sessionEndTime">End Time:</label>
-        <input type="time" id="sessionEndTime" name="sessionEndTime" required><br>
-
-        <label for="sessionLocation">Miejsce odbycia się zajęć:</label>
-        <input type="text" id="sessionLocation" name="sessionLocation" required><br>
-
-
-
-        <button type="submit">Zapisz</button>
+        <br>
+        <br>
     </form>
 </div>

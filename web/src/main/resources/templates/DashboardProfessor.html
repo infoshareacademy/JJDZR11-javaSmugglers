@@ -20,6 +20,10 @@
       Zobacz listę przedmiotów
     </a>
     <br>
+    <a th:href="@{/addcourse/{authToken}(authToken=*{authToken})}" class="btn btn-warning btn-operation mb-4">
+      Dodaj przedmiot
+    </a>
+    <br>
     <a th:href="@{/examlist/{authToken}(authToken=*{authToken})}" class="btn btn-primary btn-operation mb-4">
       Dodaj lub edytuj egzaminy
     </a>

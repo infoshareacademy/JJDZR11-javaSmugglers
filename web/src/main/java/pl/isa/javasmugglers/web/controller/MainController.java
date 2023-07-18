@@ -452,6 +452,7 @@ public class MainController {
         session.setAttribute("user", user);
 
         model.addAttribute("course", new Course())
+                .addAttribute("authToken", authToken)
                 .addAttribute("content", "addCourse");
         return "main";
     }
@@ -472,7 +473,7 @@ public class MainController {
 
         courseSessionService.addMultipleSession(frequency, startTime, endTime, location, course);
 
-        return "redirect:/examlist/" + user.getAuthToken();
+        return "redirect:/DashboardProfessor/" + user.getAuthToken();
     }
 
 }
