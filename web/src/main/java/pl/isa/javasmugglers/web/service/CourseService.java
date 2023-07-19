@@ -70,4 +70,8 @@ public class CourseService {
         return courseRepository.save(course);
     }
 
+    public void deleteCourse(Long id){
+        courseRepository.delete(courseRepository.findById(id).orElseThrow());
+    }
+
 }

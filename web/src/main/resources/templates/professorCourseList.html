@@ -13,6 +13,10 @@
             display: none;
         }
 
+        .btn-margin-right {
+            margin-right: 10px;
+        }
+
     </style>
 
     <div>
@@ -29,18 +33,30 @@
                     <th class="text-center">Nazwa</th>
                     <th class="text-center">Opis</th>
                     <th class="text-center">Punkty ECTS</th>
+                    <th class="text-center">Operacje</th>
+
                 </tr>
                 </thead>
                 <tbody th:each="courseList : ${professorCourseList}">
                 <tr class="expandable">
-                    <td class="text-center" th:text="${courseList.getId()}"></td>
-                    <td class="text-center" th:text="${courseList.getCourseType()}"></td>
-                    <td class="text-center" th:text="${courseList.getName()}"></td>
-                    <td class="justify" th:text="${courseList.getDescription()}"></td>
-                    <td class="text-center" th:text="${courseList.getEctsPoints()}"></td>
+                    <td class="text-center font-weight-bold align-middle" th:text="${courseList.getId()}"></td>
+                    <td class="text-center font-weight-bold align-middle" th:text="${courseList.getCourseType()}"></td>
+                    <td class="text-center font-weight-bold align-middle" th:text="${courseList.getName()}"></td>
+                    <td class="justify font-weight-bold align-middle" th:text="${courseList.getDescription()}"></td>
+                    <td class="text-center font-weight-bold align-middle" th:text="${courseList.getEctsPoints()}"></td>
+
+                    <td class="center">
+                        <a th:href="@{/edit-course/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(courseList.getId)})}"
+                           class="btn btn-info btn-operation mb-2 text-center">Edytuj przedmiot</a>
+
+                        <form th:action="@{/delete/course/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(courseList.getId)}, authToken=${authToken})}" method="post">
+                            <button type="submit" class="btn btn-danger btn-operation text-center"
+                                    onclick="return confirmDelete('${courseSession.id}')">Usuń zajęcia</button>
+                        </form>
+                    </td>
                 </tr>
                 <tr class="hidden-row">
-                    <td colspan="5">
+                    <td colspan="6">
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -48,15 +64,30 @@
                                 <th class="text-center">Godzina rozpoczęcia</th>
                                 <th class="text-center">Godzina zakończenia</th>
                                 <th class="text-center">Sala</th>
+                                <th class="text-center">Operacje</th>
+
                             </tr>
                             </thead>
                             <tbody>
 
-                            <tr th:each="courseSessionList : ${courseSessionList}" th:if="${courseSessionList.courseId.id.equals(courseList.id)}">
-                                <td class="text-center" th:text="${courseSessionList.sessionDate}"></td>
-                                <td class="text-center" th:text="${courseSessionList.startTime}"></td>
-                                <td class="text-center" th:text="${courseSessionList.endTime}"></td>
-                                <td class="justify" th:text="${courseSessionList.location}"></td>
+                            <tr th:each="courseSession : ${courseSessionList}" th:if="${courseSession.courseId.id.equals(courseList.id)}">
+                                <td class="text-center" th:text="${courseSession.sessionDate}"></td>
+                                <td class="text-center" th:text="${courseSession.startTime}"></td>
+                                <td class="text-center" th:text="${courseSession.endTime}"></td>
+                                <td class="justify" th:text="${courseSession.location}"></td>
+
+                                <td class="center d-flex align-items-center justify-content-center">
+                                    <a th:href="@{/courseSession/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(courseSession.id)})}"
+                                       class="btn btn-warning btn-operation text-center btn-margin-right">Edytuj zajęcia</a>
+
+                                    <form th:action="@{/delete/courseSession/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(courseSession.id)}, authToken=${authToken})}" method="post">
+                                        <button type="submit" class="btn btn-danger btn-operation text-center"
+                                                onclick="return confirmDelete('${courseSession.id}')">Usuń zajęcia</button>
+                                    </form>
+                                </td>
+
+
+
                             </tr>
 
 
@@ -80,6 +111,10 @@
                 });
             }
         });
+
+        function confirmDelete(object) {
+            return confirm('Czy na pewno chcesz usunąć tą pozycję?');
+        }
     </script>
 
 </div>

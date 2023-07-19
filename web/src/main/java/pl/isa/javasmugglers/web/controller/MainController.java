@@ -477,4 +477,62 @@ public class MainController {
         return "redirect:/DashboardProfessor/" + user.getAuthToken();
     }
 
+    @GetMapping("edit-course/{encodedID}")
+    public String editCourse(@PathVariable("encodedID") String encodedID, Model model) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        ExamQuestion examQuestion = examQuestionService.findByID(decodedId);
+        model.addAttribute("examQuestion", examQuestion)
+                .addAttribute("content", "editquestion");
+        return "main";
+    }
+
+
+    @PostMapping("edit-course/update-course/{encodedID}")
+    public String updateCourse(@PathVariable("encodedID") String encodedID, @ModelAttribute ExamQuestion examQuestion) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        ExamQuestion existingQuestion = examQuestionService.findByID(decodedId);
+        existingQuestion.setQuestionText(examQuestion.getQuestionText());
+        existingQuestion.setType(examQuestion.getType());
+        examQuestionService.saveQuestion(existingQuestion);
+        Long currentExamId = existingQuestion.getExamId().getId();
+
+        return "redirect:/questionlist/" + PathEncoderDecoder.encodePath(currentExamId);
+    }
+
+    @PostMapping("delete/course/{encodedID}")
+    public String deleteCourse(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
+        Long decodedID = PathEncoderDecoder.decodePath(encodedID);
+        courseService.deleteCourse(decodedID);
+        return "redirect:/professorTimetable/" + authToken;
+    }
+
+    @GetMapping("edit-courseSession/{encodedID}")
+    public String editCourseSession(@PathVariable("encodedID") String encodedID, Model model) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        ExamQuestion examQuestion = examQuestionService.findByID(decodedId);
+        model.addAttribute("examQuestion", examQuestion)
+                .addAttribute("content", "editquestion");
+        return "main";
+    }
+
+
+    @PostMapping("edit-courseSession/update-courseSession/{encodedID}")
+    public String updateCourseSession(@PathVariable("encodedID") String encodedID, @ModelAttribute ExamQuestion examQuestion) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        ExamQuestion existingQuestion = examQuestionService.findByID(decodedId);
+        existingQuestion.setQuestionText(examQuestion.getQuestionText());
+        existingQuestion.setType(examQuestion.getType());
+        examQuestionService.saveQuestion(existingQuestion);
+        Long currentExamId = existingQuestion.getExamId().getId();
+
+        return "redirect:/questionlist/" + PathEncoderDecoder.encodePath(currentExamId);
+    }
+
+    @PostMapping("delete/courseSession/{encodedID}")
+    public String deleteCourseSession(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
+        Long decodedID = PathEncoderDecoder.decodePath(encodedID);
+        courseSessionService.deleteCourseSession(decodedID);
+        return "redirect:/examlist/" + authToken;
+    }
+
 }
