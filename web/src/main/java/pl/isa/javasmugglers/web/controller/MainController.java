@@ -68,12 +68,13 @@ public class MainController {
     String professorTimetable(@PathVariable("authToken") String authToken, Model model) {
         User user = userService.findByAuthToken(authToken);
         List<Course> courseList = courseService.coursesListByProfessorId(user.getId());
-        System.out.println(courseList);
+        List<CourseSession> courseSessionList = courseSessionService.getCourseSessionByCourseID(courseList);
         model.addAttribute("professorCourseList", courseList)
                 .addAttribute("content", "professorCourseList")
                 .addAttribute("professorId", user.getId())
                 .addAttribute("user", user)
-                .addAttribute("authToken", authToken);
+                .addAttribute("authToken", authToken)
+                .addAttribute("courseSessionList", courseSessionList);
         return "main";
     }
 

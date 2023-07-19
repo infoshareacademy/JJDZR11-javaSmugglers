@@ -25,6 +25,10 @@ public class CourseSessionService {
         return courseSessionRepository.findAll();
     }
 
+    public List<CourseSession> getCourseSessionByCourseID(List<Course> courseList) {
+        return courseSessionRepository.findAllByCourseIdIn(courseList);
+    }
+
     public CourseSession saveCourseSession(CourseSession courseSession) {
         return courseSessionRepository.save(courseSession);
     }

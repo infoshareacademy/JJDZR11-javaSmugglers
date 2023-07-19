@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface CourseSessionRepository extends JpaRepository<CourseSession, Long> {
     List<CourseSession> findAllByCourseId(Course course);
+    List<CourseSession> findAllByCourseIdIn(List<Course> courseList);
 }
