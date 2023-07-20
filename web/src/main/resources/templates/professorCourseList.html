@@ -104,9 +104,14 @@
                             </tbody>
 
                         </table>
+                        <div class="d-flex justify-content-center">
+                            <a th:href="@{/addcoursesession/{encodedCourseID}(encodedCourseID=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(courseList.getId)})}"
+                               class="btn btn-success btn-operation mb-2 text-center">Dodaj zajęcia</a>
+                        </div>
                     </td>
 
                 </tr>
+
                 </tbody>
             </table>
         </div>
