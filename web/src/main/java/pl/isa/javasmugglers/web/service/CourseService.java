@@ -74,4 +74,8 @@ public class CourseService {
         courseRepository.delete(courseRepository.findById(id).orElseThrow());
     }
 
+    public Course findByID(Long id){
+       return (courseRepository.findById(id).orElseThrow());
+    }
+
 }

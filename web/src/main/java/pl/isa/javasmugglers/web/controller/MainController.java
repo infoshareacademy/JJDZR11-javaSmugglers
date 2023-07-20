@@ -480,23 +480,27 @@ public class MainController {
     @GetMapping("edit-course/{encodedID}")
     public String editCourse(@PathVariable("encodedID") String encodedID, Model model) {
         Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        ExamQuestion examQuestion = examQuestionService.findByID(decodedId);
-        model.addAttribute("examQuestion", examQuestion)
-                .addAttribute("content", "editquestion");
+        Course course = courseService.findByID(decodedId);
+        model.addAttribute("course", course)
+                .addAttribute("content", "editcourse");
         return "main";
     }
 
 
     @PostMapping("edit-course/update-course/{encodedID}")
-    public String updateCourse(@PathVariable("encodedID") String encodedID, @ModelAttribute ExamQuestion examQuestion) {
+    public String updateCourse(@PathVariable("encodedID") String encodedID, @ModelAttribute Course course) {
         Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        ExamQuestion existingQuestion = examQuestionService.findByID(decodedId);
-        existingQuestion.setQuestionText(examQuestion.getQuestionText());
-        existingQuestion.setType(examQuestion.getType());
-        examQuestionService.saveQuestion(existingQuestion);
-        Long currentExamId = existingQuestion.getExamId().getId();
+        Course existingCourse = courseService.findByID(decodedId);
+        existingCourse.setName(course.getName());
+        existingCourse.setDescription(course.getDescription());
+        existingCourse.setStartDate(course.getStartDate());
+        existingCourse.setEndDate(course.getEndDate());
+        existingCourse.setEctsPoints(course.getEctsPoints());
+        existingCourse.setCourseType(course.getCourseType());
 
-        return "redirect:/questionlist/" + PathEncoderDecoder.encodePath(currentExamId);
+        courseService.saveCourse(existingCourse);
+        String authToken = existingCourse.getProfessorId().getAuthToken();
+        return "redirect:/professorTimetable/" + authToken;
     }
 
     @PostMapping("delete/course/{encodedID}")

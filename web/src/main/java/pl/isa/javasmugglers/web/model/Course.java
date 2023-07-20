@@ -1,6 +1,9 @@
 package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserType;
 
@@ -29,7 +32,11 @@ public class Course {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     private Integer ectsPoints;
