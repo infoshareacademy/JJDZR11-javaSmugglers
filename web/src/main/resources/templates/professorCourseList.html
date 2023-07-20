@@ -22,13 +22,16 @@
     <div>
         <h3 class="center"
             th:text="'Witaj profesorze ' + ${user.getFirstName() + ' ' + user.getLastName()} + ' oto lista twoich zajęć:'"></h3>
+        <h6 class="center">Po kliknięciu na dany przedmiot wyświetli się lista poszczególnych zajęć wraz z możliwością edycji.</h6>
+        <br>
+
         <div th:if="${#lists.isEmpty(professorCourseList)}" class="alert alert-warning">
             Brak zajęć w planie lekcji
         </div>
         <div th:unless="${#lists.isEmpty(professorCourseList)}">
             <table class="table table-striped table-bordered">
                 <thead>
-                <tr>
+                <tr style="border-top: 3px solid #343a40;">
                     <th class="text-center">Id</th>
                     <th class="text-center">Typ przedmiotu</th>
                     <th class="text-center">Nazwa</th>
@@ -42,7 +45,7 @@
                 </tr>
                 </thead>
                 <tbody th:each="courseList : ${professorCourseList}">
-                <tr class="expandable">
+                <tr class="expandable" style="border-top: 3px solid #343a40;">
                     <td class="text-center font-weight-bold align-middle" th:text="${courseList.getId()}"></td>
                     <td class="text-center font-weight-bold align-middle" th:text="${courseList.getCourseType()}"></td>
                     <td class="text-center font-weight-bold align-middle" th:text="${courseList.getName()}"></td>
@@ -66,16 +69,16 @@
 
                     </td>
                 </tr>
-                <tr class="hidden-row">
+                <tr class="hidden-row" style="border-bottom: 3px solid #343a40;">
                     <td colspan="8">
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th class="text-center">Data zajęć</th>
-                                <th class="text-center">Godzina rozpoczęcia</th>
-                                <th class="text-center">Godzina zakończenia</th>
-                                <th class="text-center">Sala</th>
-                                <th class="text-center">Operacje</th>
+                                <th class="text-center align-middle">Data zajęć</th>
+                                <th class="text-center align-middle">Godzina rozpoczęcia</th>
+                                <th class="text-center align-middle">Godzina zakończenia</th>
+                                <th class="text-center align-middle">Sala</th>
+                                <th class="text-center align-middle">Operacje</th>
 
                             </tr>
                             </thead>
@@ -83,10 +86,10 @@
 
                             <tr th:each="courseSession : ${courseSessionList}"
                                 th:if="${courseSession.courseId.id.equals(courseList.id)}">
-                                <td class="text-center" th:text="${courseSession.sessionDate}"></td>
-                                <td class="text-center" th:text="${courseSession.startTime}"></td>
-                                <td class="text-center" th:text="${courseSession.endTime}"></td>
-                                <td class="justify" th:text="${courseSession.location}"></td>
+                                <td class="text-center align-middle" th:text="${courseSession.sessionDate}"></td>
+                                <td class="text-center align-middle" th:text="${courseSession.startTime}"></td>
+                                <td class="text-center align-middle" th:text="${courseSession.endTime}"></td>
+                                <td class="justify align-middle" th:text="${courseSession.location}"></td>
 
                                 <td class="center d-flex align-items-center justify-content-center">
                                     <a th:href="@{/edit-courseSession/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(courseSession.id)})}"
@@ -113,10 +116,14 @@
                 </tr>
 
                 </tbody>
+                <tr style="border-bottom: 3px solid #343a40;"></tr>
+
             </table>
         </div>
     </div>
 
+    <br>
+    <br>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var expandables = document.querySelectorAll(".expandable");

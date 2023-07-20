@@ -545,6 +545,7 @@ public class MainController {
         session.setAttribute("course", course);
 
         model.addAttribute("courseSession", new CourseSession())
+                .addAttribute("course", course)
                 .addAttribute("content", "addcoursesession");
         return "main";
     }
