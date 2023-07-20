@@ -15,6 +15,9 @@
         body {
             margin: 0;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
         }
 
         .header {
@@ -46,19 +49,22 @@
             align-items: center;
             width: 100%;
             height: 520px;
+            /*
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), url("https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80");
+            */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
 
-        .intro h1 {
+        .intro h2 {
             font-family: 'Sriracha';
-            font-size: 60px;
-            color: #fff;
+            font-size: 40px;
+            color: black;
             font-weight: bold;
             text-transform: uppercase;
             margin: 0;
+            text-align: center;
         }
 
         .intro p {
@@ -149,6 +155,26 @@
             color: #a1a1a1;
             padding: 10px 20px;
         }
+
+        .fixed-bottom {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .my-button {
+            background-color: #0275d8;
+            color: #ffffff;
+        }
+
     </style>
 </head>
 
@@ -160,21 +186,22 @@
     </div>
 </header>
 
-<main>
+<main class="main-content">
     <div class="intro">
-        <h1>Witaj w aplikacji CO - STUDY Intranet</h1>
+        <h2>Witaj w aplikacji <br> CO-STUDY Intranet</h2>
+        <br>
+        <img th:src="@{/logo_blue.jpg}" alt="LOGO" width="270" height="270" style="margin-right: 15px;"/>
         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <a href="login" class="btn btn-primary"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;Zaloguj</a>
-            <a href="addnew" class="btn btn-primary"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;Zarejestruj</a>
+            <a href="login" class="btn my-button"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;Zaloguj</a>
+            <a href="addnew" class="btn my-button"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;Zarejestruj</a>
         </div>
     </div>
-    <div class="achievements">
 
 
 </main>
-<footer class="footer" style="background-color: #0275d8; color: white; padding: 10px;">
-    <div class="copy">&copy; 2023 JavaSmugglers unaffiliated</div>
-    <div class="bottom-links">
+<footer class="footer fixed-bottom " style="background-color: #0275d8; color: white; height: 2vh; padding: 1vh 0;">
+    <div class="container text-white text-center">
+        <small style="color: white;">Created by JavaSmugglers 2023</small>
 
     </div>
 </footer>
