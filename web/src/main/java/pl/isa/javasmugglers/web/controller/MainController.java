@@ -466,14 +466,10 @@ public class MainController {
             @RequestParam("sessionEndTime") String endTime,
             @RequestParam("sessionLocation") String location,
             HttpSession session) {
-
         User user = (User) session.getAttribute("user");
-
         course.setProfessorId(user);
         courseService.saveCourse(course);
-
         courseSessionService.addMultipleSession(frequency, startTime, endTime, location, course);
-
         return "redirect:/DashboardProfessor/" + user.getAuthToken();
     }
 
@@ -497,7 +493,6 @@ public class MainController {
         existingCourse.setEndDate(course.getEndDate());
         existingCourse.setEctsPoints(course.getEctsPoints());
         existingCourse.setCourseType(course.getCourseType());
-
         courseService.saveCourse(existingCourse);
         String authToken = existingCourse.getProfessorId().getAuthToken();
         return "redirect:/professorTimetable/" + authToken;
@@ -513,23 +508,24 @@ public class MainController {
     @GetMapping("edit-courseSession/{encodedID}")
     public String editCourseSession(@PathVariable("encodedID") String encodedID, Model model) {
         Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        ExamQuestion examQuestion = examQuestionService.findByID(decodedId);
-        model.addAttribute("examQuestion", examQuestion)
-                .addAttribute("content", "editquestion");
+        CourseSession courseSession = courseSessionService.findByID(decodedId);
+        model.addAttribute("courseSession", courseSession)
+                .addAttribute("content", "editcoursesession");
         return "main";
     }
 
 
     @PostMapping("edit-courseSession/update-courseSession/{encodedID}")
-    public String updateCourseSession(@PathVariable("encodedID") String encodedID, @ModelAttribute ExamQuestion examQuestion) {
+    public String updateCourseSession(@PathVariable("encodedID") String encodedID, @ModelAttribute CourseSession courseSession) {
         Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        ExamQuestion existingQuestion = examQuestionService.findByID(decodedId);
-        existingQuestion.setQuestionText(examQuestion.getQuestionText());
-        existingQuestion.setType(examQuestion.getType());
-        examQuestionService.saveQuestion(existingQuestion);
-        Long currentExamId = existingQuestion.getExamId().getId();
-
-        return "redirect:/questionlist/" + PathEncoderDecoder.encodePath(currentExamId);
+        CourseSession existingCourseSession = courseSessionService.findByID(decodedId);
+        existingCourseSession.setStartTime(courseSession.getStartTime());
+        existingCourseSession.setEndTime(courseSession.getEndTime());
+        existingCourseSession.setLocation(courseSession.getLocation());
+        existingCourseSession.setSessionDate(courseSession.getSessionDate());
+        courseSessionService.saveCourseSession(existingCourseSession);
+        String authToken = existingCourseSession.getCourseId().getProfessorId().getAuthToken();
+        return "redirect:/professorTimetable/" + authToken;
     }
 
     @PostMapping("delete/courseSession/{encodedID}")

@@ -83,5 +83,9 @@ public class CourseSessionService {
         courseSessionRepository.delete(courseSessionRepository.findById(id).orElseThrow());
     }
 
+    public CourseSession findByID(long id) {
+        return (courseSessionRepository.findById(id).orElseThrow());
+    }
+
 
 }

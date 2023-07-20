@@ -1,6 +1,7 @@
 package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -28,6 +29,7 @@ public class CourseSession {
     @JoinColumn(name = "courseId", referencedColumnName = "id")
     private Course courseId;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate sessionDate;
     private Time startTime;
     private Time endTime;

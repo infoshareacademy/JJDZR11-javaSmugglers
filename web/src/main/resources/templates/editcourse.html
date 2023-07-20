@@ -2,7 +2,7 @@
     <form th:object="${course}"
           th:action="@{update-course/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(course.id)})}"
           method="post">
-        <h2 th:text="'Edytuj kurs: ' + *{name}"></h2>
+        <h2 th:text="'Edytuj przedmiot: ' + *{name}"></h2>
         <div class="form-group">
             <input type="hidden" id="id" th:field="*{id}"/>
 
