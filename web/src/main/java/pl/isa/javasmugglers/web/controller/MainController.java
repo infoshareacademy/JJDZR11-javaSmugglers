@@ -532,7 +532,46 @@ public class MainController {
     public String deleteCourseSession(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
         Long decodedID = PathEncoderDecoder.decodePath(encodedID);
         courseSessionService.deleteCourseSession(decodedID);
-        return "redirect:/examlist/" + authToken;
+        return "redirect:/professorTimetable/" + authToken;
     }
+
+    @GetMapping("addcoursesession/{encodedCourseID}")
+    public String showAddCourseSessionForm(
+            Model model,
+            @PathVariable("encodedCourseID") String encodedCourseID,
+            HttpSession session) {
+        Long decodedID = PathEncoderDecoder.decodePath(encodedCourseID);
+        Course course = courseService.findByID(decodedID);
+        session.setAttribute("course", course);
+
+        model.addAttribute("courseSession", new CourseSession())
+                .addAttribute("content", "addcoursesession");
+        return "main";
+    }
+
+    @PostMapping("addcoursesession")
+    public String submitCourseSessionForm(
+            @ModelAttribute CourseSession courseSession,
+            @RequestParam("startTimeString") String startTimeString,
+            @RequestParam("endTimeString") String endTimeString,
+            HttpSession session) {
+
+        Course course = (Course) session.getAttribute("course");
+
+
+        java.sql.Time startTime = java.sql.Time.valueOf(startTimeString + ":00");
+        java.sql.Time endTime = java.sql.Time.valueOf(endTimeString + ":00");
+        courseSession.setStartTime(startTime);
+        courseSession.setEndTime(endTime);
+        courseSession.setCourseId(course);
+
+
+        courseSessionService.saveCourseSession(courseSession);
+
+        String authToken = courseSession.getCourseId().getProfessorId().getAuthToken();
+
+        return "redirect:/professorTimetable/" + authToken;
+    }
+
 
 }
