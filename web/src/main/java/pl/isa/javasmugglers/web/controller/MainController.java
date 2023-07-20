@@ -470,7 +470,7 @@ public class MainController {
         course.setProfessorId(user);
         courseService.saveCourse(course);
         courseSessionService.addMultipleSession(frequency, startTime, endTime, location, course);
-        return "redirect:/DashboardProfessor/" + user.getAuthToken();
+        return "redirect:/professorTimetable/" + user.getAuthToken();
     }
 
     @GetMapping("edit-course/{encodedID}")
@@ -516,11 +516,21 @@ public class MainController {
 
 
     @PostMapping("edit-courseSession/update-courseSession/{encodedID}")
-    public String updateCourseSession(@PathVariable("encodedID") String encodedID, @ModelAttribute CourseSession courseSession) {
+    public String updateCourseSession(
+            @PathVariable("encodedID") String encodedID,
+            @ModelAttribute CourseSession courseSession,
+            @RequestParam("startTimeString") String startTimeString,
+            @RequestParam("endTimeString") String endTimeString) {
+
+
         Long decodedId = PathEncoderDecoder.decodePath(encodedID);
         CourseSession existingCourseSession = courseSessionService.findByID(decodedId);
-        existingCourseSession.setStartTime(courseSession.getStartTime());
-        existingCourseSession.setEndTime(courseSession.getEndTime());
+
+        java.sql.Time startTime = java.sql.Time.valueOf(startTimeString + ":00");
+        java.sql.Time endTime = java.sql.Time.valueOf(endTimeString + ":00");
+
+        existingCourseSession.setStartTime(startTime);
+        existingCourseSession.setEndTime(endTime);
         existingCourseSession.setLocation(courseSession.getLocation());
         existingCourseSession.setSessionDate(courseSession.getSessionDate());
         courseSessionService.saveCourseSession(existingCourseSession);

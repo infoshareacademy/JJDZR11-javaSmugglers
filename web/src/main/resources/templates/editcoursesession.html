@@ -11,12 +11,12 @@
         <input type="date" class="form-control" id="sessionDate" th:field="*{sessionDate}" placeholder="Data sesji"/>
       </div>
       <div class="form-group">
-        <label for="startTime">Czas rozpoczęcia:</label>
-        <input type="time" class="form-control" id="startTime" th:field="*{startTime}" placeholder="Czas rozpoczęcia"/>
+        <label for="startTimeString">Czas rozpoczęcia:</label>
+        <input type="time" class="form-control" name="startTimeString" id="startTimeString" th:value="*{startTime}" placeholder="Czas rozpoczęcia"/>
       </div>
       <div class="form-group">
-        <label for="endTime">Czas zakończenia:</label>
-        <input type="time" class="form-control" id="endTime" th:field="*{endTime}" placeholder="Czas zakończenia"/>
+        <label for="endTimeString">Czas zakończenia:</label>
+        <input type="time" class="form-control" name="endTimeString" id="endTimeString" th:value="*{endTime}" placeholder="Czas zakończenia"/>
       </div>
       <div class="form-group">
         <label for="location">Lokalizacja:</label>
