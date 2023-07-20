@@ -1,5 +1,6 @@
 package pl.isa.javasmugglers.web.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,8 @@ public class MainController {
     CourseRegistrationService courseRegistrationService;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    CourseSessionService courseSessionService;
 
 
     @GetMapping("examlist/{authToken}")
@@ -65,12 +68,13 @@ public class MainController {
     String professorTimetable(@PathVariable("authToken") String authToken, Model model) {
         User user = userService.findByAuthToken(authToken);
         List<Course> courseList = courseService.coursesListByProfessorId(user.getId());
-        System.out.println(courseList);
+        List<CourseSession> courseSessionList = courseSessionService.getCourseSessionByCourseID(courseList);
         model.addAttribute("professorCourseList", courseList)
                 .addAttribute("content", "professorCourseList")
                 .addAttribute("professorId", user.getId())
                 .addAttribute("user", user)
-                .addAttribute("authToken", authToken);
+                .addAttribute("authToken", authToken)
+                .addAttribute("courseSessionList", courseSessionList);
         return "main";
     }
 
@@ -387,12 +391,14 @@ public class MainController {
 
 
     @GetMapping("/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y")
-    public String adminDashboard(Model model) {;
+    public String adminDashboard(Model model) {
+        ;
 
-                model.addAttribute("content", "AdminDashboard");
+        model.addAttribute("content", "AdminDashboard");
 
         return "/main";
     }
+
     @GetMapping("/n3pNjrMZhvD53qMF35ukZn9UeJZdkJJy57SUdweuyy7hf6uiQEBFwtgZucr7")
     public String UserList(Model model) {
         List<User> userList = userService.getAllUsers().stream().filter(user -> user.getType() != UserType.ADMIN).toList();
@@ -403,6 +409,7 @@ public class MainController {
 
         return "/main";
     }
+
     @GetMapping("/eLL8RkECTB2BDSX43bZhRYH5329BrUbVtxcRavNetipcENgeXRfCcSKGcvuz")
     public String inactiveUserList(Model model) {
         List<User> userList = userService.getAllUsers().stream().filter(user -> user.getStatus() == UserStatus.WAITING_FOR_CONFIRMATION).toList();
@@ -420,8 +427,6 @@ public class MainController {
     }
 
 
-
-
     @GetMapping("/EQE79ZSU7CMWO218YANYX25PXY7973QYK9NPM2I0DSANLRW4A8QMFLM4ZING/{userId}")
     public String deleteThroughId(@PathVariable(value = "userId") long userId) {
         userService.deleteViaId(userId);
@@ -434,8 +439,150 @@ public class MainController {
         userRepository.updateStatus(userId, status);
         return "redirect:/eLL8RkECTB2BDSX43bZhRYH5329BrUbVtxcRavNetipcENgeXRfCcSKGcvuz";
     }
+
     @GetMapping("/userinactive")
     public String ui() {
         return "/userinactive";
     }
+
+
+    @GetMapping("addcourse/{authToken}")
+    public String showAddCourseForm(Model model, @PathVariable("authToken") String authToken, HttpSession session) {
+        User user = userService.findByAuthToken(authToken);
+
+        session.setAttribute("user", user);
+
+        model.addAttribute("course", new Course())
+                .addAttribute("authToken", authToken)
+                .addAttribute("content", "addCourse");
+        return "main";
+    }
+
+    @PostMapping("addcourse")
+    public String submitCourseForm(
+            @ModelAttribute("course") Course course,
+            @RequestParam("sessionFrequency") Integer frequency,
+            @RequestParam("sessionStartTime") String startTime,
+            @RequestParam("sessionEndTime") String endTime,
+            @RequestParam("sessionLocation") String location,
+            HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        course.setProfessorId(user);
+        courseService.saveCourse(course);
+        courseSessionService.addMultipleSession(frequency, startTime, endTime, location, course);
+        return "redirect:/professorTimetable/" + user.getAuthToken();
+    }
+
+    @GetMapping("edit-course/{encodedID}")
+    public String editCourse(@PathVariable("encodedID") String encodedID, Model model) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        Course course = courseService.findByID(decodedId);
+        model.addAttribute("course", course)
+                .addAttribute("content", "editcourse");
+        return "main";
+    }
+
+
+    @PostMapping("edit-course/update-course/{encodedID}")
+    public String updateCourse(@PathVariable("encodedID") String encodedID, @ModelAttribute Course course) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        Course existingCourse = courseService.findByID(decodedId);
+        existingCourse.setName(course.getName());
+        existingCourse.setDescription(course.getDescription());
+        existingCourse.setStartDate(course.getStartDate());
+        existingCourse.setEndDate(course.getEndDate());
+        existingCourse.setEctsPoints(course.getEctsPoints());
+        existingCourse.setCourseType(course.getCourseType());
+        courseService.saveCourse(existingCourse);
+        String authToken = existingCourse.getProfessorId().getAuthToken();
+        return "redirect:/professorTimetable/" + authToken;
+    }
+
+    @PostMapping("delete/course/{encodedID}")
+    public String deleteCourse(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
+        Long decodedID = PathEncoderDecoder.decodePath(encodedID);
+        courseService.deleteCourse(decodedID);
+        return "redirect:/professorTimetable/" + authToken;
+    }
+
+    @GetMapping("edit-courseSession/{encodedID}")
+    public String editCourseSession(@PathVariable("encodedID") String encodedID, Model model) {
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        CourseSession courseSession = courseSessionService.findByID(decodedId);
+        model.addAttribute("courseSession", courseSession)
+                .addAttribute("content", "editcoursesession");
+        return "main";
+    }
+
+
+    @PostMapping("edit-courseSession/update-courseSession/{encodedID}")
+    public String updateCourseSession(
+            @PathVariable("encodedID") String encodedID,
+            @ModelAttribute CourseSession courseSession,
+            @RequestParam("startTimeString") String startTimeString,
+            @RequestParam("endTimeString") String endTimeString) {
+
+
+        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
+        CourseSession existingCourseSession = courseSessionService.findByID(decodedId);
+
+        java.sql.Time startTime = java.sql.Time.valueOf(startTimeString + ":00");
+        java.sql.Time endTime = java.sql.Time.valueOf(endTimeString + ":00");
+
+        existingCourseSession.setStartTime(startTime);
+        existingCourseSession.setEndTime(endTime);
+        existingCourseSession.setLocation(courseSession.getLocation());
+        existingCourseSession.setSessionDate(courseSession.getSessionDate());
+        courseSessionService.saveCourseSession(existingCourseSession);
+        String authToken = existingCourseSession.getCourseId().getProfessorId().getAuthToken();
+        return "redirect:/professorTimetable/" + authToken;
+    }
+
+    @PostMapping("delete/courseSession/{encodedID}")
+    public String deleteCourseSession(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
+        Long decodedID = PathEncoderDecoder.decodePath(encodedID);
+        courseSessionService.deleteCourseSession(decodedID);
+        return "redirect:/professorTimetable/" + authToken;
+    }
+
+    @GetMapping("addcoursesession/{encodedCourseID}")
+    public String showAddCourseSessionForm(
+            Model model,
+            @PathVariable("encodedCourseID") String encodedCourseID,
+            HttpSession session) {
+        Long decodedID = PathEncoderDecoder.decodePath(encodedCourseID);
+        Course course = courseService.findByID(decodedID);
+        session.setAttribute("course", course);
+
+        model.addAttribute("courseSession", new CourseSession())
+                .addAttribute("course", course)
+                .addAttribute("content", "addcoursesession");
+        return "main";
+    }
+
+    @PostMapping("addcoursesession")
+    public String submitCourseSessionForm(
+            @ModelAttribute CourseSession courseSession,
+            @RequestParam("startTimeString") String startTimeString,
+            @RequestParam("endTimeString") String endTimeString,
+            HttpSession session) {
+
+        Course course = (Course) session.getAttribute("course");
+
+
+        java.sql.Time startTime = java.sql.Time.valueOf(startTimeString + ":00");
+        java.sql.Time endTime = java.sql.Time.valueOf(endTimeString + ":00");
+        courseSession.setStartTime(startTime);
+        courseSession.setEndTime(endTime);
+        courseSession.setCourseId(course);
+
+
+        courseSessionService.saveCourseSession(courseSession);
+
+        String authToken = courseSession.getCourseId().getProfessorId().getAuthToken();
+
+        return "redirect:/professorTimetable/" + authToken;
+    }
+
+
 }

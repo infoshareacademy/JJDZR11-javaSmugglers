@@ -1,0 +1,25 @@
+<div th:fragment="content" class="container mt-5">
+  <style>
+    .btn-operation {
+      width: 150px;
+    }
+    .justify {
+      text-align: justify;
+    }
+    .center {
+      text-align: center;
+    }
+  </style>
+  <div class="mt-5">
+    <form th:action="@{/addcoursesession}" th:object="${courseSession}" method="post" class="d-flex flex-column align-items-center">
+      <h2 th:text="'Dodaj sesję (zajęcia) dla przedmiotu: ' + ${course.name}"></h2>
+      <br>
+
+      <input type="date" th:field="*{sessionDate}" placeholder="Session Date" class="form-control mb-2 w-50"/>
+      <input type="time" name="startTimeString" placeholder="Start Time" class="form-control mb-2 w-50"/>
+      <input type="time" name="endTimeString" placeholder="End Time" class="form-control mb-2 w-50"/>
+      <input type="text" th:field="*{location}" placeholder="Location" class="form-control mb-2 w-50"/>
+      <input type="submit" value="Zapisz" class="btn btn-success btn-operation"/>
+    </form>
+  </div>
+</div>

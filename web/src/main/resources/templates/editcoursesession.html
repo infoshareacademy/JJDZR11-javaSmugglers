@@ -1,0 +1,33 @@
+<div th:fragment="content" class="container">
+  <form th:object="${courseSession}"
+        th:action="@{update-courseSession/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(courseSession.id)})}"
+        method="post">
+    <h2 th:text="'Edytuj sesję dla przedmiotu: ' + ${courseSession.courseId.name}"></h2>
+    <div class="form-group">
+      <input type="hidden" id="id" th:field="*{id}"/>
+
+      <div class="form-group">
+        <label for="sessionDate">Data sesji:</label>
+        <input type="date" class="form-control" id="sessionDate" th:field="*{sessionDate}" placeholder="Data sesji"/>
+      </div>
+      <div class="form-group">
+        <label for="startTimeString">Czas rozpoczęcia:</label>
+        <input type="time" class="form-control" name="startTimeString" id="startTimeString" th:value="*{startTime}" placeholder="Czas rozpoczęcia"/>
+      </div>
+      <div class="form-group">
+        <label for="endTimeString">Czas zakończenia:</label>
+        <input type="time" class="form-control" name="endTimeString" id="endTimeString" th:value="*{endTime}" placeholder="Czas zakończenia"/>
+      </div>
+      <div class="form-group">
+        <label for="location">Lokalizacja:</label>
+        <input type="text" class="form-control" id="location" th:field="*{location}" placeholder="Lokalizacja"/>
+      </div>
+      <input type="hidden" id="courseId" th:field="*{courseId}"/>
+
+      <div class="row">
+        <button class="btn btn-primary mr-2" th:href="@{/}">Return</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>
