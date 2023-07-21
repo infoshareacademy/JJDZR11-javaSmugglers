@@ -135,24 +135,4 @@ public class Course {
 
     public void setCourseType(CourseType type) {this.courseType = type;
     }
-
-    public void setProfessorId(User professorId) {
-        this.professorId = professorId;
-    }
-
-    public List<CourseRegistration> getCourseRegistrationList() {
-        return courseRegistrationList;
-    }
-
-    public void setCourseRegistrationList(List<CourseRegistration> courseRegistrationList) {
-        this.courseRegistrationList = courseRegistrationList;
-    }
-
-    public List<CourseSession> getCourseSessionList() {
-        return courseSessionList;
-    }
-
-    public void setCourseSessionList(List<CourseSession> courseSessionList) {
-        this.courseSessionList = courseSessionList;
-    }
 }

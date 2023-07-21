@@ -2,18 +2,13 @@ package pl.isa.javasmugglers.web.service;
 
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.Course;
-import pl.isa.javasmugglers.web.model.CourseRegistration;
-import pl.isa.javasmugglers.web.model.CourseSession;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.CourseSessionRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
