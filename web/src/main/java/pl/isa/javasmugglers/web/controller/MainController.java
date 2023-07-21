@@ -1,6 +1,5 @@
 package pl.isa.javasmugglers.web.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +9,12 @@ import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.UserRepository;
+import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
+import pl.isa.javasmugglers.web.repository.CourseRepository;
+import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,19 +37,14 @@ public class MainController {
     ExamResultService examResultService;
     @Autowired
     CourseRegistrationService courseRegistrationService;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    CourseSessionService courseSessionService;
 
-
-    @GetMapping("examlist/{authToken}")
-    String examlist(@PathVariable("authToken") String authToken, Model model) {
-        User user = userService.findByAuthToken(authToken);
-        model.addAttribute("examlist", examService.listAllExamsByProfessorId(user.getId()))
-                .addAttribute("profID", user.getId())
+    @GetMapping("examlist/{id}")
+    String examlist(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("examlist", examService.listAllExamsByProfessorId(id))
                 .addAttribute("content", "examlist")
-                .addAttribute("authToken", user.getAuthToken());
+                .addAttribute("profID", id)
+                .addAttribute("content", "examlist");
+
         return "main";
     }
 
@@ -71,44 +69,30 @@ public class MainController {
         List<CourseSession> courseSessionList = courseSessionService.getCourseSessionByCourseID(courseList);
         model.addAttribute("professorCourseList", courseList)
                 .addAttribute("content", "professorCourseList")
-                .addAttribute("professorId", user.getId())
-                .addAttribute("user", user)
-                .addAttribute("authToken", authToken)
-                .addAttribute("courseSessionList", courseSessionList);
+                .addAttribute("professorId", id)
+                .addAttribute("user", user);
         return "main";
     }
 
 
     @PostMapping("addexam")
-    public String addExam(@ModelAttribute Exam exam,
-                          @RequestParam("startTimeString") String startTimeString,
-                          @RequestParam("endTimeString") String endTimeString) {
-
-        java.sql.Time startTime = java.sql.Time.valueOf(startTimeString + ":00");
-        java.sql.Time endTime = java.sql.Time.valueOf(endTimeString + ":00");
-
-        exam.setStartTime(startTime);
-        exam.setEndTime(endTime);
-
+    public String addExam(@ModelAttribute Exam exam) {
         examService.saveExam(exam);
-        String authToken = exam.getCourseId().getProfessorId().getAuthToken();
-        return "redirect:/examlist/" + authToken;
+        Long activeUserId = exam.getCourseId().getProfessorId().getId();
+        return "redirect:/examlist/" + activeUserId;
     }
 
-    @GetMapping("addexam/{authToken}")
-    public String showAddExamForm(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("addexam/{id}")
+    public String showAddExamForm(Model model, @PathVariable("id") Long id) {
         model.addAttribute("exam", new Exam())
-                .addAttribute("courseList", courseService.coursesListByProfessorId(user.getId()))
-                .addAttribute("authToken", authToken)
+                .addAttribute("courseList", courseService.coursesListByProfessorId(id))
                 .addAttribute("content", "addexam");
         return "main";
     }
 
-    @GetMapping("edit-exam/{encodedID}")
-    public String editExam(@PathVariable("encodedID") String encodedID, Model model) {
-        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        Exam exam = examService.findById(decodedId);
+    @GetMapping("edit-exam/{id}")
+    public String editExam(@PathVariable("id") Long id, Model model) {
+        Exam exam = examService.findById(id);
         model.addAttribute("exam", exam)
                 .addAttribute("courseList",
                         courseService.coursesListByProfessorId(exam.getCourseId().getProfessorId().getId()))
@@ -116,47 +100,22 @@ public class MainController {
         return "main";
     }
 
-    @PostMapping("edit-exam/update-exam/{encodedID}")
-    public String updateExam(@PathVariable("encodedID") String encodedID,
-                             @ModelAttribute Exam exam,
-                             @RequestParam("startTimeString") String startTimeString,
-                             @RequestParam("endTimeString") String endTimeString) {
-        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-
-        long colonCountInStartTime = startTimeString.chars().filter(ch -> ch == ':').count();
-        long colonCountInEndTime = endTimeString.chars().filter(ch -> ch == ':').count();
-        if (colonCountInStartTime == 1) {
-            startTimeString += ":00";
-        }
-
-        if (colonCountInEndTime == 1) {
-            endTimeString += ":00";
-        }
-        java.sql.Time startTime = java.sql.Time.valueOf(startTimeString);
-        java.sql.Time endTime = java.sql.Time.valueOf(endTimeString);
-
-
-        Exam existingExam = examService.findById(decodedId);
+    @PostMapping("edit-exam/update-exam/{id}")
+    public String updateExam(@PathVariable("id") Long id, @ModelAttribute Exam exam) {
+        Exam existingExam = examService.findById(id);
         existingExam.setName(exam.getName());
         existingExam.setDescription(exam.getDescription());
-        existingExam.setDuration(exam.getDuration());
-        existingExam.setStartDate(exam.getStartDate());
-        existingExam.setStartTime(startTime);
-        existingExam.setEndDate(exam.getEndDate());
-        existingExam.setEndTime(endTime);
-        existingExam.setPassingThreshold(exam.getPassingThreshold());
-
-        examService.saveExam(existingExam);
-        String authToken = exam.getCourseId().getProfessorId().getAuthToken();
-        return "redirect:/examlist/" + authToken;
+        existingExam.setStatus(exam.getStatus());
+        examService.saveExam(exam);
+        Long profId = exam.getCourseId().getProfessorId().getId();
+        return "redirect:/examlist/" + profId;
     }
 
-    @GetMapping("questionlist/{encodedID}")
-    public String questionList(@PathVariable("encodedID") String encodedID, Model model) {
-        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(decodedId);
-        String profID = examService.findById(decodedId).getCourseId().getProfessorId().getAuthToken();
-        String examID = PathEncoderDecoder.encodePath(examService.findById(decodedId).getId());
+    @GetMapping("questionlist/{id}")
+    public String questionList(@PathVariable("id") Long id, Model model) {
+        List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(id);
+        Long profID = examService.findById(id).getCourseId().getProfessorId().getId();
+        Long examID = examService.findById(id).getId();
         model.addAttribute("questionList", questionList)
                 .addAttribute("profId", profID)
                 .addAttribute("examID", examID)
@@ -164,33 +123,29 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping("edit-question/{encodedID}")
-    public String editQuestion(@PathVariable("encodedID") String encodedID, Model model) {
-        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        ExamQuestion examQuestion = examQuestionService.findByID(decodedId);
+    @GetMapping("edit-question/{id}")
+    public String editQuestion(@PathVariable("id") Long id, Model model) {
+        ExamQuestion examQuestion = examQuestionService.findByID(id);
         model.addAttribute("examQuestion", examQuestion)
                 .addAttribute("content", "editquestion");
         return "main";
     }
 
 
-    @PostMapping("edit-question/update-question/{encodedID}")
-    public String updateQuestion(@PathVariable("encodedID") String encodedID, @ModelAttribute ExamQuestion examQuestion) {
-        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        ExamQuestion existingQuestion = examQuestionService.findByID(decodedId);
+    @PostMapping("edit-question/update-question/{id}")
+    public String updateQuestion(@PathVariable("id") Long id, @ModelAttribute ExamQuestion examQuestion) {
+        ExamQuestion existingQuestion = examQuestionService.findByID(id);
         existingQuestion.setQuestionText(examQuestion.getQuestionText());
         existingQuestion.setType(examQuestion.getType());
         examQuestionService.saveQuestion(existingQuestion);
         Long currentExamId = existingQuestion.getExamId().getId();
-
-        return "redirect:/questionlist/" + PathEncoderDecoder.encodePath(currentExamId);
+        return "redirect:/questionlist/" + currentExamId;
     }
 
-    @GetMapping("edit-answers/{encodedID}")
-    public String editAnswers(@PathVariable("encodedID") String encodedID, Model model) {
-        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        ExamQuestion examQuestion = examQuestionService.findByID(decodedId);
-        List<ExamAnswer> examAnswerList = examAnswerService.findAllAnswersByQuestionID(decodedId);
+    @GetMapping("edit-answers/{id}")
+    public String editAnswers(@PathVariable("id") Long id, Model model) {
+        ExamQuestion examQuestion = examQuestionService.findByID(id);
+        List<ExamAnswer> examAnswerList = examAnswerService.findAllAnswersByQuestionID(id);
         ExamAnswerWrapper examAnswerWrapper = new ExamAnswerWrapper();
         examAnswerWrapper.setExamAnswers(examAnswerList);
         List<Character> alphabet = IntStream.rangeClosed('a', 'z')
@@ -206,22 +161,21 @@ public class MainController {
     }
 
 
-    @PostMapping("update-answers")
-    public String updateAnswers(@ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper) {
+    @PostMapping("update-answers/{id}")
+    public String updateAnswers(@PathVariable("id") Long id, @ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper) {
         for (ExamAnswer examAnswer : examAnswerWrapper.getExamAnswers()) {
             examAnswerService.saveAnswer(examAnswer);
         }
 
         ExamQuestion questionID = examAnswerWrapper.getExamAnswers().get(0).getQuestionId();
         Long currentExamID = examService.findByExamQuestion(questionID).getId();
-        String encodedCurrentExamID = PathEncoderDecoder.encodePath(currentExamID);
-        return "redirect:/questionlist/" + encodedCurrentExamID;
+
+        return "redirect:/questionlist/" + currentExamID;
     }
 
-    @GetMapping("addquestion/{encodedID}")
-    public String showAddQuestionForm(@PathVariable("encodedID") String encodedID, Model model) {
-        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        Exam exam = examService.findById(decodedId);
+    @GetMapping("addquestion/{examId}")
+    public String showAddQuestionForm(@PathVariable("examId") Long examId, Model model) {
+        Exam exam = examService.findById(examId);
         ExamQuestion question = new ExamQuestion();
         question.setExamId(exam);
         model.addAttribute("question", question);
@@ -230,10 +184,9 @@ public class MainController {
         return "main";
     }
 
-    @PostMapping("addquestion/{encodedID}")
-    public String saveQuestion(@PathVariable("encodedID") String encodedID, ExamQuestion question, @RequestParam("answers[]") String[] answers, @RequestParam("isCorrect") List<Integer> correctAnswers, Model model) {
-        Long decodedId = PathEncoderDecoder.decodePath(encodedID);
-        Exam exam = examService.findById(decodedId);
+    @PostMapping("addquestion/{examId}")
+    public String saveQuestion(@PathVariable("examId") Long examId, ExamQuestion question, @RequestParam("answers[]") String[] answers, @RequestParam("isCorrect") List<Integer> correctAnswers, Model model) {
+        Exam exam = examService.findById(examId);
         question.setExamId(exam);
         examQuestionService.saveQuestion(question);
 
@@ -246,14 +199,14 @@ public class MainController {
         }
 
         model.addAttribute("exam", exam);
-        return "redirect:/questionlist/" + encodedID;
+        return "redirect:/questionlist/" + examId;
     }
 
 
-    @GetMapping("startexam/{authToken}/{examId}")
-    public String startExam(@PathVariable Long examId, @PathVariable String authToken, Model model) {
+    @GetMapping("startexam/{userId}/{examId}")
+    public String startExam(@PathVariable Long examId, @PathVariable Long userId, Model model) {
         Exam exam = examService.findById(examId);
-        User user = userService.findByAuthToken(authToken);
+        User user = userService.findByID(userId);
         UserExamAnswers userExamAnswers = new UserExamAnswers();
 
 
@@ -262,17 +215,16 @@ public class MainController {
                 .addAttribute("user", user)
                 .addAttribute("remainingTime", exam.getDuration())
                 .addAttribute("answers", userExamAnswers)
-                .addAttribute("content", "exam")
-                .addAttribute("authToken", user.getAuthToken());
+                .addAttribute("content", "exam");
         return "main";
 
     }
 
-    @PostMapping("startexam/{authToken}/{examId}")
-    public String submitAnswers(@PathVariable Long examId, @PathVariable String authToken,
+    @PostMapping("startexam/{userId}/{examId}")
+    public String submitAnswers(@PathVariable Long examId, @PathVariable Long userId,
                                 @ModelAttribute UserExamAnswers userExamAnswers) {
         Exam exam = examService.findById(examId);
-        User user = userService.findByAuthToken(authToken);
+        User user = userService.findByID(userId);
         Double maxScore = examService.calculateExamMaxScore(exam);
         Double userScore = examService.calculateUserScore(userExamAnswers);
 
@@ -283,13 +235,13 @@ public class MainController {
         examResult.setStudentId(user);
 
         examResultService.save(examResult);
-        return "redirect:/userexamresults/" + authToken;
+        return "redirect:/userexamresults/" + userId;
     }
 
 
-    @GetMapping("userexamresults/{authToken}")
-    public String showExamResults(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("userexamresults/{userID}")
+    public String showExamResults(Model model, @PathVariable("userID") Long userID) {
+        User user = userService.findByID(userID);
         List<ExamResult> examResults = examResultService.findUserExamResults(user);
         List<Integer> percentageScores = new ArrayList<>();
         for (ExamResult result : examResults) {
@@ -301,49 +253,44 @@ public class MainController {
         model.addAttribute("examResults", examResults)
                 .addAttribute("percentageScores", percentageScores)
                 .addAttribute("user", user)
-                .addAttribute("content", "userexamresults")
-                .addAttribute("authToken", user.getAuthToken());
+                .addAttribute("content", "userexamresults");
         return "main";
     }
 
 
-    @GetMapping("/showactiveexams/{authToken}")
-    public String showActiveExams(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("/showactiveexams/{userID}")
+    public String showActiveExams(Model model, @PathVariable("userID") Long userID) {
+        User user = userService.findByID(userID);
         List<CourseRegistration> registrations = courseRegistrationService.findAllRegisteredCourses(user);
         List<Course> registeredCourses = registrations.stream().map(CourseRegistration::getCourseId).toList();
         List<Exam> allRegisteredExams = examService.findAllByCourseList(registeredCourses);
         List<Exam> takenExams = examResultService.findUserExamResults(user).stream().map(ExamResult::getExamId).toList();
 
         List<Exam> examsToTake = allRegisteredExams.stream()
-                .filter(exam -> LocalDateTime.now().isAfter(LocalDateTime.of(exam.getStartDate().toLocalDate(), exam.getStartTime().toLocalTime())) &&
-                        LocalDateTime.now().isBefore(LocalDateTime.of(exam.getEndDate().toLocalDate(), exam.getEndTime().toLocalTime())) &&
+                .filter(exam -> exam.getStatus() == Exam.status.ACTIVE &&
                         takenExams.stream().noneMatch(takenExam -> takenExam.getId().equals(exam.getId())))
                 .toList();
 
 
         model.addAttribute("exams", examsToTake)
                 .addAttribute("user", user)
-                .addAttribute("content", "userexamlist")
-                .addAttribute("authToken", user.getAuthToken());
+                .addAttribute("content", "userexamlist");
 
 
         return "main";
     }
 
-    @PostMapping("delete/exam/{encodedID}")
-    public String deleteExam(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
-        Long decodedID = PathEncoderDecoder.decodePath(encodedID);
-        examService.deleteExam(decodedID);
-        return "redirect:/examlist/" + authToken;
+    @PostMapping("delete/exam/{id}")
+    public String deleteExam(@PathVariable("id") Long examID, @RequestParam("userID") Long userID) {
+        examService.deleteExam(examID);
+        return "redirect:/examlist/" + userID;
     }
 
-    @PostMapping("delete/question/{encodedID}")
-    public String deleteQuestion(@PathVariable("encodedID") String encodedID, @RequestParam("examID") String ecodedExamID) {
-        Long decodedID = PathEncoderDecoder.decodePath(encodedID);
-        examAnswerService.deleteAswersByQuestionID(decodedID);
-        examQuestionService.deleteQuestion(decodedID);
-        return "redirect:/questionlist/" + ecodedExamID;
+    @PostMapping("delete/question/{id}")
+    public String deleteQuestion(@PathVariable("id") Long questionID, @RequestParam("examID") Long examID) {
+        examAnswerService.deleteAswersByQuestionID(questionID);
+        examQuestionService.deleteQuestion(questionID);
+        return "redirect:/questionlist/" + examID;
     }
 
 
@@ -357,31 +304,38 @@ public class MainController {
         return "registrationsuccesfull";
     }
 
-    @GetMapping("DashboardProfessor/{authToken}")
-    public String professorDashboard(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("DashboardProfessor/{userID}")
+    public String professorDashboard(Model model, @PathVariable("userID") Long userID) {
+        User user = userService.findByID(userID);
         model.addAttribute("user", user)
-                .addAttribute("content", "DashboardProfessor")
-                .addAttribute("authToken", user.getAuthToken());
+                .addAttribute("content", "DashboardProfessor");
         return "main";
     }
 
-    @GetMapping("user-dashboard/{authToken}")
-    public String userDashboard(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("user-dashboard/{userID}")
+    public String userDashboard(Model model, @PathVariable("userID") Long userID) {
+        User user = userService.findByID(userID);
         model.addAttribute("user", user)
-                .addAttribute("content", "user-dashboard")
-                .addAttribute("authToken", user.getAuthToken());
+                .addAttribute("content", "user-dashboard");
         return "main";
     }
 
 
-    @GetMapping("/registrationFailed")
-    public String registrationFailedPage(Model model) {
-        User user = new User();
-        model.addAttribute("user", user);
-        return "/rf";
+    @GetMapping("/rf")
+    public String registrationFailedPage() {
+        return "rf";
     }
+
+
+    @GetMapping("user-dashboard/courses/{id}")
+    String courselist(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("CourseList", examService.listAllExamsByProfessorId(id))
+                .addAttribute("profID", id)
+                .addAttribute("content", "courseList");
+
+        return "main";
+    }
+
 
 
     @GetMapping("/menu")
@@ -389,6 +343,114 @@ public class MainController {
         return "menu";
     }
 
+        @Controller
+        public class ProfessorController {
+
+            private final ProfessorService professorService;
+            private final CourseRegistrationService courseRegistrationService;
+            private final StudentScheduleService studentScheduleService;
+            private final UserRepository userRepository;
+            private final CourseRepository courseRepository;
+            private final CourseRegistrationRepository courseRegistrationRepository;
+
+            @Autowired
+            public ProfessorController(ProfessorService professorService, CourseRegistrationService courseRegistrationService, StudentScheduleService studentScheduleService, UserRepository userRepository, CourseRepository courseRepository, CourseRegistrationRepository courseRegistrationRepository) {
+                this.professorService = professorService;
+                this.courseRegistrationService = courseRegistrationService;
+                this.studentScheduleService = studentScheduleService;
+                this.userRepository = userRepository;
+                this.courseRepository = courseRepository;
+                this.courseRegistrationRepository = courseRegistrationRepository;
+            }
+
+            @GetMapping("/students/{id}/register")
+            public String showProfessors(@PathVariable("id") Long id, Model model) {
+                User student = userService.findByID(id);
+                List<ProfessorDTO> professors = professorService.getAllProfessors();
+                List<Long> registeredCourseIds = courseRegistrationRepository.findRegisteredCourseIdsByStudentId(id);
+
+                List<Course> availableCourses = new ArrayList<>();
+                for (ProfessorDTO professor : professors) {
+                    for (Course course : professor.getCourses()) {
+                        if (!registeredCourseIds.contains(course.getId())) {
+                            availableCourses.add(course);
+                        }
+                    }
+                }
+
+                model.addAttribute("professors", professors);
+                model.addAttribute("studentId", id);
+                model.addAttribute("availableCourses", availableCourses);
+
+                return "professors";
+            }
+
+
+            @PostMapping("/students/{studentId}/courses/{courseId}/register")
+            public String registerForCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId, RedirectAttributes redirectAttributes) {
+                boolean registrationStatus = courseRegistrationService.registerCourse(studentId, courseId);
+
+                if (!registrationStatus) {
+                    redirectAttributes.addFlashAttribute("message", "Student is already registered for this course");
+                }
+                return "redirect:/students/" + studentId + "/schedule";
+            }
+
+            @GetMapping("/students/{studentId}/schedule")
+            public String getStudentSchedule(@PathVariable Long studentId, Model model) {
+                LocalDate currentDate = LocalDate.now();
+                List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentId, currentDate);
+                System.out.println("Student ID: " + studentId);
+                System.out.println("Current Date: " + currentDate);
+                System.out.println("Schedule: " + schedule);
+                model.addAttribute("schedule", schedule);
+                model.addAttribute("currentDate", currentDate);
+                return "student-schedule";
+            }
+
+            @PostMapping("/students/{studentId}/schedule")
+            public String getStudentScheduleByDate(@PathVariable("studentId") Long studentId, @RequestParam("selectedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate selectedDate, Model model) {
+                List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentId, selectedDate);
+                System.out.println("Student ID: " + studentId);
+                System.out.println("Selected Date: " + selectedDate);
+                System.out.println("Schedule: " + schedule);
+                model.addAttribute("schedule", schedule);
+                return "student-schedule";
+            }
+
+
+            @GetMapping("/students/{studentId}/registered-courses")
+            public String showRegisteredCourses(@PathVariable("studentId") Long studentId, Model model) {
+                User student = userRepository.findById(studentId)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + studentId));
+
+                List<Course> registeredCourses = courseRegistrationRepository.findAllByStudentId(student)
+                        .stream()
+                        .map(CourseRegistration::getCourseId)
+                        .collect(Collectors.toList());
+
+                model.addAttribute("registeredCourses", registeredCourses);
+                return "registered-courses";
+            }
+
+            @PostMapping("/students/{studentId}/courses/{courseId}/unregister")
+            public String unregisterFromCourse(@PathVariable("studentId") Long studentId, @PathVariable("courseId") Long courseId) {
+                User student = userRepository.findById(studentId)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + studentId));
+
+                Course course = courseRepository.findById(courseId)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid course ID: " + courseId));
+
+                CourseRegistration courseRegistration = courseRegistrationRepository.findAllByStudentIdAndCourseId(student, course)
+                        .orElseThrow(() -> new IllegalArgumentException("Student is not registered for this course"));
+
+                courseRegistrationRepository.delete(courseRegistration);
+
+                return "redirect:/students/" + studentId + "/registered-courses";
+            }
+
+
+        }
 
     @GetMapping("/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y")
     public String adminDashboard(Model model) {

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Course Sessions</title>
+</head>
+<body>
+<h1>Course Sessions</h1>
+<table>
+  <tr>
+    <th>Typ przedmiotu</th>
+    <th>Nazwa</th>
+    <th>Session Date</th>
+    <th>Start Time</th>
+    <th>End Time</th>
+    <th>Location</th>
+  </tr>
+  <tr th:each="courseSession : ${sessions}">
+    <td th:text="${courseSession.getCourseId().courseType}">
+    <td th:text="${courseSession.getCourseId().name}">
+    <td th:text="${courseSession.sessionDate}"></td>
+    <td th:text="${courseSession.startTime}"></td>
+    <td th:text="${courseSession.endTime}"></td>
+    <td th:text="${courseSession.location}"></td>
+  </tr>
+</table>
+</body>
+</html>

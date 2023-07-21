@@ -1,14 +1,11 @@
 package pl.isa.javasmugglers.web.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-import org.springframework.format.annotation.DateTimeFormat;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserType;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "courses")
@@ -32,12 +29,8 @@ public class Course {
 
     @Column(columnDefinition = "TEXT")
     private String description;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate startDate;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate endDate;
+    private Date startDate;
+    private Date endDate;
 
     private Integer ectsPoints;
 
@@ -48,33 +41,33 @@ public class Course {
     @Column(
             columnDefinition = "enum('LECTURE', 'SEMINAR', 'LAB', 'OTHER')"
     )
-    private CourseType CourseType;
+    private CourseType courseType;
 
     //relacje do innych tabel
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="professor_id", referencedColumnName = "id")
     private User professorId;
 
-    @OneToMany(mappedBy = "courseId", orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "courseId")
     private List<CourseRegistration> courseRegistrationList;
 
-    @OneToMany(mappedBy = "courseId", orphanRemoval = true)
+    @JsonIgnore
+    @OneToMany(mappedBy = "courseId")
     private List<CourseSession> courseSessionList;
-
-    @OneToMany(mappedBy = "courseId", orphanRemoval = true)
-    private List<Exam> examList;
 
     public Course() {
     }
 
 
-    public Course(String name, String description, LocalDate startDate, LocalDate endDate, Integer ectsPoints, CourseType CourseType, User professorId) {
+    public Course(String name, String description, Date startDate, Date endDate, Integer ectsPoints, CourseType CourseType, User professorId) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
         this.ectsPoints = ectsPoints;
-        this.CourseType = CourseType;
+        this.courseType = CourseType;
         this.professorId = professorId;
     }
 
@@ -102,19 +95,19 @@ public class Course {
         this.description = description;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -137,11 +130,10 @@ public class Course {
     }
 
     public CourseType getCourseType() {
-        return CourseType;
+        return courseType;
     }
 
-    public void setCourseType(CourseType type) {
-        this.CourseType = type;
+    public void setCourseType(CourseType type) {this.courseType = type;
     }
 
     public void setProfessorId(User professorId) {

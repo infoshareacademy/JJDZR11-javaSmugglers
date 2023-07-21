@@ -1,11 +1,11 @@
 package pl.isa.javasmugglers.web.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.time.LocalDate;
+import java.util.List;
 
 @Entity(name = "courseSessions")
 public class CourseSession {
@@ -25,28 +25,20 @@ public class CourseSession {
     )
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "courseId", referencedColumnName = "id")
     private Course courseId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate sessionDate;
+    private Date sessionDate;
     private Time startTime;
     private Time endTime;
-
-
-
     private String location;
-
-    //relacje do innych tabel
-
-
-
 
     public CourseSession() {
     }
 
-    public CourseSession(Course courseId, LocalDate sessionDate, Time startTime, Time endTime, String location) {
+    public CourseSession(Course courseId, Date sessionDate, Time startTime, Time endTime, String location) {
         this.courseId = courseId;
         this.sessionDate = sessionDate;
         this.startTime = startTime;
@@ -70,11 +62,11 @@ public class CourseSession {
         this.courseId = courseId;
     }
 
-    public LocalDate getSessionDate() {
+    public Date getSessionDate() {
         return sessionDate;
     }
 
-    public void setSessionDate(LocalDate sessionDate) {
+    public void setSessionDate(Date sessionDate) {
         this.sessionDate = sessionDate;
     }
 
@@ -94,12 +86,23 @@ public class CourseSession {
         this.endTime = endTime;
     }
 
-
     public String getLocation() {
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "registeredSessions")
+    private List<CourseRegistration> courseRegistrations;
+
+    public List<CourseRegistration> getCourseRegistrations() {
+        return courseRegistrations;
+    }
+
+    public void setCourseRegistrations(List<CourseRegistration> courseRegistrations) {
+        this.courseRegistrations = courseRegistrations;
     }
 }

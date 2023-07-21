@@ -1,7 +1,6 @@
 package pl.isa.javasmugglers.web.security.config;
 
 
-
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -27,7 +26,7 @@ import pl.isa.javasmugglers.web.service.UserService;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
-public class SecurityConfiguration {
+public abstract class SecurityConfiguration {
 
 
 
