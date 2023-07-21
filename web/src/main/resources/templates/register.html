@@ -157,7 +157,9 @@
 <header class="header"
         style="background-color: #0275d8; padding: 15px; display: flex; justify-content: center; align-items: center;">
     <div style="display: flex; align-items: center;">
-        <img th:src="@{/logo.gif}" alt="LOGO" width="70" height="70" style="margin-right: 15px;"/>
+        <a th:href="@{/}">
+            <img th:src="@{/logo.gif}" alt="LOGO" width="70" height="70" style="margin-right: 15px;"/>
+        </a>
         <p href="#" class="logo" style="color: white; font-size: 25px;">CO-STUDY INTRANET</p>
     </div>
 </header>
@@ -174,7 +176,6 @@
                     <input type="text" th:field="*{lastName}" placeholder="Nazwisko" class="form-control mb-4 col-4" required>
                     <br>
                     <input type="email" th:field="*{email}" placeholder="E-mail" class="form-control mb-4 col-4" required>
-                    <div class="error"></div><!-- To dodane puste <div> do wyrównania szerokości -->
                     <br>
                     <input type="password" th:field="*{password}" placeholder="Hasło" class="form-control mb-4 col-4" required>
                     <br>
