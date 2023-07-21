@@ -169,11 +169,12 @@
             <form action="#" th:action="@{/save}" th:object="${user}"
                   method="POST">
                 <div style="display: flex; flex-direction: column; align-items: center;">
-                    <input type="text" th:field="*{firstName}" placeholder="Imię" class="form-control mb-4 col-4" required>
+                    <input type="text" th:field="*{firstName}" placeholder="Imię" class="form-control  mb-4 col-4" required>
                     <br>
                     <input type="text" th:field="*{lastName}" placeholder="Nazwisko" class="form-control mb-4 col-4" required>
                     <br>
                     <input type="email" th:field="*{email}" placeholder="E-mail" class="form-control mb-4 col-4" required>
+                    <div class="error"></div><!-- To dodane puste <div> do wyrównania szerokości -->
                     <br>
                     <input type="password" th:field="*{password}" placeholder="Hasło" class="form-control mb-4 col-4" required>
                     <br>
@@ -196,12 +197,11 @@
                         <i class="fa fa-arrow-circle-o-up"></i>Zarejestruj
                     </button>
                 </div>
-
-
             </form>
         </div>
     </div>
 </main>
+
 <footer class="footer fixed-bottom " style="background-color: #0275d8; color: white; height: 2vh; padding: 1vh 0;">
     <div class="container text-white text-center">
         <small style="color: white;">Created by JavaSmugglers 2023</small>
