@@ -16,11 +16,12 @@
   <br>
 
   <div class="center">
-    <a th:href="@{/professorTimetable/{id}(id=*{userID})}" class="btn btn-secondary btn-operation mb-4">
-      Zobacz plan zajęć
+    <a th:href="@{/professorTimetable/{authToken}(authToken=*{authToken})}" class="btn btn-info btn-operation mb-4">
+      Dodaj lub edytuj przedmioty i zajęcia
     </a>
+
     <br>
-    <a th:href="@{/examlist/{id}(id=*{userID})}" class="btn btn-info btn-operation mb-4">
+    <a th:href="@{/examlist/{authToken}(authToken=*{authToken})}" class="btn btn-primary btn-operation mb-4">
       Dodaj lub edytuj egzaminy
     </a>
 

@@ -45,6 +45,8 @@ public class CourseRegistrationService {
             return true; // Zwracamy true, jeśli zapis przebiegł pomyślnie
         }
     }
-
+    public void deleteByStudentId(Long studentId){
+        courseRegistrationRepository.deleteCourseRegistrationByStudentId(studentId);
+    }
 }
 

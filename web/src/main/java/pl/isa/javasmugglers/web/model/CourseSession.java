@@ -2,9 +2,11 @@ package pl.isa.javasmugglers.web.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 
 @Entity(name = "courseSessions")
 public class CourseSession {
@@ -29,7 +31,8 @@ public class CourseSession {
     @JoinColumn(name = "courseId", referencedColumnName = "id")
     private Course courseId;
 
-    private Date sessionDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate sessionDate;
     private Time startTime;
     private Time endTime;
     private String location;
@@ -37,7 +40,7 @@ public class CourseSession {
     public CourseSession() {
     }
 
-    public CourseSession(Course courseId, Date sessionDate, Time startTime, Time endTime, String location) {
+    public CourseSession(Course courseId, LocalDate sessionDate, Time startTime, Time endTime, String location) {
         this.courseId = courseId;
         this.sessionDate = sessionDate;
         this.startTime = startTime;
@@ -61,11 +64,11 @@ public class CourseSession {
         this.courseId = courseId;
     }
 
-    public Date getSessionDate() {
+    public LocalDate getSessionDate() {
         return sessionDate;
     }
 
-    public void setSessionDate(Date sessionDate) {
+    public void setSessionDate(LocalDate sessionDate) {
         this.sessionDate = sessionDate;
     }
 

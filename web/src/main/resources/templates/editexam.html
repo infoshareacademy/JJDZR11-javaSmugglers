@@ -1,31 +1,60 @@
 <div th:fragment="content" class="container">
-    <h2>Edytuj egzamin:</h2>
-    <form th:object="${exam}" th:action="@{update-exam/{id}(id=${exam.id})}" method="post">
+
+    <form th:object="${exam}"
+          th:action="@{update-exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}"
+          method="post">
+        <h2 th:text="'Edytuj egzamin z przedmiotu: ' + *{courseId.name}"></h2>
         <div class="form-group">
-            <label for="courseId">Select Course:</label>
-            <select class="form-control" id="courseId" th:field="*{courseId}">
-                <option value="" disabled selected>Select Course</option>
-                <option th:each="course : ${courseList}" th:value="${course.id}" th:text="${course.name}"></option>
-            </select>
+            <input type="hidden" id="courseId" th:field="*{courseId}" th:value="${courseId}"/>
+
 
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Name" />
+                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Name"/>
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <input type="text" class="form-control" id="description" th:field="*{description}" placeholder="Description" />
+                <input type="text" class="form-control" id="description" th:field="*{description}"
+                       placeholder="Description"/>
             </div>
             <div class="form-group">
                 <label for="duration">Duration in Minutes:</label>
-                <input type="number" class="form-control" id="duration" th:field="*{duration}" min="0" placeholder="duration in minutes" />
+                <input type="number" class="form-control" id="duration" th:field="*{duration}" min="0"
+                       placeholder="Duration in minutes"/>
             </div>
+
             <div class="form-group">
-                <label for="status">Status:</label>
-                <select class="form-control" id="status" th:field="*{status}">
-                    <option th:each="status : ${T(pl.isa.javasmugglers.web.model.Exam.status).values()}" th:value="${status}" th:text="${status}"></option>
-                </select>
+                <label for="startDate">Start date:</label>
+                <input type="date" class="form-control" id="startDate" th:field="*{startDate}" min="0"
+                       placeholder="Start date"/>
             </div>
+
+            <div class="form-group">
+                <label for="startTimeString">Start time:</label>
+                <input type="time" name="startTimeString" class="form-control" id="startTimeString" th:value="*{startTime}" min="0"
+                       placeholder="Start time"/>
+            </div>
+
+            <div class="form-group">
+                <label for="endDate">End date:</label>
+                <input type="date" class="form-control" id="endDate" th:field="*{endDate}" min="0"
+                       placeholder="End date"/>
+            </div>
+
+            <div class="form-group">
+                <label for="endTimeString">End time:</label>
+                <input type="time" name="endTimeString" class="form-control" id="endTimeString" th:value="*{endTime}" min="0"
+                       placeholder="End time"/>
+            </div>
+
+
+            <div class="form-group">
+                <label for="passingThreshold">Passing threshold in %:</label>
+                <input type="number" class="form-control" id="passingThreshold" th:field="*{passingThreshold}" min="0"
+                       placeholder="Passing threshold in %"/>
+            </div>
+
+
             <div class="row">
                 <button class="btn btn-primary mr-2" th:href="@{/}">Return</button>
                 <button type="submit" class="btn btn-primary">Submit</button>

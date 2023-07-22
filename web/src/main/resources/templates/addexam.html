@@ -18,10 +18,13 @@
             </select>
             <input type="text" th:field="${exam.name}" placeholder="Name" class="form-control mb-2 w-50"/>
             <input type="text" th:field="${exam.description}" placeholder="Description" class="form-control mb-2 w-50"/>
-            <input type="number" th:field="${exam.duration}" min="1" placeholder="duration in minutes" class="form-control mb-2 w-50"/>
-            <select th:field="${exam.status}" class="form-select mb-2 w-50">
-                <option th:each="status : ${T(pl.isa.javasmugglers.web.model.Exam.status).values()}" th:value="${status}" th:text="${status}"></option>
-            </select>
+            <input type="number" th:field="${exam.duration}" min="1" placeholder="Duration in minutes" class="form-control mb-2 w-50"/>
+            <input type="date" th:field="${exam.startDate}" placeholder="Start Date" class="form-control mb-2 w-50"/>
+            <input type="time" name="startTimeString"placeholder="Start Time" class="form-control mb-2 w-50"/>
+            <input type="date"  th:field="${exam.endDate}" placeholder="End Date" class="form-control mb-2 w-50"/>
+            <input type="time" name="endTimeString" placeholder="End Time" class="form-control mb-2 w-50"/>
+            <input type="number" th:field="${exam.passingThreshold}" min="1" max="100" placeholder="Passing threshold in %" class="form-control mb-2 w-50"/>
+
             <input type="submit" value="Zapisz" class="btn btn-success btn-operation"/>
         </form>
     </div>

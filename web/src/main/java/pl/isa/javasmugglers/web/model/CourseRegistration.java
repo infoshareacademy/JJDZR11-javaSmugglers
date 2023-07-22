@@ -1,8 +1,10 @@
 package pl.isa.javasmugglers.web.model;
 
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserType;
+import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 
 @Entity(name = "courseRegistrations")
 public class CourseRegistration {
@@ -64,5 +66,8 @@ public class CourseRegistration {
     public void setCourseId(Course courseId) {
         this.courseId = courseId;
     }
+
+
+
 
 }

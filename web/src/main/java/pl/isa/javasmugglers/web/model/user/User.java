@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -59,6 +61,11 @@ public class User implements UserDetails {
     )
     private UserType type;
 
+    @Enumerated(EnumType.STRING)
+    @Column(
+            columnDefinition = "enum('ACTIVE', 'WAITING_FOR_CONFIRMATION')"
+    )
+    private UserStatus status;
 
     @Column(
             nullable = false
@@ -76,23 +83,30 @@ public class User implements UserDetails {
     )
     private String lastName;
 
+    @Column(
+            nullable = false
+    )
+    private String authToken;
+
 
     //relacje do innych tabeli
-    @OneToMany(mappedBy = "professorId")
+    @OneToMany(mappedBy = "professorId", orphanRemoval = true)
     private List<Course> courses;
 
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(mappedBy = "studentId", orphanRemoval = true)
     private List<CourseRegistration> courseRegistrationsList;
 
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(mappedBy = "studentId", orphanRemoval = true)
     private List<ExamResult> examResultList;
+
 
     public User(String firstName,
                 String lastName,
                 String email,
                 String password,
-
-                UserType type
+                UserStatus status,
+                UserType type,
+                String authToken
 
     ) {
         this.email = email;
@@ -100,9 +114,11 @@ public class User implements UserDetails {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.status = status;
+        this.authToken = authToken;
+
 
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

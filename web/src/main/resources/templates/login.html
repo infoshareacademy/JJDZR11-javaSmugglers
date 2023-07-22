@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HOMEPAGE</title>
+    <title>Logowanie</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
 
@@ -49,9 +50,6 @@
             align-items: center;
             width: 100%;
             height: 520px;
-            /*
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.5) 100%), url("https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1031&q=80");
-            */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -74,25 +72,6 @@
             margin: 20px 0;
         }
 
-        .intro button {
-            background-color: #007FFF;
-            color: #007FFF;
-            padding: 10px 25px;
-            border: none;
-            border-radius: 5px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.4)
-        }
-
-        .achievements {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 40px 80px;
-        }
-
 
         .achievements .work i {
             width: fit-content;
@@ -103,20 +82,6 @@
             padding: 12px;
         }
 
-
-        .about-me img {
-            width: 500px;
-            max-width: 100%;
-            height: auto;
-            border-radius: 10px;
-        }
-
-        .about-me-text h2 {
-            font-size: 30px;
-            color: #333333;
-            text-transform: uppercase;
-            margin: 0;
-        }
 
         .about-me-text p {
             font-size: 15px;
@@ -162,6 +127,7 @@
             bottom: 0;
             left: 0;
         }
+
         .main-content {
             flex: 1;
             display: flex;
@@ -170,16 +136,24 @@
             align-items: center;
         }
 
-        .my-button {
-            background-color: #0275d8;
-            color: #ffffff;
+        .error {
+            color: #D8000C;
+            background-color: #FFBABA;
+            background-image: url('https://i.imgur.com/GnyDvKN.png');
+            border: 1px solid;
+            margin: 10px auto;
+            padding: 15px 10px 15px 50px;
+            background-repeat: no-repeat;
+            background-position: 10px center;
+            max-width: 460px;
+            text-align: center;
         }
-
     </style>
 </head>
 
 <body>
-<header class="header" style="background-color: #0275d8; padding: 15px; display: flex; justify-content: center; align-items: center;">
+<header class="header"
+        style="background-color: #0275d8; padding: 15px; display: flex; justify-content: center; align-items: center;">
     <div style="display: flex; align-items: center;">
         <a th:href="@{/}">
             <img th:src="@{/logo.gif}" alt="LOGO" width="70" height="70" style="margin-right: 15px;"/>
@@ -190,12 +164,35 @@
 
 <main class="main-content">
     <div class="intro">
-        <h2>Witaj w aplikacji <br> CO-STUDY Intranet</h2>
+        <h2>Proszę wprowadzić <br> dane użytkownika</h2>
         <br>
-        <img th:src="@{/logo_blue.jpg}" alt="LOGO" width="270" height="270" style="margin-right: 15px;"/>
-        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-            <a href="addnew" class="btn btn-primary" style="width: 150px;"> <i class="fa fa-arrow-circle-o-left"></i>&nbsp;Zarejestruj</a>
-            <a href="login" class="btn btn-primary" style="width: 150px;"> <i class="fa fa-arrow-circle-o-up"></i>&nbsp;Zaloguj</a>
+        <img th:src="@{/logo_blue.jpg}" alt="LOGO" width="270" height="270"/>
+        <div>
+            <div th:if="${param.error}" class="error">
+                Błędne hasło lub e-mail.
+            </div>
+
+            <div>
+                <form name="f" th:action="@{/login}" method="post">
+                    <fieldset>
+                        <input type="text" id="email" name="email" placeholder="E-mail"
+                               style="text-transform:lowercase"/>
+                        <input type="password" id="password" name="password" placeholder="Hasło"/>
+                        <br>
+                        <br>
+
+                        <div style="display: flex; justify-content: center;">
+                            <button type="button" class="btn btn-primary" style="margin-right: 3px; width: 150px;" onclick="window.location.href='/'">
+                                <i class="fa fa-arrow-circle-o-left"></i>Strona główna
+                            </button>
+                            <button type="submit" class="btn btn-primary" style="width: 150px;"><i class="fa fa-arrow-circle-o-up"></i>Zaloguj
+                            </button>
+                        </div>
+                    </fieldset>
+                </form>
+
+
+            </div>
 
         </div>
     </div>
@@ -207,7 +204,6 @@
 
     </div>
 </footer>
-
 
 
 </body>
