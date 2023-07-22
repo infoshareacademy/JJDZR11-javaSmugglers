@@ -7,7 +7,7 @@
   <div class="container mt-5">
     <h2 class="text-center">Twój plan zajęć:</h2>
     <h5 class="text-center small">Wybierz datę, a następnie pojawi Ci się plan zajęć</h5>
-    <form th:action="@{/students/{studentId}/schedule(studentId=${studentId})}" method="post">
+    <form th:action="@{/students/{authToken}/schedule(authToken=${authToken})}" method="post">
       <div class="form-group">
         <input type="date" name="selectedDate" class="form-control custom-form-control" required />
       </div>
@@ -35,6 +35,7 @@
       </tr>
       </tbody>
     </table>
+    <a th:href="@{'/user-dashboard/' + ${authToken}}" class="btn btn-primary">Powrót do głównego menu</a>
   </div>
 </main>
 <footer th:replace="~{fragments::footer}"></footer>

@@ -16,21 +16,21 @@
   <br>
 
   <div class="center">
-    <a th:href="@{/students/{id}/schedule(id=*{userID})}" class="btn btn-secondary btn-operation mb-4">
+    <a th:href="@{/students/{authToken}/schedule(authToken=*{authToken})}" class="btn btn-secondary btn-operation mb-4">
       Zobacz plan lekcji
     </a>
-    <a th:href="@{/students/{id}/register(id=*{userID})}" class="btn btn-secondary btn-operation mb-4">
+    <a th:href="@{/students/{authToken}/register(authToken=*{authToken})}" class="btn btn-secondary btn-operation mb-4">
       Zapisz się na zajęcia
     </a>
-    <a th:href="@{/students/{id}/registered-courses(id=*{userID})}" class="btn btn-secondary btn-operation mb-4">
+    <a th:href="@{/students/{authToken}/registered-courses(authToken=*{authToken})}" class="btn btn-secondary btn-operation mb-4">
       Aktywne kursy
     </a>
     <br>
-    <a th:href="@{/showactiveexams/{id}(id=*{userID})}" class="btn btn-info btn-operation mb-4">
+    <a th:href="@{/showactiveexams/{authToken}(authToken=*{authToken})}" class="btn btn-info btn-operation mb-4">
       Wyświetl aktywne egzaminy
     </a>
     <br>
-    <a th:href="@{/userexamresults/{id}(id=*{userID})}" class="btn btn-success btn-operation mb-4">
+    <a th:href="@{/userexamresults/{authToken}(authToken=*{authToken})}" class="btn btn-success btn-operation mb-4">
       Wyświetl wyniki egzaminów
     </a>
   </div>

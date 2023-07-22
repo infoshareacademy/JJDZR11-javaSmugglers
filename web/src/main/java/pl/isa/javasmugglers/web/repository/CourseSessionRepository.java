@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseSession;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -15,5 +16,6 @@ public interface CourseSessionRepository extends JpaRepository<CourseSession, Lo
 
     List<CourseSession> findAllByCourseIdIn(List<Course> courseList);
 
-    List<CourseSession> findAllBySessionDateAndIdIn(Date sessionDate, List<Long> sessionIds);
+    List<CourseSession> findAllBySessionDateAndIdIn(LocalDate sessionDate, List<Long> ids);
+
 }

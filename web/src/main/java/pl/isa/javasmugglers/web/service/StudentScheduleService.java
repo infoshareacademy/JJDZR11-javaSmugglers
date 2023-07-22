@@ -34,9 +34,8 @@ public class StudentScheduleService {
                 .map(registration -> registration.getCourseId().getId())
                 .toList();
 
-        Date sqlDate = Date.valueOf(date);
 
-        List<CourseSession> schedule = courseSessionRepository.findAllBySessionDateAndIdIn(sqlDate, registeredCourseIds);
+        List<CourseSession> schedule = courseSessionRepository.findAllBySessionDateAndIdIn(date, registeredCourseIds);
 
         return schedule;
     }
