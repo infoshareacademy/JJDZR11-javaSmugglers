@@ -118,7 +118,7 @@ public class WebApplication {
                     LocalDate.parse("2024-01-10"), 45, Course.CourseType.LECTURE, professor);
 
 
-            User professor2 = userRepository.findById(3L).get();
+            User professor2 = userRepository.findById(5L).get();
             Course arytmetyka = new Course("arytmetyka",
                     "Dział nauki zajmujący się liczbami",
                     LocalDate.parse("2023-10-06"),

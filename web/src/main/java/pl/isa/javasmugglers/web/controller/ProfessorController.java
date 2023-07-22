@@ -49,7 +49,6 @@ public class ProfessorController {
     @Autowired
     StudentScheduleService studentScheduleService;
 
-
     @GetMapping("students/{authToken}/register")
     public String showProfessors(@PathVariable("authToken") String authToken, Model model) {
         User student = userService.findByAuthToken(authToken);
@@ -57,18 +56,9 @@ public class ProfessorController {
         List<ProfessorDTO> professors = professorService.getAllProfessors();
         List<Long> registeredCourseIds = courseRegistrationService.findRegisteredCourseIdsByStudentId(studentID);
 
-        List<Course> availableCourses = new ArrayList<>();
-        for (ProfessorDTO professor : professors) {
-            for (Course course : professor.getCourses()) {
-                if (!registeredCourseIds.contains(course.getId())) {
-                    availableCourses.add(course);
-                }
-            }
-        }
-
         model.addAttribute("professors", professors)
                 .addAttribute("studentId", studentID)
-                .addAttribute("availableCourses", availableCourses)
+                .addAttribute("registeredCourseIds", registeredCourseIds)
                 .addAttribute("authToken", authToken);
 
         return "professors";
