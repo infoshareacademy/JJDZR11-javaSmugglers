@@ -116,11 +116,13 @@ public class ProfessorController {
                 .map(CourseRegistration::getCourseId)
                 .collect(Collectors.toList());
 
-        model.addAttribute("registeredCourses", registeredCourses);
+        model.addAttribute("registeredCourses", registeredCourses)
+                .addAttribute("authToken", authToken);
+
         return "registered-courses";
     }
 
-    @PostMapping("students/{authToken}/courses/{courseId}/unregister")
+    @PostMapping("/students/{authToken}/courses/{courseId}/unregister")
     public String unregisterFromCourse(@PathVariable("authToken") String authToken, @PathVariable("courseId") Long courseId) {
         User student = userService.findByAuthToken(authToken);
 
@@ -130,7 +132,7 @@ public class ProfessorController {
 
         courseRegistrationService.delete(courseRegistration);
 
-        return "redirect:students/" + authToken + "/registered-courses";
+        return "redirect:/students/" + authToken + "/registered-courses";
     }
 
 
