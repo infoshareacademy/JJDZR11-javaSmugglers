@@ -65,9 +65,10 @@ public class ProfessorController {
             }
         }
 
-        model.addAttribute("professors", professors);
-        model.addAttribute("studentId", studentID);
-        model.addAttribute("availableCourses", availableCourses);
+        model.addAttribute("professors", professors)
+                .addAttribute("studentId", studentID)
+                .addAttribute("availableCourses", availableCourses)
+                .addAttribute("authToken", authToken);
 
         return "professors";
     }
@@ -82,7 +83,7 @@ public class ProfessorController {
         if (!registrationStatus) {
             redirectAttributes.addFlashAttribute("message", "Student is already registered for this course");
         }
-        return "redirect:students/" + authToken + "/schedule";
+        return "redirect:/students/" + authToken + "/registered-courses";
     }
 
     @GetMapping("students/{authToken}/schedule")
