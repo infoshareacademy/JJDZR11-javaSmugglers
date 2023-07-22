@@ -40,5 +40,19 @@ public class StudentScheduleService {
         return schedule;
     }
 
+    public List<CourseSession> getStudentScheduleByDateRange(Long studentId, LocalDate startDate, LocalDate endDate) {
+        User student = userRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + studentId));
+
+        List<CourseRegistration> registrations = courseRegistrationRepository.findAllByStudentId(student);
+        List<Long> registeredCourseIds = registrations.stream()
+                .map(registration -> registration.getCourseId().getId())
+                .toList();
+
+        List<CourseSession> schedule = courseSessionRepository.findAllBySessionDateBetweenAndIdIn(startDate, endDate, registeredCourseIds);
+
+        return schedule;
+    }
+
 }
 

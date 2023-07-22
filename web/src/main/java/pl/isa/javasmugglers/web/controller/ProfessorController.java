@@ -18,6 +18,7 @@ import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,15 +88,22 @@ public class ProfessorController {
     }
 
     @GetMapping("students/{authToken}/schedule")
-    public String getStudentSchedule(@PathVariable("authToken") String authToken, Model model) {
+    public String getStudentSchedule(@PathVariable("authToken") String authToken, @RequestParam(value = "weekOffset", defaultValue = "0") int weekOffset, Model model) {
         User student = userService.findByAuthToken(authToken);
         Long studentID = student.getId();
         LocalDate currentDate = LocalDate.now();
-        List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentID, currentDate);
+
+        LocalDate startDate = currentDate.minusWeeks(1 + weekOffset);
+        LocalDate endDate = startDate.plusDays(6);
+
+        List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDateRange(studentID, startDate, endDate);
         model.addAttribute("schedule", schedule);
         model.addAttribute("currentDate", currentDate);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
         return "student-schedule";
     }
+
 
     @PostMapping("students/{authToken}/schedule")
     public String getStudentScheduleByDate(@PathVariable("authToken") String authToken, @RequestParam("selectedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate selectedDate, Model model) {

@@ -166,7 +166,7 @@ public class WebApplication {
             Course course1 = courseRepository.findById(1L).get();
             CourseSession courseSession1 = new CourseSession(
                     course1,
-                    LocalDate.parse("2023-10-15"),
+                    LocalDate.parse("2023-07-15"),
                     Time.valueOf("8:00:00"),
                     Time.valueOf("10:00:00"),
                     "sala 5c"
@@ -177,7 +177,7 @@ public class WebApplication {
             Course course2 = courseRepository.findById(2L).get();
             CourseSession courseSession2 = new CourseSession(
                     course2,
-                    LocalDate.parse("2023-10-25"),
+                    LocalDate.parse("2023-07-16"),
                     Time.valueOf("10:30:00"),
                     Time.valueOf("12:30:00"),
                     "sala 212B"
