@@ -9,6 +9,7 @@ import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
 import pl.isa.javasmugglers.web.repository.CourseSessionRepository;
 import pl.isa.javasmugglers.web.repository.UserRepository;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,12 +70,12 @@ public class CourseService {
         return courseRepository.save(course);
     }
 
-    public void deleteCourse(Long id){
+    public void deleteCourse(Long id) {
         courseRepository.delete(courseRepository.findById(id).orElseThrow());
     }
 
-    public Course findByID(Long id){
-       return (courseRepository.findById(id).orElseThrow());
+    public Course findByID(Long id) {
+        return (courseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid course ID: " + id)));
     }
 
 }

@@ -21,5 +21,6 @@ public interface CourseRegistrationRepository extends JpaRepository<CourseRegist
     boolean existsByStudentIdAndCourseId(User student, Course course);
     @Query("SELECT cr.courseId.id FROM courseRegistrations cr WHERE cr.studentId.id = :studentId")
     List<Long> findRegisteredCourseIdsByStudentId(@Param("studentId") Long studentId);
+
     Optional<CourseRegistration> findAllByStudentIdAndCourseId(User student, Course course);
 }
