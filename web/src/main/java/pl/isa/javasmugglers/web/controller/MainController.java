@@ -66,7 +66,6 @@ public class MainController {
     String studentTimetable(@PathVariable("authToken") String authToken, Model model) {
         User user = userService.findByAuthToken(authToken);
         List<CourseSession> courseSessions = courseService.coursesListByStudentId(user.getId());
-        System.out.println(courseSessions);
         model.addAttribute("studentTimetable", courseSessions)
                 .addAttribute("content", "studentTimetable")
                 .addAttribute("studentId", user.getId())
@@ -413,21 +412,15 @@ public class MainController {
 
     @GetMapping("/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y")
     public String adminDashboard(Model model) {
-        ;
-
         model.addAttribute("content", "AdminDashboard");
-
         return "/main";
     }
 
     @GetMapping("/n3pNjrMZhvD53qMF35ukZn9UeJZdkJJy57SUdweuyy7hf6uiQEBFwtgZucr7")
     public String UserList(Model model) {
         List<User> userList = userService.getAllUsers().stream().filter(user -> user.getType() != UserType.ADMIN).toList();
-
-
         model.addAttribute("alluserlist", userList)
                 .addAttribute("content", "UserList");
-
         return "/main";
     }
 

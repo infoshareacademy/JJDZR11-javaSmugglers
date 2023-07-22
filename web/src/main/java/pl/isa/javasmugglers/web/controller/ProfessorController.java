@@ -82,7 +82,7 @@ public class ProfessorController {
         if (!registrationStatus) {
             redirectAttributes.addFlashAttribute("message", "Student is already registered for this course");
         }
-        return "redirect:/students/" + studentID + "/schedule";
+        return "redirect:students/" + authToken + "/schedule";
     }
 
     @GetMapping("students/{authToken}/schedule")
@@ -130,7 +130,7 @@ public class ProfessorController {
 
         courseRegistrationService.delete(courseRegistration);
 
-        return "redirect:/students/" + authToken + "/registered-courses";
+        return "redirect:students/" + authToken + "/registered-courses";
     }
 
 
