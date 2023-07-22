@@ -526,8 +526,18 @@ public class MainController {
         Long decodedId = PathEncoderDecoder.decodePath(encodedID);
         CourseSession existingCourseSession = courseSessionService.findByID(decodedId);
 
-        java.sql.Time startTime = java.sql.Time.valueOf(startTimeString + ":00");
-        java.sql.Time endTime = java.sql.Time.valueOf(endTimeString + ":00");
+        long colonCountInStartTime = startTimeString.chars().filter(ch -> ch == ':').count();
+        long colonCountInEndTime = endTimeString.chars().filter(ch -> ch == ':').count();
+        if (colonCountInStartTime == 1) {
+            startTimeString += ":00";
+        }
+
+        if (colonCountInEndTime == 1) {
+            endTimeString += ":00";
+        }
+        java.sql.Time startTime = java.sql.Time.valueOf(startTimeString);
+        java.sql.Time endTime = java.sql.Time.valueOf(endTimeString);
+
 
         existingCourseSession.setStartTime(startTime);
         existingCourseSession.setEndTime(endTime);
