@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 public class CourseRegistrationService {
-    private final CourseRegistrationRepository courseRegistrationRepository;
+    private static CourseRegistrationRepository courseRegistrationRepository;
     private final CourseRepository courseRepository;
     private final UserRepository userRepository;
 
@@ -48,5 +48,23 @@ public class CourseRegistrationService {
     public void deleteByStudentId(Long studentId){
         courseRegistrationRepository.deleteCourseRegistrationByStudentId(studentId);
     }
+
+    public List<Long> findRegisteredCourseIdsByStudentId(Long id){
+       return courseRegistrationRepository.findRegisteredCourseIdsByStudentId(id);
+    }
+
+    public static List<CourseRegistration> findAllByStudentId(User user){
+        return courseRegistrationRepository.findAllByStudentId(user);
+    }
+
+    public CourseRegistration findAllByStudentIdAndCourseId(User user, Course course){
+        return (courseRegistrationRepository.findAllByStudentIdAndCourseId(user, course)
+                .orElseThrow(() -> new IllegalArgumentException("Student is not registered for this course")));
+    }
+
+    public void delete(CourseRegistration courseRegistration){
+        courseRegistrationRepository.delete(courseRegistration);
+    }
+
 }
 

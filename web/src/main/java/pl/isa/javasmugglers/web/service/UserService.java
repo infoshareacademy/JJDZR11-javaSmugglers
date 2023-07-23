@@ -19,11 +19,15 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
+
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
-
     private static final String USER_NOT_FOUND = "USER WITH EMAIL %S NOT FOUND.";
+
+
+    public UserService(UserRepository userRepository, CourseRepository courseRepository) {
+        this.userRepository = userRepository;
+        this.courseRepository = courseRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -33,13 +37,10 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public UserService(UserRepository userRepository, CourseRepository courseRepository) {
-        this.userRepository = userRepository;
-        this.courseRepository = courseRepository;
-    }
 
-    public User findByID(Long id) {
-        return userRepository.findById(id).orElseThrow();
+
+    public User findByID (Long id){
+       return userRepository.findById(id).orElseThrow();
     }
     public User findByAuthToken (String authToken){
         return userRepository.findByAuthToken(authToken);
@@ -50,15 +51,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-
-
-
-    public String save(User user){
-
+    public String save(User user) {
         String encodedPassword = passwordEncoder
                 .encode(user.getPassword());
         user.setPassword(encodedPassword);
-
         userRepository.save(user);
         return "rejestracja udana";
     }

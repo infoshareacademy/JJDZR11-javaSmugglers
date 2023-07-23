@@ -1,72 +1,66 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Zapisz się na zajęcia po profesorach</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <style>
-        summary::-webkit-details-marker {
-            display: none;
-        }
-        .professor-row {
-            cursor: pointer;
-            background-color: lightgray;
-            margin-bottom: 10px;
-        }
-        .course-details {
-            margin-left: 20px;
-        }
-        .flash-message {
-            color: red;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-<h1>Zapisz się na zajęcia po profesorach</h1>
-<div th:each="professor : ${professors}">
-    <details class="professor-row">
-        <summary>
-            <span th:text="${professor.firstName}"></span>
-            <span th:text="${professor.lastName}"></span>
-        </summary>
-        <div class="course-details">
-            <h2>Kursy:</h2>
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th>Nazwa Kursu</th>
-                    <th>Opis</th>
-                    <th>Godzina rozpoczęcia</th>
-                    <th>Godzina zakończenia</th>
-                    <th>Punkty ECTS</th>
-                    <th>Typ</th>
-                    <th>ZAPISZ SIĘ!</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="course : ${availableCourses}">
-                    <td th:text="${course.name}"></td>
-                    <td th:text="${course.description}"></td>
-                    <td th:text="${course.startDate}"></td>
-                    <td th:text="${course.endDate}"></td>
-                    <td th:text="${course.ectsPoints}"></td>
-                    <td th:text="${course.courseType}"></td>
-                    <td>
-                        <!-- Guzik "Zapisz się" -->
-                        <form th:action="@{/students/{studentId}/courses/{courseId}/register(studentId=${studentId}, courseId=${course.id})}" method="post">
-                            <input type="hidden" name="studentId" th:value="${studentId}">
-                            <input type="hidden" name="courseId" th:value="${course.id}">
-                            <button type="submit" class="btn btn-primary">Zapisz się</button>
-                        </form>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+<head th:replace="~{fragments::head}"></head>
+<body class="h-100">
+<main class="flex-shrink-0">
+    <nav th:replace="~{fragments::navbar}"></nav>
+    <div class="container mt-12">
+        <br>
+        <h1 class="text-center">Zapisz się na zajęcia</h1>
+        <h3 class="text-center mb-4" style="font-size: 18px;">Proszę kliknąć na imię i nazwisko danego profesora w celu wyświetlenia listy zajęć</h3>
+        <br>
+        <div th:each="professor : ${professors}">
+            <details class="professor-row">
+                <summary class="mb-3">
+                    <span class="mr-2 font-weight-bold h4" th:text="${professor.firstName}"></span>
+                    <span class="font-weight-bold h4" th:text="${professor.lastName}"></span>
+                </summary>
+                <div class="course-details" th:if="${professor.courses != null and professor.courses.size() > 0}">
+                    <table class="table table-dark table-striped table-bordered">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Nazwa Kursu</th>
+                            <th>Opis</th>
+                            <th>Godzina rozpoczęcia</th>
+                            <th>Godzina zakończenia</th>
+                            <th>Punkty ECTS</th>
+                            <th>Typ</th>
+                            <th>ZAPISZ SIĘ!</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="course : ${professor.courses}">
+                            <th:block th:if="${!registeredCourseIds.contains(course.id)}">
+                                <td th:text="${course.name}"></td>
+                                <td th:text="${course.description}"></td>
+                                <td th:text="${course.startDate}"></td>
+                                <td th:text="${course.endDate}"></td>
+                                <td th:text="${course.ectsPoints}"></td>
+                                <td th:text="${course.courseType}"></td>
+                                <td>
+                                    <!-- Guzik "Zapisz się" -->
+                                    <form th:action="@{/students/{authToken}/courses/{courseId}/register(authToken=${authToken}, courseId=${course.id})}" method="post">
+                                        <input type="hidden" name="authToken" th:value="${authToken}">
+                                        <input type="hidden" name="courseId" th:value="${course.id}">
+                                        <button type="submit" class="btn btn-primary">Zapisz się</button>
+                                    </form>
+                                </td>
+                            </th:block>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:unless="${professor.courses != null and professor.courses.size() > 0}" class="text-center">
+                    <p>Brak kursów, na które możesz się zapisać</p>
+                </div>
+            </details>
         </div>
-    </details>
-</div>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <br>
+        <br>
+        <a th:href="@{'/user-dashboard/' + ${authToken}}" class="btn btn-primary">Powrót do głównego menu</a>
+        <br>
+    </div>
+</main>
+<footer th:replace="~{fragments::footer}"></footer>
 </body>
 </html>
