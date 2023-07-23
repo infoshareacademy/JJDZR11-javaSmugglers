@@ -8,11 +8,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.*;
+import pl.isa.javasmugglers.web.service.UserService;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 
 @SpringBootApplication
 @EntityScan()
@@ -25,14 +28,21 @@ public class WebApplication {
 
     @Bean
     CommandLineRunner commandLineRunner(UserRepository userRepository,
-                                        BCryptPasswordEncoder bCryptPasswordEncoder) {
+                                        BCryptPasswordEncoder bCryptPasswordEncoder,
+                                        UserService userService) {
         return args -> {
             User blazej = new User(
                     "Błażej",
                     "Jendrzejewski",
                     "bj@gmail.com",
                     bCryptPasswordEncoder.encode("lato23"),
-                    UserType.STUDENT
+                    UserStatus.ACTIVE,
+                    UserType.STUDENT,
+
+
+
+                    userService.generateAuthToken()
+
             );
 
             User agata = new User(
@@ -40,7 +50,13 @@ public class WebApplication {
                     "Kowalska",
                     "agata@gmail.com",
                     bCryptPasswordEncoder.encode("lato24"),
-                    UserType.PROFESOR
+                    UserStatus.ACTIVE,
+                    UserType.PROFESOR,
+
+
+
+                    userService.generateAuthToken()
+
             );
 
             User tomek = new User(
@@ -48,7 +64,13 @@ public class WebApplication {
                     "Korek",
                     "tom@gmail.com",
                     bCryptPasswordEncoder.encode("lato25"),
-                    UserType.STUDENT
+                    UserStatus.ACTIVE,
+                    UserType.STUDENT,
+
+
+
+                    userService.generateAuthToken()
+
             );
 
             User magda = new User(
@@ -56,13 +78,32 @@ public class WebApplication {
                     "Kowalska",
                     "magda@gmail.com",
                     bCryptPasswordEncoder.encode("lato26"),
-                    UserType.PROFESOR
+                    UserStatus.ACTIVE,
+                    UserType.PROFESOR,
+                    userService.generateAuthToken()
+
+
+
+            );
+            User admin = new User(
+                    "admin",
+                    "admin",
+                    "admin",
+                    bCryptPasswordEncoder.encode("admin"),
+                    UserStatus.ACTIVE,
+                    UserType.ADMIN,
+
+
+                    userService.generateAuthToken()
+
             );
 
+            userRepository.save(admin);
             userRepository.save(blazej);
             userRepository.save(agata);
             userRepository.save(tomek);
             userRepository.save(magda);
+
 
         };
     }
@@ -70,18 +111,18 @@ public class WebApplication {
     @Bean
     CommandLineRunner commandLineRunner2(CourseRepository courseRepository, UserRepository userRepository) {
         return args -> {
-            User professor = userRepository.findById(2L).get();
+            User professor = userRepository.findById(3L).get();
             Course programowanie = new Course("Java",
                     "Programowanie Java",
-                    Date.valueOf("2023-10-10"),
-                    Date.valueOf("2024-01-10"), 45, Course.CourseType.LECTURE, professor);
+                    LocalDate.parse("2023-10-10"),
+                    LocalDate.parse("2024-01-10"), 45, Course.CourseType.LECTURE, professor);
 
 
-            User professor2 = userRepository.findById(2L).get();
+            User professor2 = userRepository.findById(5L).get();
             Course arytmetyka = new Course("arytmetyka",
                     "Dział nauki zajmujący się liczbami",
-                    Date.valueOf("2023-10-06"),
-                    Date.valueOf("2024-01-16"), 65, Course.CourseType.SEMINAR,
+                    LocalDate.parse("2023-10-06"),
+                    LocalDate.parse("2024-01-16"), 65, Course.CourseType.SEMINAR,
                     professor2
             );
 
@@ -94,7 +135,7 @@ public class WebApplication {
     @Bean
     CommandLineRunner commandLineRunner3(CourseRegistrationRepository courseRegistrationRepository, UserRepository userRepository, CourseRepository courseRepository) {
         return args -> {
-            User student1 = userRepository.findById(1L).get();
+            User student1 = userRepository.findById(2L).get();
             Course course1 = courseRepository.findById(1L).get();
             CourseRegistration courseRegistration1 = new CourseRegistration(
                     student1,
@@ -105,7 +146,7 @@ public class WebApplication {
                     student1,
                     course2);
 
-            User student2 = userRepository.findById(3L).get();
+            User student2 = userRepository.findById(4L).get();
             Course course3 = courseRepository.findById(2L).get();
             CourseRegistration courseRegistration3 = new CourseRegistration(
                     student2,
@@ -125,7 +166,7 @@ public class WebApplication {
             Course course1 = courseRepository.findById(1L).get();
             CourseSession courseSession1 = new CourseSession(
                     course1,
-                    Date.valueOf("2023-10-15"),
+                    LocalDate.parse("2023-07-15"),
                     Time.valueOf("8:00:00"),
                     Time.valueOf("10:00:00"),
                     "sala 5c"
@@ -136,7 +177,7 @@ public class WebApplication {
             Course course2 = courseRepository.findById(2L).get();
             CourseSession courseSession2 = new CourseSession(
                     course2,
-                    Date.valueOf("2023-10-25"),
+                    LocalDate.parse("2023-07-16"),
                     Time.valueOf("10:30:00"),
                     Time.valueOf("12:30:00"),
                     "sala 212B"
@@ -146,7 +187,7 @@ public class WebApplication {
 
             CourseSession courseSession3 = new CourseSession(
                     course1,
-                    Date.valueOf("2023-11-05"),
+                    LocalDate.parse("2023-11-05"),
                     Time.valueOf("18:00:00"),
                     Time.valueOf("20:00:00"),
                     "sala 5c"
@@ -156,7 +197,7 @@ public class WebApplication {
 
             CourseSession courseSession4 = new CourseSession(
                     course1,
-                    Date.valueOf("2023-11-12"),
+                    LocalDate.parse("2023-11-12"),
                     Time.valueOf("16:00:00"),
                     Time.valueOf("18:00:00"),
                     "sala 5c"
@@ -174,15 +215,23 @@ public class WebApplication {
                     "Egzamin końcowy",
                     "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z całego semestru",
                     course1,
-                    Exam.status.ACTIVE, 10
-            );
+                    Date.valueOf("2023-06-10"),
+                    Time.valueOf("12:00:00"),
+                    Date.valueOf("2023-08-10"),
+                    Time.valueOf("12:00:00"),
+                    60,
+                    10);
             examRepository.save(exam1);
 
             Exam exam2 = new Exam(
                     "Egzamin mid-semetralny",
                     "Egzamin w formie testu. Na egzaminie mogą pojawić się pytania z dotychczasowego materiału omawianego na zajęciach",
                     course1,
-                    Exam.status.INACTIVE,
+                    Date.valueOf("2023-08-10"),
+                    Time.valueOf("12:00:00"),
+                    Date.valueOf("2023-10-10"),
+                    Time.valueOf("12:00:00"),
+                    70,
                     15);
             examRepository.save(exam2);
         };
@@ -281,7 +330,7 @@ public class WebApplication {
     CommandLineRunner commandLineRunner8(ExamResultsRepository examResultsRepository, ExamRepository examRepository, UserRepository userRepository) {
         return args -> {
             Exam exam1 = examRepository.findById(1L).get();
-            User student1 = userRepository.findById(3L).get();
+            User student1 = userRepository.findById(4L).get();
             ExamResult student1Results = new ExamResult(
                     student1,
                     exam1,

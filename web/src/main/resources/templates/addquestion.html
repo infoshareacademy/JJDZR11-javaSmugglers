@@ -28,7 +28,7 @@
         }
     </script>
     <h2>Dodaj pytanie do egzaminu</h2>
-    <form onsubmit="return validateForm()" th:action="@{/addquestion/{examId}(examId=${question.examId.id})}" method="post" th:object="${question}">
+    <form onsubmit="return validateForm()" th:action="@{/addquestion/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(question.examId.id)})}" method="post" th:object="${question}">
         <div class="form-group">
             <label for="questionText">Tekst pytania:</label>
             <textarea class="form-control" id="questionText" th:field="*{questionText}"></textarea>
