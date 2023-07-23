@@ -50,6 +50,8 @@ public class MainController {
     UserRepository userRepository;
     @Autowired
     CourseSessionService courseSessionService;
+    @Autowired
+    ProfessorService professorService;
 
 
     @GetMapping("examlist/{authToken}")
@@ -597,6 +599,46 @@ public class MainController {
 
         return "redirect:/professorTimetable/" + authToken;
     }
+    @GetMapping("students/{authToken}/register")
+    public String showProfessors(@PathVariable("authToken") String authToken, Model model) {
+        User student = userService.findByAuthToken(authToken);
+        Long studentID = student.getId();
+        List<ProfessorDTO> professors = professorService.getAllProfessors();
+        List<Long> registeredCourseIds = courseRegistrationService.findRegisteredCourseIdsByStudentId(studentID);
+
+        List<Course> availableCourses = new ArrayList<>();
+        for (ProfessorDTO professor : professors) {
+            for (Course course : professor.getCourses()) {
+                // Sprawdzamy, czy kurs nie jest już zarejestrowany przez studenta
+                if (!registeredCourseIds.contains(course.getId())) {
+                    // Sprawdzamy, czy kurs jest przypisany do odpowiedniego profesora
+                    if (course.getProfessorId().getId().equals(professor.getId())) {
+                        availableCourses.add(course);
+                    }
+                }
+            }
+        }
+
+        model.addAttribute("professors", professors)
+                .addAttribute("studentId", studentID)
+                .addAttribute("availableCourses", availableCourses)
+                .addAttribute("authToken", authToken);
+
+        return "professors";
+    }
+
+    @PostMapping("students/{authToken}/courses/{courseId}/register")
+    public String registerForCourse(@PathVariable("authToken") String authToken, @PathVariable("courseId") Long courseId, RedirectAttributes redirectAttributes) {
+        User student = userService.findByAuthToken(authToken);
+        Long studentID = student.getId();
+        boolean registrationStatus = courseRegistrationService.registerCourse(studentID, courseId);
+
+        if (!registrationStatus) {
+            redirectAttributes.addFlashAttribute("message", "Student is already registered for this course");
+        }
+        return "redirect:/students/" + authToken + "/registered-courses";
+    }
+
 
 
 }

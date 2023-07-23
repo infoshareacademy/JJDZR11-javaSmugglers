@@ -19,7 +19,9 @@
     <a th:href="@{/professorTimetable/{authToken}(authToken=*{authToken})}" class="btn btn-info btn-operation mb-4">
       Dodaj lub edytuj przedmioty i zajęcia
     </a>
-
+    <a th:href="@{students/{authToken}/register(authToken=*{authToken})}" class="btn btn-info btn-operation mb-4">
+      Pokaż Plan Zajęć
+    </a>
     <br>
     <a th:href="@{/examlist/{authToken}(authToken=*{authToken})}" class="btn btn-primary btn-operation mb-4">
       Dodaj lub edytuj egzaminy

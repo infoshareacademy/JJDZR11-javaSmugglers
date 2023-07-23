@@ -49,6 +49,7 @@ public class ProfessorController {
     StudentScheduleService studentScheduleService;
 
 
+
     @GetMapping("students/{authToken}/register")
     public String showProfessors(@PathVariable("authToken") String authToken, Model model) {
         User student = userService.findByAuthToken(authToken);
@@ -135,7 +136,6 @@ public class ProfessorController {
 
         return "redirect:/students/" + authToken + "/registered-courses";
     }
-
 
 }
 
