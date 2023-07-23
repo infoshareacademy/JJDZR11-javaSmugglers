@@ -2,6 +2,7 @@ package pl.isa.javasmugglers.web.service;
 
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.StudentConfig.ProfessorDTO;
+import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
 import pl.isa.javasmugglers.web.repository.CourseRepository;
@@ -37,5 +38,6 @@ public class ProfessorService {
         professorDTO.setCourses(courseRepository.findAllByProfessorId(professor));
         return professorDTO;
     }
+
 }
 
