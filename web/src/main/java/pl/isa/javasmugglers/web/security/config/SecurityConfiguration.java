@@ -41,21 +41,21 @@ public class SecurityConfiguration {
         http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                                .requestMatchers("/examlist/**").hasAuthority("PROFESOR") // Tylko użytkownicy z rolą PROFESOR mają dostęp
-                                .requestMatchers("registration/**", "registration/professor/**")
-                                .permitAll()
-                                .requestMatchers("/userinactive/**","/registrationFailed", "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif","/logo_blue.jpg")
-                                .permitAll()
+                .requestMatchers("/examlist/**").hasAuthority("PROFESOR") // Tylko użytkownicy z rolą PROFESOR mają dostęp
+                .requestMatchers("registration/**", "registration/professor/**")
+                .permitAll()
+                .requestMatchers("/userinactive/**","/registrationFailed", "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif","/logo_blue.jpg")
+                .permitAll()
                 .anyRequest()
                 .authenticated().and()
                 .formLogin()
-                    .passwordParameter(bCryptPasswordEncoder.toString())
-                    .loginProcessingUrl("/login")
-                    .loginPage("/login")
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .permitAll()
-                    .defaultSuccessUrl("/succeslogin.html", false)
+                .passwordParameter(bCryptPasswordEncoder.toString())
+                .loginProcessingUrl("/login")
+                .loginPage("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .permitAll()
+                .defaultSuccessUrl("/succeslogin.html", false)
                 //przekierowanie jeśli warunek authenticated() nie jest spełniony
                 .and()
                 .exceptionHandling()
@@ -81,5 +81,3 @@ public class SecurityConfiguration {
         return provider;
     }
 }
-
-

@@ -2,19 +2,31 @@ package pl.isa.javasmugglers.web.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.isa.javasmugglers.web.StudentConfig.ProfessorDTO;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.isa.javasmugglers.web.StudentConfig.ProfessorDTO;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
+import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
+import pl.isa.javasmugglers.web.repository.CourseRepository;
+import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
@@ -54,7 +66,6 @@ public class MainController {
     String studentTimetable(@PathVariable("authToken") String authToken, Model model) {
         User user = userService.findByAuthToken(authToken);
         List<CourseSession> courseSessions = courseService.coursesListByStudentId(user.getId());
-        System.out.println(courseSessions);
         model.addAttribute("studentTimetable", courseSessions)
                 .addAttribute("content", "studentTimetable")
                 .addAttribute("studentId", user.getId())
@@ -384,6 +395,15 @@ public class MainController {
     }
 
 
+    @GetMapping("user-dashboard/courses/{id}")
+    String courselist(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("CourseList", examService.listAllExamsByProfessorId(id))
+                .addAttribute("profID", id)
+                .addAttribute("content", "courseList");
+
+        return "main";
+    }
+
     @GetMapping("/menu")
     public String showMenu() {
         return "menu";
@@ -392,21 +412,15 @@ public class MainController {
 
     @GetMapping("/QKP85NW83DGZ2EWYXHVRJH1IDJ7SDCULSCJP460E8Z4DKQQQCROIVTGG0X1Y")
     public String adminDashboard(Model model) {
-        ;
-
         model.addAttribute("content", "AdminDashboard");
-
         return "/main";
     }
 
     @GetMapping("/n3pNjrMZhvD53qMF35ukZn9UeJZdkJJy57SUdweuyy7hf6uiQEBFwtgZucr7")
     public String UserList(Model model) {
         List<User> userList = userService.getAllUsers().stream().filter(user -> user.getType() != UserType.ADMIN).toList();
-
-
         model.addAttribute("alluserlist", userList)
                 .addAttribute("content", "UserList");
-
         return "/main";
     }
 
