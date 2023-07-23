@@ -18,4 +18,7 @@ public interface CourseSessionRepository extends JpaRepository<CourseSession, Lo
 
     List<CourseSession> findAllBySessionDateAndIdIn(LocalDate sessionDate, List<Long> ids);
 
+    List<CourseSession> findByCourseInAndSessionDate(List<Long> courseId, LocalDate sessionDate);
+
+    List<CourseSession> findByCourseInAndSessionDateBetween(List<Long> courseId, LocalDate startDate, LocalDate endDate);
 }
