@@ -2,25 +2,21 @@ package pl.isa.javasmugglers.web.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.isa.javasmugglers.web.StudentConfig.ProfessorDTO;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.isa.javasmugglers.web.StudentConfig.ProfessorDTO;
+
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
-import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
-import pl.isa.javasmugglers.web.repository.CourseRepository;
+
 import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
-import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,9 +48,9 @@ public class MainController {
     CourseSessionService courseSessionService;
 
 
-    @GetMapping("examlist/{authToken}")
-    String examlist(@PathVariable("authToken") String authToken, Model model) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("examlist")
+    String examlist(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         model.addAttribute("examlist", examService.listAllExamsByProfessorId(user.getId()))
                 .addAttribute("profID", user.getId())
                 .addAttribute("content", "examlist")
@@ -62,7 +58,7 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping("studentTimetable/{authToken}")
+    @GetMapping("studentTimetable")
     String studentTimetable(@PathVariable("authToken") String authToken, Model model) {
         User user = userService.findByAuthToken(authToken);
         List<CourseSession> courseSessions = courseService.coursesListByStudentId(user.getId());

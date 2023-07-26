@@ -40,7 +40,6 @@ public class WebApplication {
                     UserType.STUDENT,
 
 
-
                     userService.generateAuthToken()
 
             );
@@ -49,10 +48,9 @@ public class WebApplication {
                     "Agata",
                     "Kowalska",
                     "agata@gmail.com",
-                    bCryptPasswordEncoder.encode("lato24"),
+                   bCryptPasswordEncoder.encode("lato24"),
                     UserStatus.ACTIVE,
                     UserType.PROFESOR,
-
 
 
                     userService.generateAuthToken()
@@ -68,7 +66,6 @@ public class WebApplication {
                     UserType.STUDENT,
 
 
-
                     userService.generateAuthToken()
 
             );
@@ -81,7 +78,6 @@ public class WebApplication {
                     UserStatus.ACTIVE,
                     UserType.PROFESOR,
                     userService.generateAuthToken()
-
 
 
             );
