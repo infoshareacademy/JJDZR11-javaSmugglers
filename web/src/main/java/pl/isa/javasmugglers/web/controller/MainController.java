@@ -154,8 +154,7 @@ public class MainController {
         existingExam.setPassingThreshold(exam.getPassingThreshold());
 
         examService.saveExam(existingExam);
-        String authToken = exam.getCourseId().getProfessorId().getAuthToken();
-        return "redirect:/examlist/" + authToken;
+        return "redirect:/examlist";
     }
 
     @GetMapping("questionlist/{encodedID}")
@@ -257,10 +256,10 @@ public class MainController {
     }
 
 
-    @GetMapping("startexam/{authToken}/{examId}")
-    public String startExam(@PathVariable Long examId, @PathVariable String authToken, Model model) {
+    @GetMapping("startexam/{examId}")
+    public String startExam(@PathVariable Long examId, Model model, Principal principal) {
         Exam exam = examService.findById(examId);
-        User user = userService.findByAuthToken(authToken);
+        User user = userService.findByEmail(principal.getName());
         UserExamAnswers userExamAnswers = new UserExamAnswers();
 
 
@@ -275,11 +274,12 @@ public class MainController {
 
     }
 
-    @PostMapping("startexam/{authToken}/{examId}")
-    public String submitAnswers(@PathVariable Long examId, @PathVariable String authToken,
-                                @ModelAttribute UserExamAnswers userExamAnswers) {
+    @PostMapping("startexam/{examId}")
+    public String submitAnswers(@PathVariable Long examId,
+                                @ModelAttribute UserExamAnswers userExamAnswers,
+                                Principal principal) {
         Exam exam = examService.findById(examId);
-        User user = userService.findByAuthToken(authToken);
+        User user = userService.findByEmail(principal.getName());
         Double maxScore = examService.calculateExamMaxScore(exam);
         Double userScore = examService.calculateUserScore(userExamAnswers);
 
@@ -290,7 +290,7 @@ public class MainController {
         examResult.setStudentId(user);
 
         examResultService.save(examResult);
-        return "redirect:/userexamresults/" + authToken;
+        return "redirect:/userexamresults";
     }
 
 
