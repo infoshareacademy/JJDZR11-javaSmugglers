@@ -294,9 +294,9 @@ public class MainController {
     }
 
 
-    @GetMapping("userexamresults/{authToken}")
-    public String showExamResults(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("userexamresults")
+    public String showExamResults(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         List<ExamResult> examResults = examResultService.findUserExamResults(user);
         List<Integer> percentageScores = new ArrayList<>();
         for (ExamResult result : examResults) {
