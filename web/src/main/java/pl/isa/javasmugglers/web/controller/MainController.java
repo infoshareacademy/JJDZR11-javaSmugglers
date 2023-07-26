@@ -99,15 +99,15 @@ public class MainController {
 
         examService.saveExam(exam);
         String authToken = exam.getCourseId().getProfessorId().getAuthToken();
-        return "redirect:/examlist/" + authToken;
+        return "redirect:/examlist";
     }
 
-    @GetMapping("addexam/{authToken}")
-    public String showAddExamForm(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("addexam")
+    public String showAddExamForm(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         model.addAttribute("exam", new Exam())
                 .addAttribute("courseList", courseService.coursesListByProfessorId(user.getId()))
-                .addAttribute("authToken", authToken)
+                .addAttribute("authToken", user.getAuthToken())
                 .addAttribute("content", "addexam");
         return "main";
     }
