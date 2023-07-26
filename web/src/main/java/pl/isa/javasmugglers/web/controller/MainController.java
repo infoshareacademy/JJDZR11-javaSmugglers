@@ -71,16 +71,16 @@ public class MainController {
     }
 
 
-    @GetMapping("professorTimetable/{authToken}")
-    String professorTimetable(@PathVariable("authToken") String authToken, Model model) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("professorTimetable")
+    String professorTimetable(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         List<Course> courseList = courseService.coursesListByProfessorId(user.getId());
         List<CourseSession> courseSessionList = courseSessionService.getCourseSessionByCourseID(courseList);
         model.addAttribute("professorCourseList", courseList)
                 .addAttribute("content", "professorCourseList")
                 .addAttribute("professorId", user.getId())
                 .addAttribute("user", user)
-                .addAttribute("authToken", authToken)
+                .addAttribute("authToken", user.getAuthToken())
                 .addAttribute("courseSessionList", courseSessionList);
         return "main";
     }
