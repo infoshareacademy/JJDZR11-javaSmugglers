@@ -59,14 +59,14 @@ public class MainController {
     }
 
     @GetMapping("studentTimetable")
-    String studentTimetable(@PathVariable("authToken") String authToken, Model model) {
-        User user = userService.findByAuthToken(authToken);
+    String studentTimetable(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         List<CourseSession> courseSessions = courseService.coursesListByStudentId(user.getId());
         model.addAttribute("studentTimetable", courseSessions)
                 .addAttribute("content", "studentTimetable")
                 .addAttribute("studentId", user.getId())
                 .addAttribute("user", user)
-                .addAttribute("authToken", authToken);
+                .addAttribute("authToken", user.getAuthToken());
         return "main";
     }
 
