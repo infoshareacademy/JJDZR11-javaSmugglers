@@ -5,9 +5,7 @@
 <main class="flex-shrink-0">
   <nav th:replace="~{fragments::navbar}"></nav>
   <div class="container mt-5">
-    <h2 th:if="${selectedDate != null}">Plan zajęć dla dnia: [[${selectedDate}]]</h2>
-    <h2 th:unless="${selectedDate != null}">Plan zajęć od [[${startDate}]] do [[${endDate}]]</h2>
-    <h5 class="text-center small">Lub wybierz konkretną datę aby wyświetlić dla niej plan zajęć</h5>
+    <h5 class="text-center">Wybierz konkretną datę lub tydzień, aby wyświetlić plan zajęć</h5>
     <form th:action="@{/students/{authToken}/schedule(authToken=${authToken})}" method="post">
       <div>
         <a th:href="@{/students/{authToken}/schedule(weekOffset=${weekOffset + 1}, authToken=${authToken})}" class="btn btn-primary">Poprzedni tydzień</a>
@@ -21,6 +19,12 @@
         <button type="submit" class="btn btn-primary btn-block">Wyświetl</button>
       </div>
     </form>
+    <div th:if="${selectedDate != null}" class="alert alert-info mt-3">
+      Plan zajęć dla dnia <strong th:text="${selectedDate}"></strong>
+    </div>
+    <div th:unless="${selectedDate != null}" class="alert alert-info mt-3">
+      Plan zajęć od <strong th:text="${startDate}"></strong> do <strong th:text="${endDate}"></strong>
+    </div>
     <table class="table">
       <thead class="thead-dark">
       <tr>

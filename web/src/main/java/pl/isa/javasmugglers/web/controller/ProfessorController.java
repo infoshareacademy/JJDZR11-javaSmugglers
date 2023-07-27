@@ -18,8 +18,6 @@ import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -107,6 +105,7 @@ public class ProfessorController {
         Long studentID = student.getId();
         List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentID, selectedDate );
         model.addAttribute("schedule", schedule);
+        model.addAttribute("selectedDate", selectedDate);
         model.addAttribute("weekOffset", weekOffset);
         return "student-schedule";
     }
