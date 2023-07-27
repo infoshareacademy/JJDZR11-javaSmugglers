@@ -52,13 +52,13 @@
                 </thead>
                 <tbody th:each="courseList, stat : ${professorCourseList}">
                 <tr class="expandable" style="border-top: 3px solid #343a40;">
-                    <td class="text-center font-weight-bold align-middle" th:text="${stat.count}"></td>
-                    <td class="text-center font-weight-bold align-middle" th:text="${courseList.getCourseType()}"></td>
-                    <td class="text-center font-weight-bold align-middle" th:text="${courseList.getName()}"></td>
-                    <td class="justify font-weight-bold align-middle" th:text="${courseList.getDescription()}"></td>
-                    <td class="text-center font-weight-bold align-middle" th:text="${courseList.getEctsPoints()}"></td>
-                    <td class="text-center font-weight-bold align-middle" th:text="${courseList.getStartDate()}"></td>
-                    <td class="text-center font-weight-bold align-middle" th:text="${courseList.getEndDate()}"></td>
+                    <td class="text-center align-middle" th:text="${stat.count}"></td>
+                    <td class="text-center align-middle" th:text="${courseList.getCourseType()}"></td>
+                    <td class="text-center align-middle" th:text="${courseList.getName()}"></td>
+                    <td class="justify align-middle" th:text="${courseList.getDescription()}"></td>
+                    <td class="text-center align-middle" th:text="${courseList.getEctsPoints()}"></td>
+                    <td class="text-center align-middle" th:text="${courseList.getStartDate()}"></td>
+                    <td class="text-center align-middle" th:text="${courseList.getEndDate()}"></td>
 
 
                     <td class="center">
@@ -67,7 +67,7 @@
 
                         <form th:action="@{/delete/course/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(courseList.getId)}, authToken=${authToken})}"
                               method="post">
-                            <button type="submit" class="btn btn-danger btn-operation text-center"
+                            <button type="submit" class="btn btn-danger btn-warning text-center"
                                     onclick="return confirmDelete('${courseSession.id}')">Usuń przedmiot
                             </button>
                         </form>

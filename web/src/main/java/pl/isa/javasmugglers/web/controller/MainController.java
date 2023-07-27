@@ -1,6 +1,7 @@
 package pl.isa.javasmugglers.web.controller;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -596,6 +597,27 @@ public class MainController {
         courseSessionService.saveCourseSession(courseSession);
 
         return "redirect:/professorTimetable";
+    }
+
+
+    @GetMapping("my-courses")
+    public String showMyCourses(Model model, Principal principal){
+        User user = userService.findByEmail(principal.getName());
+        List<Course> coursesList = courseService.coursesListByProfessorId(user.getId());
+
+        System.out.println(coursesList.get(0).getName());
+        model.addAttribute("coursesList", coursesList)
+                .addAttribute("content", "myCoursesList");
+        return "main";
+    }
+
+
+    @GetMapping("student-list")
+    public String showStudentList(Model model, Principal principal){
+        User user = userService.findByEmail(principal.getName());
+        return "main";
+
+
     }
 
 

@@ -1,0 +1,58 @@
+<div th:fragment="content" class="container mt-2 mb-2">
+    <style>
+        .btn-operation {
+            width: 150px;
+        }
+
+        .justify {
+            text-align: justify;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+    </style>
+    <br>
+    <h4 class="center">Oto lista egzaminów, twoich przedmiotów:</h4>
+    <div th:if="${#lists.isEmpty(coursesList)}" class="alert alert-warning center">
+        Brak przedmiotów
+    </div>
+    <br>
+    <div th:unless="${#lists.isEmpty(coursesList)}">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="text-center">Nr.</th>
+                <th class="text-center">Typ przedmiotu</th>
+                <th class="text-center">Nazwa</th>
+                <th class="text-center">Opis</th>
+                <th class="text-center">Punkty ECTS</th>
+                <th class="text-center">Data rozpoczęcia</th>
+                <th class="text-center">Data zakończenia</th>
+                <th class="text-center">Operacje</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="course, i : ${coursesList}">
+                <td class="text-center align-middle" th:text="${i.count}"></td>
+                <td class="text-center align-middle" th:text="${course.getCourseType()}"></td>
+                <td class="text-center align-middle" th:text="${course.getName()}"></td>
+                <td class="justify align-middle" th:text="${course.getDescription()}"></td>
+                <td class="text-center align-middle" th:text="${course.getEctsPoints()}"></td>
+                <td class="text-center align-middle" th:text="${course.getStartDate()}"></td>
+                <td class="text-center align-middle" th:text="${course.getEndDate()}"></td>
+                <td>
+                    <form th:action="@{/}" method="get">
+                        <button type="submit" class="btn-danger btn-operation">Wyświetl studentów</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <a th:href="@{'/user-dashboard'}" class="btn btn-primary mr-2 ">Powrót do głównego menu</a>
+</div>
