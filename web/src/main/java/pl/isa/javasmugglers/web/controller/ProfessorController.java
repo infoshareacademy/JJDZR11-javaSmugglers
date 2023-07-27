@@ -94,8 +94,9 @@ public class ProfessorController {
         model.addAttribute("currentDate", currentDate);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
-        model.addAttribute("weekOffset", weekOffset);
-        return "student-schedule";
+        model.addAttribute("weekOffset", weekOffset)
+                .addAttribute("content", "student-schedule");
+        return "main";
     }
 
     @PostMapping("students/schedule")

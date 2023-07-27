@@ -1,53 +1,56 @@
-<!DOCTYPE html>
-<html class="h-100" lang="pl">
-<head th:replace="~{fragments::head}"></head>
-<body class="h-100">
-<main class="flex-shrink-0">
-  <nav th:replace="~{fragments::navbar}"></nav>
-  <div class="container mt-5">
-    <h5 class="text-center">Wybierz konkretną datę lub tydzień, aby wyświetlić plan zajęć</h5>
+<div th:fragment="content" class="container mt-5">
+
+    <h4 class="text-center">Wybierz konkretną datę lub tydzień, aby wyświetlić plan zajęć</h4>
+    <br>
+    <br>
     <form th:action="@{/students/schedule}" method="post">
-      <div>
-        <a th:href="@{/students/schedule(weekOffset=${weekOffset + 1})}" class="btn btn-primary">Poprzedni tydzień</a>
-        <a th:href="@{/students/schedule(weekOffset=0)}" class="btn btn-primary">Obecny tydzień</a>
-        <a th:href="@{/students/schedule(weekOffset=${weekOffset - 1})}" class="btn btn-primary">Następny tydzień</a>
-      </div>
-      <div class="form-group">
-        <input type="date" name="selectedDate" class="form-control custom-form-control" required />
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block">Wyświetl</button>
-      </div>
+        <div class="text-center">
+            <a th:href="@{/students/schedule(weekOffset=${weekOffset + 1})}" class="btn btn-primary">Poprzedni
+                tydzień</a>
+            <a th:href="@{/students/schedule(weekOffset=0)}" class="btn btn-primary">Obecny tydzień</a>
+            <a th:href="@{/students/schedule(weekOffset=${weekOffset - 1})}" class="btn btn-primary">Następny
+                tydzień</a>
+        </div>
+        <br>
+        <h6 class="text-center">Lub wyświetl konkretny datę</h6>
+        <div class="form-group d-flex justify-content-center">
+            <div style="max-width: 400px; width: 100%;">
+                <input type="date" name="selectedDate" class="form-control custom-form-control" required/>
+            </div>
+        </div>
+        <div class="form-group d-flex justify-content-center">
+            <div style="max-width: 400px; width: 100%;">
+                <button type="submit" class="btn btn-primary btn-block">Wyświetl</button>
+            </div>
+        </div>
+
     </form>
     <div th:if="${selectedDate != null}" class="alert alert-info mt-3">
-      Plan zajęć dla dnia <strong th:text="${selectedDate}"></strong>
+        Plan zajęć dla dnia <strong th:text="${selectedDate}"></strong>
     </div>
     <div th:unless="${selectedDate != null}" class="alert alert-info mt-3">
-      Plan zajęć od <strong th:text="${startDate}"></strong> do <strong th:text="${endDate}"></strong>
+        Plan zajęć od <strong th:text="${startDate}"></strong> do <strong th:text="${endDate}"></strong>
     </div>
     <table class="table">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">Kurs</th>
-        <th scope="col">Data</th>
-        <th scope="col">Godzina rozpoczęcia</th>
-        <th scope="col">Godzina zakończenia</th>
-        <th scope="col">Miejsce</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="courseSession : ${schedule}">
-        <td th:text="${courseSession.courseId.name}"></td>
-        <td th:text="${courseSession.sessionDate}"></td>
-        <td th:text="${courseSession.startTime}"></td>
-        <td th:text="${courseSession.endTime}"></td>
-        <td th:text="${courseSession.location}"></td>
-      </tr>
-      </tbody>
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Kurs</th>
+            <th scope="col">Data</th>
+            <th scope="col">Godzina rozpoczęcia</th>
+            <th scope="col">Godzina zakończenia</th>
+            <th scope="col">Miejsce</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="courseSession : ${schedule}">
+            <td th:text="${courseSession.courseId.name}"></td>
+            <td th:text="${courseSession.sessionDate}"></td>
+            <td th:text="${courseSession.startTime}"></td>
+            <td th:text="${courseSession.endTime}"></td>
+            <td th:text="${courseSession.location}"></td>
+        </tr>
+        </tbody>
     </table>
+    <br>
     <a th:href="@{'/user-dashboard'}" class="btn btn-primary">Powrót do głównego menu</a>
-  </div>
-</main>
-<footer th:replace="~{fragments::footer}"></footer>
-</body>
-</html>
+</div>
