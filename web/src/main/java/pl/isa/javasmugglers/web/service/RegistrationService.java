@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserStatus;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class RegistrationService {
@@ -30,4 +32,6 @@ public class RegistrationService {
                       )
         );
     }
+
+
 }

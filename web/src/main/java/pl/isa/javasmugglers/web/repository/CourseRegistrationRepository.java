@@ -23,4 +23,6 @@ public interface CourseRegistrationRepository extends JpaRepository<CourseRegist
     List<Long> findRegisteredCourseIdsByStudentId(@Param("studentId") Long studentId);
 
     Optional<CourseRegistration> findAllByStudentIdAndCourseId(User student, Course course);
+
+    List<CourseRegistration> findByCourseId (Long courseID);
 }

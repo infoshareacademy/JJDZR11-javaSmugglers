@@ -1,0 +1,76 @@
+<div th:fragment="content" class="container mt-5">
+    <style>
+        .btn-operation {
+            display: flex;
+            text-align: center;
+            align-items: center;
+
+        }
+
+        .justify {
+            text-align: justify;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+    </style>
+
+
+    <div th:if="${#lists.isEmpty(examlist)}" class="alert alert-warning">
+        Żaden student nie jest zarejestrowany na ten przedmiot
+    </div>
+    <div th:unless="${#lists.isEmpty(examlist)}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">Przedmiot</th>
+                <th class="text-center">Typ</th>
+                <th class="text-center">Nazwa egzaminu</th>
+                <th class="text-center">Opis egzaminu</th>
+                <th class="text-center">Data rozpoczęcia</th>
+                <th class="text-center">Godzina rozpoczęcia</th>
+                <th class="text-center">Data zakończenia</th>
+                <th class="text-center">Godzina zakończenia</th>
+                <th class="text-center">Próg zdawalności</th>
+
+
+                <th class="text-center">Operacje</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exam : ${examlist}">
+                <td class="text-center" th:text="${exam.courseId.getName}"></td>
+                <td class="text-center" th:text="${exam.courseId.getCourseType}"></td>
+                <td class="text-center" th:text="${exam.getName}"></td>
+                <td class="justify" th:text="${exam.getDescription}"></td>
+                <td class="text-center" th:text="${exam.startDate}"></td>
+                <td class="text-center" th:text="${exam.startTime}"></td>
+                <td class="text-center" th:text="${exam.endDate}"></td>
+                <td class="text-center" th:text="${exam.endTime}"></td>
+                <td class="text-center" th:text="${exam.passingThreshold} + '%'"></td>
+
+
+                <td class="center">
+                    <a th:href="@{/edit-exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}"
+                       class="btn btn-info btn-operation mb-2 text-center">Edytuj egzamin</a>
+                    <a th:href="@{/questionlist/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}"
+                       class="btn btn-primary btn-operation mb-2 text-center">Edytuj pytania</a>
+                    <form th:action="@{/delete/exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}" method="post">
+                        <button type="submit" class="btn btn-danger btn-operation text-center"
+                                onclick="return confirmDelete('${exam.id}')">Usuń egzamin</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <a th:href="@{/DashboardProfessor}" class="btn btn-primary btn-operation mr-2">Powrót do głównego menu</a>
+            <a th:href="@{/addexam}" class="btn btn-success btn-operation">Dodaj egzamin</a>
+
+        </div>
+    </div>
+</div>
+
+

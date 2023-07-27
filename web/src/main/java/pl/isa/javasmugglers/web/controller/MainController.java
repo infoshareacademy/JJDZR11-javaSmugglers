@@ -613,8 +613,13 @@ public class MainController {
 
 
     @GetMapping("student-list")
-    public String showStudentList(Model model, Principal principal){
+    public String showStudentList(@RequestParam("id") Long courseId, Model model, Principal principal){
         User user = userService.findByEmail(principal.getName());
+        List<User> courseRegisteredStudentList = courseRegistrationService.courseRegisteredStudentsList(courseId);
+
+        model.addAttribute("students", courseRegisteredStudentList)
+                .addAttribute();
+
         return "main";
 
 

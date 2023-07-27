@@ -45,7 +45,7 @@
                 <td class="text-center align-middle" th:text="${course.getStartDate()}"></td>
                 <td class="text-center align-middle" th:text="${course.getEndDate()}"></td>
                 <td>
-                    <form th:action="@{/}" method="get">
+                    <form th:action="@{/student-list(id=${course.getId()})}" method="get">
                         <button type="submit" class="btn-danger btn-operation">Wyświetl studentów</button>
                     </form>
                 </td>
