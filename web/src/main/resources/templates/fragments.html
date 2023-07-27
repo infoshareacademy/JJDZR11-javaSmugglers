@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
-<nav th:fragment="navbar" class="navbar navbar-light bg-primary">
+<nav th:fragment="navbar" class="navbar navbar-light bg-primary fixed-top">
   <div class="container-fluid d-flex justify-content-center">
     <a th:class="${content == 'back'} ? 'btn btn-light me-2' : 'btn btn-outline-light me-2'" onclick="goBack()">Wróć</a>
     <img th:src="@{/logo.gif}" alt="LOGO" width="70" height="70" class="mx-auto d-block"/>

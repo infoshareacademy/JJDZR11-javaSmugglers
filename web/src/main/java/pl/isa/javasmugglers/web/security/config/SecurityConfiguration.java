@@ -44,7 +44,7 @@ public class SecurityConfiguration {
                 .requestMatchers("/examlist/**").hasAuthority("PROFESOR") // Tylko użytkownicy z rolą PROFESOR mają dostęp
                 .requestMatchers("registration/**", "registration/professor/**")
                 .permitAll()
-                .requestMatchers("/userinactive/**","/registrationFailed", "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif","/logo_blue.jpg")
+                .requestMatchers("/userinactive/**","/registrationFailed", "/rf/**","/login/**","register/**", "/save/**","/registrationsuccesfull/**", "/", "/addnew/**","/logo.gif","/logo_blue.jpg", "/pattern.jpg")
                 .permitAll()
                 .anyRequest()
                 .authenticated().and()
