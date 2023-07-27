@@ -11,6 +11,7 @@ import pl.isa.javasmugglers.web.repository.UserRepository;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentScheduleService {
@@ -26,18 +27,7 @@ public class StudentScheduleService {
     }
 
     public List<CourseSession> getStudentScheduleByDate(Long studentId, LocalDate date) {
-        User student = userRepository.findById(studentId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid student ID: " + studentId));
-
-        List<CourseRegistration> registrations = courseRegistrationRepository.findAllByStudentId(student);
-        List<Long> registeredCourseIds = registrations.stream()
-                .map(registration -> registration.getCourseId().getId())
-                .toList();
-
-
-        List<CourseSession> schedule = courseSessionRepository.findAllBySessionDateAndIdIn(date, registeredCourseIds);
-
-        return schedule;
+        return courseSessionRepository.findStudentScheduleByDate(date, studentId);
     }
 
     public List<CourseSession> getStudentScheduleByDateRange(Long studentId, LocalDate startDate, LocalDate endDate) {
@@ -49,9 +39,7 @@ public class StudentScheduleService {
                 .map(registration -> registration.getCourseId().getId())
                 .toList();
 
-        List<CourseSession> schedule = courseSessionRepository.findAllBySessionDateBetweenAndIdIn(startDate, endDate, registeredCourseIds);
-
-        return schedule;
+        return courseSessionRepository.findAllBySessionDateBetweenAndIdIn(startDate, endDate, registeredCourseIds);
     }
 
 }

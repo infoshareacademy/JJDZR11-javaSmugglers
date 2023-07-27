@@ -94,17 +94,20 @@ public class ProfessorController {
         model.addAttribute("currentDate", currentDate);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
+        model.addAttribute("weekOffset", weekOffset);
         return "student-schedule";
     }
 
     @PostMapping("students/{authToken}/schedule")
     public String getStudentScheduleByDate(@PathVariable("authToken") String authToken,
+                                           @RequestParam(value = "weekOffset", defaultValue = "0") int weekOffset,
                                            @RequestParam("selectedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate selectedDate,
                                            Model model) {
         User student = userService.findByAuthToken(authToken);
         Long studentID = student.getId();
-        List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentID, selectedDate);
+        List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentID, selectedDate );
         model.addAttribute("schedule", schedule);
+        model.addAttribute("weekOffset", weekOffset);
         return "student-schedule";
     }
 

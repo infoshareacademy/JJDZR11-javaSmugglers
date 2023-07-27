@@ -10,9 +10,9 @@
     <h5 class="text-center small">Lub wybierz konkretną datę aby wyświetlić dla niej plan zajęć</h5>
     <form th:action="@{/students/{authToken}/schedule(authToken=${authToken})}" method="post">
       <div>
-        <a th:href="@{/students/{authToken}/schedule(weekOffset=1, authToken=${authToken})}" class="btn btn-primary">Poprzedni tydzień</a>
+        <a th:href="@{/students/{authToken}/schedule(weekOffset=${weekOffset + 1}, authToken=${authToken})}" class="btn btn-primary">Poprzedni tydzień</a>
         <a th:href="@{/students/{authToken}/schedule(weekOffset=0, authToken=${authToken})}" class="btn btn-primary">Obecny tydzień</a>
-        <a th:href="@{/students/{authToken}/schedule(weekOffset=-1, authToken=${authToken})}" class="btn btn-primary">Następny tydzień</a>
+        <a th:href="@{/students/{authToken}/schedule(weekOffset=${weekOffset - 1}, authToken=${authToken})}" class="btn btn-primary">Następny tydzień</a>
       </div>
       <div class="form-group">
         <input type="date" name="selectedDate" class="form-control custom-form-control" required />
