@@ -58,9 +58,10 @@ public class ProfessorController {
         model.addAttribute("professors", professors)
                 .addAttribute("studentId", studentID)
                 .addAttribute("registeredCourseIds", registeredCourseIds)
-                .addAttribute("authToken", student.getAuthToken());
+                .addAttribute("authToken", student.getAuthToken())
+                .addAttribute("content", "professors");
 
-        return "professors";
+        return "main";
     }
 
 

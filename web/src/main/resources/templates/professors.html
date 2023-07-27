@@ -1,66 +1,65 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments::head}"></head>
-<body class="h-100">
-<main class="flex-shrink-0">
-    <nav th:replace="~{fragments::navbar}"></nav>
-    <div class="container mt-12">
-        <br>
+<div th:fragment="content" class="container mt-5">
+    <div>
         <h1 class="text-center">Zapisz się na zajęcia</h1>
-        <h3 class="text-center mb-4" style="font-size: 18px;">Proszę kliknąć na imię i nazwisko danego profesora w celu wyświetlenia listy zajęć</h3>
-        <br>
-        <div th:each="professor : ${professors}">
-            <details class="professor-row">
-                <summary class="mb-3">
-                    <span class="mr-2 font-weight-bold h4" th:text="${professor.firstName}"></span>
-                    <span class="font-weight-bold h4" th:text="${professor.lastName}"></span>
-                </summary>
-                <div class="course-details" th:if="${professor.courses != null and professor.courses.size() > 0}">
-                    <table class="table table-dark table-striped table-bordered">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th>Nazwa Kursu</th>
-                            <th>Opis</th>
-                            <th>Godzina rozpoczęcia</th>
-                            <th>Godzina zakończenia</th>
-                            <th>Punkty ECTS</th>
-                            <th>Typ</th>
-                            <th>ZAPISZ SIĘ!</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="course : ${professor.courses}">
-                            <th:block th:if="${!registeredCourseIds.contains(course.id)}">
-                                <td th:text="${course.name}"></td>
-                                <td th:text="${course.description}"></td>
-                                <td th:text="${course.startDate}"></td>
-                                <td th:text="${course.endDate}"></td>
-                                <td th:text="${course.ectsPoints}"></td>
-                                <td th:text="${course.courseType}"></td>
-                                <td>
-                                    <!-- Guzik "Zapisz się" -->
-                                    <form th:action="@{/students/courses/{courseId}/register (courseId=${course.id})}" method="post">
-                                        <input type="hidden" name="authToken" th:value="${authToken}">
-                                        <input type="hidden" name="courseId" th:value="${course.id}">
-                                        <button type="submit" class="btn btn-primary">Zapisz się</button>
-                                    </form>
-                                </td>
-                            </th:block>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div th:unless="${professor.courses != null and professor.courses.size() > 0}" class="text-center">
-                    <p>Brak kursów, na które możesz się zapisać</p>
-                </div>
-            </details>
-        </div>
-        <br>
-        <br>
-        <a th:href="@{'/user-dashboard'}" class="btn btn-primary">Powrót do głównego menu</a>
-        <br>
+        <h3 class="text-center mb-4" style="font-size: 18px;">Proszę kliknąć na imię i nazwisko danego profesora w celu
+            wyświetlenia listy zajęć</h3>
     </div>
-</main>
-<footer th:replace="~{fragments::footer}"></footer>
-</body>
-</html>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <div th:each="professor : ${professors}">
+        <details class="professor-row">
+            <summary class="mb-3">
+                <span class="mr-2 font-weight-bold h4" th:text="${professor.firstName}"></span>
+                <span class="font-weight-bold h4" th:text="${professor.lastName}"></span>
+            </summary>
+            <div class="course-details" th:if="${professor.courses != null and professor.courses.size() > 0}">
+                <table class="table table-dark table-striped table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Nazwa Kursu</th>
+                        <th>Opis</th>
+                        <th>Godzina rozpoczęcia</th>
+                        <th>Godzina zakończenia</th>
+                        <th>Punkty ECTS</th>
+                        <th>Typ</th>
+                        <th>ZAPISZ SIĘ!</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="course : ${professor.courses}">
+                        <th:block th:if="${!registeredCourseIds.contains(course.id)}">
+                            <td th:text="${course.name}"></td>
+                            <td th:text="${course.description}"></td>
+                            <td th:text="${course.startDate}"></td>
+                            <td th:text="${course.endDate}"></td>
+                            <td th:text="${course.ectsPoints}"></td>
+                            <td th:text="${course.courseType}"></td>
+                            <td>
+                                <!-- Guzik "Zapisz się" -->
+                                <form th:action="@{/students/courses/{courseId}/register (courseId=${course.id})}"
+                                      method="post">
+                                    <input type="hidden" name="authToken" th:value="${authToken}">
+                                    <input type="hidden" name="courseId" th:value="${course.id}">
+                                    <button type="submit" class="btn btn-primary">Zapisz się</button>
+                                </form>
+                            </td>
+                        </th:block>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:unless="${professor.courses != null and professor.courses.size() > 0}" class="text-center">
+                <p>Brak kursów, na które możesz się zapisać</p>
+            </div>
+        </details>
+    </div>
+    <br>
+    <br>
+    <br>
+    <a th:href="@{'/user-dashboard'}" class="btn btn-primary">Powrót do głównego menu</a>
+    <br>
+</div>
+
