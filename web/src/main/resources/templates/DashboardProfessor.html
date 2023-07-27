@@ -1,29 +1,66 @@
 <div th:fragment="content" class="container mt-5">
   <style>
-    .btn-operation {
-      width: 300px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+
+    h3, .tile p {
+      font-family: 'Sriracha', serif;
     }
 
-    .center {
+    .tile {
+      width: 200px;
+      height: 200px;
+      border: 2px solid #000;
       text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+      transition: transform .2s; /* Animation */
+    }
+
+    .tile p {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .tile:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+    .tile img {
+      max-width: 100%;
+      max-height: 70%;
+    }
+
+    .centered-div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
     }
   </style>
-  <h3 class="center" th:text="'Witaj Profesorze '+ ${user.getFirstName() + ' ' + user.getLastName()}"></h3>
 
+  <h3 class="text-center">Witaj Profesorze</h3>
+  <h3 class="text-center" th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
   <br>
-
-  <div class="center">
-    <a th:href="@{/professorTimetable}" class="btn btn-info btn-operation mb-4">
-      Dodaj lub edytuj przedmioty i zajęcia
-    </a>
-
-    <br>
-    <a th:href="@{/examlist}" class="btn btn-primary btn-operation mb-4">
-      Dodaj lub edytuj egzaminy
-    </a>
-
+  <br>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-4 centered-div">
+        <div class="tile">
+          <p>Dodaj lub edytuj przedmioty i zajęcia</p>
+          <a th:href="@{/professor-courses}">
+            <img src="registered-courses.png" alt="Dodaj lub edytuj przedmioty i zajęcia"/>
+          </a>
+        </div>
+      </div>
+      <div class="col-sm-4 centered-div">
+        <div class="tile">
+          <p>Dodaj lub edytuj egzaminy</p>
+          <a th:href="@{/examlist}">
+            <img src="editexam.png" alt="Dodaj lub edytuj egzaminy"/>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
