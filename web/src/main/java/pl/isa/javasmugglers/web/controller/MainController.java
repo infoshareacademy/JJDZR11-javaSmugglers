@@ -70,8 +70,8 @@ public class MainController {
     }
 
 
-    @GetMapping("professorTimetable")
-    String professorTimetable(Model model, Principal principal) {
+    @GetMapping("professor-courses")
+    String professorCourses(Model model, Principal principal) {
         User user = userService.findByEmail(principal.getName());
         List<Course> courseList = courseService.coursesListByProfessorId(user.getId());
         List<CourseSession> courseSessionList = courseSessionService.getCourseSessionByCourseID(courseList);

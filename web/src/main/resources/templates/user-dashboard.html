@@ -1,37 +1,95 @@
 <div th:fragment="content" class="container mt-5">
-  <style>
-    .btn-operation {
-      width: 300px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
 
-    .center {
-      text-align: center;
-    }
-  </style>
-  <h3 class="center" th:text="'Witaj '+ ${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+        h3, .tile p {
+            font-family: 'Sriracha', serif;
+        }
 
-  <br>
+        .tile {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            transition: transform .2s; /* Animation */
+        }
 
-  <div class="center">
-    <a th:href="@{/students/schedule}" class="btn btn-secondary btn-operation mb-4">
-      Zobacz plan lekcji
-    </a>
-    <a th:href="@{/students/register}" class="btn btn-secondary btn-operation mb-4">
-      Zapisz się na zajęcia
-    </a>
-    <a th:href="@{/students/registered-courses}" class="btn btn-secondary btn-operation mb-4">
-      Aktywne kursy
-    </a>
+        .tile p {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .tile img {
+            max-width: 100%;
+            max-height: 70%;
+        }
+
+        .tile:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        .centered-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    </style>
+
+    <h3 class="text-center">Witaj</h3>
+    <h3 class="text-center" th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
     <br>
-    <a th:href="@{/showactiveexams}" class="btn btn-info btn-operation mb-4">
-      Wyświetl aktywne egzaminy
-    </a>
     <br>
-    <a th:href="@{/userexamresults}" class="btn btn-success btn-operation mb-4">
-      Wyświetl wyniki egzaminów
-    </a>
-  </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-sm-4 centered-div">
+                <div class="tile">
+                    <p>Zobacz plan lekcji</p>
+                    <a th:href="@{/students/schedule}">
+                        <img src="timetable.png" alt="Zobacz plan lekcji"/>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-4 centered-div">
+                <div class="tile">
+                    <p>Zapisz się na zajęcia</p>
+                    <a th:href="@{/students/register}">
+                        <img src="register.png" alt="Zapisz się na zajęcia"/>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-4 centered-div">
+                <div class="tile">
+                    <p>Aktywne kursy</p>
+                    <a th:href="@{/students/registered-courses}">
+                        <img src="registered-courses.png" alt="Aktywne kursy"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-sm-4 centered-div">
+                <div class="tile">
+                    <p>Wyświetl aktywne egzaminy</p>
+                    <a th:href="@{/showactiveexams}">
+                        <img src="exam.png" alt="Wyświetl aktywne egzaminy"/>
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-4 centered-div">
+                <div class="tile">
+                    <p>Wyświetl wyniki egzaminów</p>
+                    <a th:href="@{/userexamresults}">
+                        <img src="scores.png" alt="Wyświetl wyniki egzaminów"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
