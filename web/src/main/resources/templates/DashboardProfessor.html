@@ -14,24 +14,27 @@
       padding: 20px;
       box-sizing: border-box;
       margin-bottom: 20px;
-      transition: transform .2s; /* Animation */
+      transition: transform .2s;
+      display: block;
     }
 
     .tile p {
       word-wrap: break-word;
       overflow-wrap: break-word;
+      color: black;
+    }
+
+    .tile img {
+      max-width: 100%;
+      max-height: 70%;
     }
 
     .tile:hover {
       transform: scale(1.05);
       cursor: pointer;
     }
-    .tile img {
-      max-width: 100%;
-      max-height: 70%;
-    }
 
-    .centered-div {
+    .centered-span {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -45,22 +48,22 @@
   <br>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-sm-4 centered-div">
-        <div class="tile">
-          <p>Dodaj lub edytuj przedmioty i zajęcia</p>
-          <a th:href="@{/professor-courses}">
+      <span class="col-sm-4 centered-span">
+        <a th:href="@{/professor-courses}">
+          <span class="tile">
+            <p>Dodaj lub edytuj przedmioty i zajęcia</p>
             <img src="registered-courses.png" alt="Dodaj lub edytuj przedmioty i zajęcia"/>
-          </a>
-        </div>
-      </div>
-      <div class="col-sm-4 centered-div">
-        <div class="tile">
-          <p>Dodaj lub edytuj egzaminy</p>
-          <a th:href="@{/examlist}">
+          </span>
+        </a>
+      </span>
+      <span class="col-sm-4 centered-span">
+        <a th:href="@{/examlist}">
+          <span class="tile">
+            <p>Dodaj lub edytuj egzaminy</p>
             <img src="editexam.png" alt="Dodaj lub edytuj egzaminy"/>
-          </a>
-        </div>
-      </div>
+          </span>
+        </a>
+      </span>
     </div>
   </div>
 </div>
