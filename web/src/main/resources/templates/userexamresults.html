@@ -1,6 +1,9 @@
 <div th:fragment="content" class="container mt-2 mb-2">
+    <br>
+    <br>
     <h4 th:text="${user.getFirstName() + ' ' + user.getLastName()}" style="text-align: center;"></h4>
     <h5 style="text-align: center;">Oto wyniki twoich egzaminów:</h5>
+    <br>
     <table class="table" >
         <tr style="text-align: center;">
             <th>Przedmiot</th>
@@ -27,5 +30,6 @@
 
         </tr>
     </table>
-    <a th:href="@{/user-dashboard}" class="btn btn-success ">Powrót</a>
+    <br>
+    <a th:href="@{'/user-dashboard'}" class="btn btn-primary">Powrót do głównego menu</a>
 </div>
