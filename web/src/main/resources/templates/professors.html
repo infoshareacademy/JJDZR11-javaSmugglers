@@ -39,7 +39,7 @@
                                 <td th:text="${course.courseType}"></td>
                                 <td>
                                     <!-- Guzik "Zapisz się" -->
-                                    <form th:action="@{/students/{authToken}/courses/{courseId}/register(authToken=${authToken}, courseId=${course.id})}" method="post">
+                                    <form th:action="@{/students/courses/{courseId}/register (courseId=${course.id})}" method="post">
                                         <input type="hidden" name="authToken" th:value="${authToken}">
                                         <input type="hidden" name="courseId" th:value="${course.id}">
                                         <button type="submit" class="btn btn-primary">Zapisz się</button>
@@ -57,7 +57,7 @@
         </div>
         <br>
         <br>
-        <a th:href="@{'/user-dashboard/' + ${authToken}}" class="btn btn-primary">Powrót do głównego menu</a>
+        <a th:href="@{'/user-dashboard" class="btn btn-primary">Powrót do głównego menu</a>
         <br>
     </div>
 </main>

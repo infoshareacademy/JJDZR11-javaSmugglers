@@ -40,7 +40,7 @@
       <td th:text="${course.ectsPoints}"></td>
       <td th:text="${course.courseType}"></td>
       <td>
-        <form th:action="@{'/students/' + ${authToken} + '/courses/' + ${course.id} + '/unregister'}" method="post">
+        <form th:action="@{'/students'/courses/' + ${course.id} + '/unregister'}" method="post">
           <input type="hidden" name="studentId" th:value="${studentId}">
           <input type="hidden" name="courseId" th:value="${course.id}">
           <button type="submit" class="btn btn-danger">WYPISZ SIĘ</button>
@@ -49,7 +49,7 @@
     </tr>
     </tbody>
   </table>
-  <a th:href="@{'/user-dashboard/' + ${authToken}}" class="btn btn-primary">Powrót do głównego menu</a>
+  <a th:href="@{'/user-dashboard}" class="btn btn-primary">Powrót do głównego menu</a>
 </main>
 
 <footer th:replace="~{fragments::footer}" class="footer bg-primary text-center mt-auto fixed-bottom">

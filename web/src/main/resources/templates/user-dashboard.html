@@ -16,21 +16,21 @@
   <br>
 
   <div class="center">
-    <a th:href="@{/students/{authToken}/schedule(authToken=*{authToken})}" class="btn btn-secondary btn-operation mb-4">
+    <a th:href="@{/students/schedule}" class="btn btn-secondary btn-operation mb-4">
       Zobacz plan lekcji
     </a>
-    <a th:href="@{/students/{authToken}/register(authToken=*{authToken})}" class="btn btn-secondary btn-operation mb-4">
+    <a th:href="@{/students/register}" class="btn btn-secondary btn-operation mb-4">
       Zapisz się na zajęcia
     </a>
-    <a th:href="@{/students/{authToken}/registered-courses(authToken=*{authToken})}" class="btn btn-secondary btn-operation mb-4">
+    <a th:href="@{/students/registered-courses}" class="btn btn-secondary btn-operation mb-4">
       Aktywne kursy
     </a>
     <br>
-    <a th:href="@{/showactiveexams/{authToken}(authToken=*{authToken})}" class="btn btn-info btn-operation mb-4">
+    <a th:href="@{/showactiveexams}" class="btn btn-info btn-operation mb-4">
       Wyświetl aktywne egzaminy
     </a>
     <br>
-    <a th:href="@{/userexamresults/{authToken}(authToken=*{authToken})}" class="btn btn-success btn-operation mb-4">
+    <a th:href="@{/userexamresults}" class="btn btn-success btn-operation mb-4">
       Wyświetl wyniki egzaminów
     </a>
   </div>
