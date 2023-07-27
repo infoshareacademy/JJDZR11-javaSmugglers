@@ -314,9 +314,9 @@ public class MainController {
     }
 
 
-    @GetMapping("/showactiveexams/{authToken}")
-    public String showActiveExams(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("/showactiveexams")
+    public String showActiveExams(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         List<CourseRegistration> registrations = courseRegistrationService.findAllRegisteredCourses(user);
         List<Course> registeredCourses = registrations.stream().map(CourseRegistration::getCourseId).toList();
         List<Exam> allRegisteredExams = examService.findAllByCourseList(registeredCourses);
@@ -339,10 +339,10 @@ public class MainController {
     }
 
     @PostMapping("delete/exam/{encodedID}")
-    public String deleteExam(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
+    public String deleteExam(@PathVariable("encodedID") String encodedID) {
         Long decodedID = PathEncoderDecoder.decodePath(encodedID);
         examService.deleteExam(decodedID);
-        return "redirect:/examlist/" + authToken;
+        return "redirect:/examlist";
     }
 
     @PostMapping("delete/question/{encodedID}")
