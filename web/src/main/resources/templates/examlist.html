@@ -59,7 +59,7 @@
                        class="btn btn-info btn-operation mb-2 text-center">Edytuj egzamin</a>
                     <a th:href="@{/questionlist/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}"
                        class="btn btn-primary btn-operation mb-2 text-center">Edytuj pytania</a>
-                    <form th:action="@{/delete/exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)}, authToken=${authToken})}" method="post">
+                    <form th:action="@{/delete/exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}" method="post">
                         <button type="submit" class="btn btn-danger btn-operation text-center"
                                 onclick="return confirmDelete('${exam.id}')">Usuń egzamin</button>
                     </form>
@@ -67,7 +67,7 @@
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/addexam/{authToken}(authToken=*{authToken})}" class="btn btn-success btn-operation">Dodaj egzamin</a>
+        <a th:href="@{/addexam}" class="btn btn-success btn-operation">Dodaj egzamin</a>
     </div>
 </div>
 
