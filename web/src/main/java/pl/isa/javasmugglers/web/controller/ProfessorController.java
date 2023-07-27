@@ -2,7 +2,6 @@ package pl.isa.javasmugglers.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,8 +19,6 @@ import pl.isa.javasmugglers.web.service.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -96,17 +93,21 @@ public class ProfessorController {
         model.addAttribute("currentDate", currentDate);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
+        model.addAttribute("weekOffset", weekOffset);
         return "student-schedule";
     }
 
     @PostMapping("students/schedule")
     public String getStudentScheduleByDate(Principal principal,
+                                           @RequestParam(value = "weekOffset", defaultValue = "0") int weekOffset,
                                            @RequestParam("selectedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate selectedDate,
                                            Model model) {
         User student = userService.findByEmail(principal.getName());
         Long studentID = student.getId();
         List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentID, selectedDate);
         model.addAttribute("schedule", schedule);
+        model.addAttribute("selectedDate", selectedDate);
+        model.addAttribute("weekOffset", weekOffset);
         return "student-schedule";
     }
 
