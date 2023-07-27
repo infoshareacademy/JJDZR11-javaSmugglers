@@ -1,35 +1,38 @@
 <!DOCTYPE html>
 <html class="h-100" lang="pl">
-<style>
-    html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
 
-    body {
-        display: flex;
-        flex-direction: column;
-        background-image: url('/pattern.jpg');
-        background-size: 30%;
-        background-repeat: repeat;
-    }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-    .content-container {
-        background-color: white;
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 90%;
-        margin: auto;
-        padding: 45px 20px 20px;
-        border: 1px solid #000000;
-    }
+        body {
+            display: flex;
+            flex-direction: column;
+            background-image: url('/pattern.jpg');
+            background-size: 30%;
+            background-repeat: repeat;
+        }
 
-</style>
+        .content-container {
+            background-color: white;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 90%;
+            margin: auto;
+            padding: 65px 20px 20px;
+            border: 1px solid #000000;
+            font-family: 'Sriracha', cursive ;
+        }
 
-<head th:replace="~{fragments::head}"></head>
+    </style>
+    <head th:replace="~{fragments::head}"></head>
 
 <body class="h-100">
 <nav th:replace="~{fragments::navbar}"></nav>
