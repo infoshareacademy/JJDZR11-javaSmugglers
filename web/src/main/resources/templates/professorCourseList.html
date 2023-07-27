@@ -32,7 +32,7 @@
         </div>
 
         <div th:if="${#lists.isEmpty(professorCourseList)}" class="alert alert-warning">
-            Brak zajęć w planie lekcji
+            Brak dodanych przedmiotów
         </div>
         <div th:unless="${#lists.isEmpty(professorCourseList)}">
             <table class="table table-striped table-bordered">
@@ -129,6 +129,9 @@
     </div>
 
     <br>
+    <div class="row">
+        <a th:href="@{/DashboardProfessor}" class="btn btn-primary btn-operation mr-2">Powrót do głównego menu</a>
+    </div>
     <br>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
