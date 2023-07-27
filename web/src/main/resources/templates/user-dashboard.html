@@ -15,11 +15,15 @@
             box-sizing: border-box;
             margin-bottom: 20px;
             transition: transform .2s; /* Animation */
+            display: block;
+
         }
 
         .tile p {
             word-wrap: break-word;
             overflow-wrap: break-word;
+            color: black;
+
         }
 
         .tile img {
@@ -32,7 +36,7 @@
             cursor: pointer;
         }
 
-        .centered-div {
+        .centered-span {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -46,50 +50,50 @@
     <br>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-sm-4 centered-div">
-                <div class="tile">
-                    <p>Zobacz plan lekcji</p>
-                    <a th:href="@{/students/schedule}">
+            <span class="col-sm-4 centered-span">
+                <a th:href="@{/students/schedule}">
+                    <span class="tile">
+                        <p>Zobacz plan lekcji</p>
                         <img src="timetable.png" alt="Zobacz plan lekcji"/>
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-4 centered-div">
-                <div class="tile">
-                    <p>Zapisz się na zajęcia</p>
-                    <a th:href="@{/students/register}">
+                    </span>
+                </a>
+            </span>
+            <span class="col-sm-4 centered-span">
+                <a th:href="@{/students/register}">
+                    <span class="tile">
+                        <p>Zapisz się na zajęcia</p>
                         <img src="register.png" alt="Zapisz się na zajęcia"/>
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-4 centered-div">
-                <div class="tile">
-                    <p>Aktywne kursy</p>
-                    <a th:href="@{/students/registered-courses}">
+                    </span>
+                </a>
+            </span>
+            <span class="col-sm-4 centered-span">
+                <a th:href="@{/students/registered-courses}">
+                    <span class="tile">
+                        <p>Aktywne kursy</p>
                         <img src="registered-courses.png" alt="Aktywne kursy"/>
-                    </a>
-                </div>
-            </div>
+                    </span>
+                </a>
+            </span>
         </div>
         <br>
         <br>
         <div class="row justify-content-center">
-            <div class="col-sm-4 centered-div">
-                <div class="tile">
-                    <p>Wyświetl aktywne egzaminy</p>
-                    <a th:href="@{/showactiveexams}">
+            <span class="col-sm-4 centered-span">
+                <a th:href="@{/showactiveexams}">
+                    <span class="tile">
+                        <p>Wyświetl aktywne egzaminy</p>
                         <img src="exam.png" alt="Wyświetl aktywne egzaminy"/>
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-4 centered-div">
-                <div class="tile">
-                    <p>Wyświetl wyniki egzaminów</p>
-                    <a th:href="@{/userexamresults}">
+                    </span>
+                </a>
+            </span>
+            <span class="col-sm-4 centered-span">
+                <a th:href="@{/userexamresults}">
+                    <span class="tile">
+                        <p>Wyświetl wyniki egzaminów</p>
                         <img src="scores.png" alt="Wyświetl wyniki egzaminów"/>
-                    </a>
-                </div>
-            </div>
+                    </span>
+                </a>
+            </span>
         </div>
     </div>
 </div>
