@@ -124,9 +124,10 @@ public class ProfessorController {
                 .collect(Collectors.toList());
 
         model.addAttribute("registeredCourses", registeredCourses)
-                .addAttribute("authToken", student.getAuthToken());
+                .addAttribute("authToken", student.getAuthToken())
+                .addAttribute("content", "registered-courses");
 
-        return "registered-courses";
+        return "main";
     }
 
     @PostMapping("/students/courses/{courseId}/unregister")
