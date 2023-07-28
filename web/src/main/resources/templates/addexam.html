@@ -23,7 +23,7 @@
     </script>
     <div class="mt-5">
         <form action="#" th:action="@{/addexam}" th:object="${exam}" method="post" class="d-flex flex-column align-items-center">
-            <label for="courseId">Course:</label>
+            <label for="courseId">Przedmiot:</label>
             <select id="courseId" th:field="${exam.courseId}" class="form-select mb-2 w-50">
                 <option value="" disabled selected>Select Course</option>
                 <option th:each="course : ${courseList}" th:value="${course.id}" th:text="${course.name}"></option>
