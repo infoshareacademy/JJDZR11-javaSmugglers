@@ -333,6 +333,7 @@ public class WebApplication {
                     exam1,
                     5.0,
                     5.0,
+                    100,
                     LocalDateTime.of(2023, 7, 28, 14, 0));
             examResultsRepository.save(student1Results);
 

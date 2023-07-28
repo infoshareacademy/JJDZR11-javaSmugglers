@@ -298,7 +298,7 @@ public class MainController {
 
     @GetMapping("userexamresults")
     public String showExamResults(Model model, Principal principal) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy ' g.'HH:mm");
         User user = userService.findByEmail(principal.getName());
         List<ExamResult> examResults = examResultService.findUserExamResults(user);
         List<Integer> percentageScores = new ArrayList<>();

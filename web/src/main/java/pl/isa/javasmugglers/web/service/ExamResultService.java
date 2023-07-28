@@ -33,9 +33,6 @@ public class ExamResultService {
         examResultsRepository.deleteExamResultByStudentId(studentId);
     }
 
-    /*    public List<ExamResult> findAllByStudentsList(List<User> studentsList){
-           return examResultsRepository.findAllByStudentList(studentsList);
-        }*/
     public List<ExamResult> findAllByStudentsList(List<User> studentsList) {
         return examResultsRepository.findAllByStudentIdIn(studentsList);
     }

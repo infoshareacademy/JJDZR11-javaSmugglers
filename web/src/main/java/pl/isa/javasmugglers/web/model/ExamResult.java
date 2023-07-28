@@ -34,16 +34,18 @@ public class ExamResult {
     private Exam examId;
     private Double studentScore;
     private Double maxExamScore;
+    private Integer percentage;
     private LocalDateTime examDateTime;
 
     public ExamResult() {
     }
 
-    public ExamResult(User studentId, Exam examId, Double studentScore, Double maxExamScore, LocalDateTime examDateTime) {
+    public ExamResult(User studentId, Exam examId, Double studentScore, Double maxExamScore, Integer percentage, LocalDateTime examDateTime) {
         this.studentId = studentId;
         this.examId = examId;
         this.studentScore = studentScore;
         this.maxExamScore = maxExamScore;
+        this.percentage = percentage;
         this.examDateTime = examDateTime;
     }
 
@@ -95,5 +97,13 @@ public class ExamResult {
 
     public void setExamDateTime(LocalDateTime examDateTime) {
         this.examDateTime = examDateTime;
+    }
+
+    public Integer getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(Integer percentage) {
+        this.percentage = percentage;
     }
 }
