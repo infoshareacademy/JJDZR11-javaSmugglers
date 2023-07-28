@@ -1,29 +1,20 @@
 package pl.isa.javasmugglers.web.controller;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
-
-import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
+import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
@@ -283,6 +274,7 @@ public class MainController {
         User user = userService.findByEmail(principal.getName());
         Double maxScore = examService.calculateExamMaxScore(exam);
         Double userScore = examService.calculateUserScore(userExamAnswers);
+        Integer percentage = examResultService.calculatePercentageScore(userScore, maxScore);
 
         ExamResult examResult = new ExamResult();
         examResult.setExamId(exam);
@@ -290,6 +282,7 @@ public class MainController {
         examResult.setStudentScore(userScore);
         examResult.setStudentId(user);
         examResult.setExamDateTime(LocalDateTime.now());
+        examResult.setPercentage(percentage);
 
         examResultService.save(examResult);
         return "redirect:/userexamresults";
@@ -298,28 +291,14 @@ public class MainController {
 
     @GetMapping("userexamresults")
     public String showExamResults(Model model, Principal principal) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy ' g.'HH:mm");
         User user = userService.findByEmail(principal.getName());
         List<ExamResult> examResults = examResultService.findUserExamResults(user);
-        List<Integer> percentageScores = new ArrayList<>();
-        List<String> examDateTimes = new ArrayList<>();
-        for (ExamResult result : examResults) {
-            int percentageScore = examResultService.calculatePercentageScore(
-                    result.getStudentScore(),
-                    result.getMaxExamScore());
-            String formattedDateTime = result.getExamDateTime().format(formatter);
-            percentageScores.add(percentageScore);
-            examDateTimes.add(formattedDateTime);
-        }
         model.addAttribute("examResults", examResults)
-                .addAttribute("percentageScores", percentageScores)
-                .addAttribute("examDateTimes", examDateTimes)
                 .addAttribute("user", user)
                 .addAttribute("content", "userexamresults")
                 .addAttribute("authToken", user.getAuthToken());
         return "main";
     }
-
 
 
     @GetMapping("/showactiveexams")
@@ -609,7 +588,7 @@ public class MainController {
 
 
     @GetMapping("my-courses")
-    public String showMyCourses(Model model, Principal principal){
+    public String showMyCourses(Model model, Principal principal) {
         User user = userService.findByEmail(principal.getName());
         List<Course> coursesList = courseService.coursesListByProfessorId(user.getId());
 
@@ -621,7 +600,7 @@ public class MainController {
 
 
     @GetMapping("student-list")
-    public String showStudentList(@RequestParam("id") Long courseId, Model model, Principal principal){
+    public String showStudentList(@RequestParam("id") Long courseId, Model model, Principal principal) {
         User Professor = userService.findByEmail(principal.getName());
         List<User> courseRegisteredStudentList = courseRegistrationService.courseRegisteredStudentsList(courseId);
         List<ExamResult> courseExamResults = examResultService.findAllByStudentsList(courseRegisteredStudentList);
