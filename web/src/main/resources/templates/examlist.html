@@ -22,7 +22,10 @@
             return confirm('Czy na pewno chcesz usunąć ten egzamin?');
         }
     </script>
-
+    <br>
+    <br>
+    <h4>Lista egzaminów z wszystkich przedmiotów: </h4>
+    <br>
     <div th:if="${#lists.isEmpty(examlist)}" class="alert alert-warning">
         Brak dodanych egzaminów
     </div>
@@ -62,9 +65,11 @@
                        class="btn btn-info btn-operation mb-2 text-center">Edytuj egzamin</a>
                     <a th:href="@{/questionlist/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}"
                        class="btn btn-primary btn-operation mb-2 text-center">Edytuj pytania</a>
-                    <form th:action="@{/delete/exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}" method="post">
+                    <form th:action="@{/delete/exam/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(exam.id)})}"
+                          method="post">
                         <button type="submit" class="btn btn-danger btn-operation text-center"
-                                onclick="return confirmDelete('${exam.id}')">Usuń egzamin</button>
+                                onclick="return confirmDelete('${exam.id}')">Usuń egzamin
+                        </button>
                     </form>
                 </td>
             </tr>

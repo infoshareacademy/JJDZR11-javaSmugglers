@@ -22,6 +22,11 @@
             return confirm('Czy na pewno chcesz usunąć to pytanie?');
         }
     </script>
+    <br>
+    <br>
+    <h4 class="text-center" th:text="${exam.getCourseId.getName + ': ' + exam.name}"></h4>
+    <br>
+
     <div th:if="${#lists.isEmpty(questionList)}" class="alert alert-warning">
         Brak pytań przypisanych do egzaminu
     </div>
@@ -75,7 +80,8 @@
             </tr>
             </tbody>
         </table>
-        <a th:href="@{/examlist}" class="btn btn-success btn-operation mb-5">Powrót</a>
-        <a th:href="@{/addquestion/{id}(id=${examID})}" class="btn btn-primary btn-operation mb-5">Dodaj pytanie</a>
+
     </div>
+    <a th:href="@{/examlist}" class="btn btn-success btn-operation mb-5">Powrót</a>
+    <a th:href="@{/addquestion/{id}(id=${examID})}" class="btn btn-primary btn-operation mb-5">Dodaj pytanie</a>
 </div>

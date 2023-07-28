@@ -154,10 +154,12 @@ public class MainController {
         Long decodedId = PathEncoderDecoder.decodePath(encodedID);
         List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(decodedId);
         String profID = examService.findById(decodedId).getCourseId().getProfessorId().getAuthToken();
-        String examID = PathEncoderDecoder.encodePath(examService.findById(decodedId).getId());
+        Exam exam = examService.findById(decodedId);
+        String examID = PathEncoderDecoder.encodePath(exam.getId());
         model.addAttribute("questionList", questionList)
                 .addAttribute("profId", profID)
                 .addAttribute("examID", examID)
+                .addAttribute("exam", exam)
                 .addAttribute("content", "questionlist");
         return "main";
     }
@@ -205,13 +207,21 @@ public class MainController {
 
 
     @PostMapping("update-answers")
-    public String updateAnswers(@ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper) {
+    public String updateAnswers(@ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper, @RequestParam String type) {
         for (ExamAnswer examAnswer : examAnswerWrapper.getExamAnswers()) {
             examAnswerService.saveAnswer(examAnswer);
         }
 
-        ExamQuestion questionID = examAnswerWrapper.getExamAnswers().get(0).getQuestionId();
-        Long currentExamID = examService.findByExamQuestion(questionID).getId();
+        Long questionID = examAnswerWrapper.getExamAnswers().get(0).getQuestionId().getId();
+        ExamQuestion question = examQuestionService.findByID(questionID);
+        try {
+            question.setType(ExamQuestion.questionType.valueOf(type));
+            examQuestionService.saveQuestion(question);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Nieprawidłowa wartość dla questionType: " + type);
+        }
+
+        Long currentExamID = examService.findByExamQuestion(question).getId();
         String encodedCurrentExamID = PathEncoderDecoder.encodePath(currentExamID);
         return "redirect:/questionlist/" + encodedCurrentExamID;
     }
@@ -606,8 +616,6 @@ public class MainController {
         List<ExamResult> courseExamResults = examResultService.findAllByStudentsList(courseRegisteredStudentList);
         Course course = courseService.findByID(courseId);
 
-        System.out.println(courseRegisteredStudentList.get(0).getFirstName());
-        System.out.println(courseExamResults.get(0).getExamId().getCourseId().getName());
         model.addAttribute("examResults", courseExamResults)
                 .addAttribute("courseName", course.getName())
                 .addAttribute("content", "courseExamResults");
