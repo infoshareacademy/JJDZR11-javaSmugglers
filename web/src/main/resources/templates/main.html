@@ -1,11 +1,46 @@
 <!DOCTYPE html>
 <html class="h-100" lang="pl">
-<head th:replace="~{fragments::head}"></head>
+<head>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            background-image: url('/pattern.jpg');
+            background-size: 30%;
+            background-repeat: repeat;
+        }
+
+        .content-container {
+            background-color: white;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            width: 90%;
+            margin: auto;
+            padding: 65px 20px 20px;
+            border: 1px solid #000000;
+            font-family: 'Sriracha', cursive ;
+        }
+
+    </style>
+    <head th:replace="~{fragments::head}"></head>
+
 <body class="h-100">
-<main class="flex-shrink-0">
-    <nav th:replace="~{fragments::navbar}"></nav>
+<nav th:replace="~{fragments::navbar}"></nav>
+
+<div class="content-container">
     <div th:replace="~{${content}::content}"></div>
-</main>
+</div>
+
 <footer th:replace="~{fragments::footer}"></footer>
 </body>
 </html>

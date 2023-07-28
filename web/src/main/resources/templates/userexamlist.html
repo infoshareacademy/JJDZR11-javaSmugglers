@@ -1,32 +1,56 @@
 <div th:fragment="content" class="container mt-2 mb-2">
-  <h4>Witaj</h4>
-  <h4 th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h4>
-  <h5>Oto lista egzaminów, które możesz zdawać:</h5>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>nr.</th>
-      <th>Przedmiot</th>
-      <th>Egzamin</th>
-      <th>Opis</th>
-      <th>Próg zaliczenia</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="exam, i : ${exams}">
-      <td th:text="${i.count}"></td>
-      <td th:text="${exam.courseId.name}"></td>
-      <td th:text="${exam.name}"></td>
-      <td th:text="${exam.description}"></td>
-      <td th:text="${exam.passingThreshold} + '%'"></td>
-      <td>
-        <form th:action="@{/startexam/{authToken}/{examId}(authToken=${authToken}, examId=${exam.id})}" method="get">
-          <button type="submit" class="btn-danger btn-operation">Rozpocznij egzamin</button>
-        </form>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <a th:href="@{/user-dashboard/{authToken}(authToken=${authToken})}" class="btn btn-success mb-2 mt-2">Powrót</a>
+    <style>
+        .btn-operation {
+            width: 150px;
+        }
+
+        .justify {
+            text-align: justify;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+    </style>
+    <br>
+    <h4 class="center">Witaj</h4>
+    <h4 th:text="${user.getFirstName() + ' ' + user.getLastName()}" class="center"></h4>
+    <h5 class="center">Oto lista egzaminów, które możesz zdawać:</h5>
+    <div th:if="${#lists.isEmpty(exams)}" class="alert alert-warning center">
+        Brak egzaminów
+    </div>
+    <br>
+    <div th:unless="${#lists.isEmpty(exams)}">
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>nr.</th>
+                <th>Przedmiot</th>
+                <th>Egzamin</th>
+                <th>Opis</th>
+                <th>Próg zaliczenia</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="exam, i : ${exams}">
+                <td th:text="${i.count}"></td>
+                <td th:text="${exam.courseId.name}"></td>
+                <td th:text="${exam.name}"></td>
+                <td th:text="${exam.description}"></td>
+                <td th:text="${exam.passingThreshold} + '%'"></td>
+                <td>
+                    <form th:action="@{/startexam/{examId}(examId=${exam.id})}" method="get">
+                        <button type="submit" class="btn-danger btn-operation">Rozpocznij egzamin</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <a th:href="@{'/user-dashboard'}" class="btn btn-primary mr-2 ">Powrót do głównego menu</a>
 </div>

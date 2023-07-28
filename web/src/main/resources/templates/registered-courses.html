@@ -1,63 +1,39 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments::head}"></head>
-<body>
-<nav th:replace="~{fragments::navbar}" class="navbar navbar-light bg-primary">
-  <div class="container-fluid d-flex justify-content-between">
-    <a th:class="${content == 'back'} ? 'btn btn-light me-2' : 'btn btn-outline-light me-2'" onclick="goBack()">Wróć</a>
-    <img th:src="@{/logo.gif}" alt="LOGO" width="70" height="70" class="mx-auto d-block"/>
-    <a th:class="${content == 'info'} ? 'btn btn-light me-2' : 'btn btn-outline-light me-2'" th:href="@{/login}">Wylogowanie</a>
-  </div>
-  <script>
-    function goBack() {
-      window.history.back();
-    }
-  </script>
-</nav>
+<div th:fragment="content" class="container mt-5">
 
-<main class="container mt-5">
-  <h1 class="text-center">Lista przedmiotów na które jesteś zapisany</h1>
-  <br>
-  <table class="table">
-    <thead class="thead-dark">
-    <tr>
-      <th>Nazwa kursu</th>
-      <th>Opis</th>
-      <th>Data rozpoczęcia</th>
-      <th>Data zakończenia</th>
-      <th>Punkty ECTS</th>
-      <th>Typ Kursu</th>
-      <th>Akcja</th>
+    <h1 class="text-center">Lista przedmiotów na które jesteś zapisany</h1>
+    <br>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>Nazwa kursu</th>
+            <th>Opis</th>
+            <th>Data rozpoczęcia</th>
+            <th>Data zakończenia</th>
+            <th>Punkty ECTS</th>
+            <th>Typ Kursu</th>
+            <th>Akcja</th>
 
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="course : ${registeredCourses}">
-      <td th:text="${course.name}"></td>
-      <td th:text="${course.description}"></td>
-      <td th:text="${course.startDate}"></td>
-      <td th:text="${course.endDate}"></td>
-      <td th:text="${course.ectsPoints}"></td>
-      <td th:text="${course.courseType}"></td>
-      <td>
-        <form th:action="@{'/students/' + ${authToken} + '/courses/' + ${course.id} + '/unregister'}" method="post">
-          <input type="hidden" name="studentId" th:value="${studentId}">
-          <input type="hidden" name="courseId" th:value="${course.id}">
-          <button type="submit" class="btn btn-danger">WYPISZ SIĘ</button>
-        </form>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <a th:href="@{'/user-dashboard/' + ${authToken}}" class="btn btn-primary">Powrót do głównego menu</a>
-</main>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course : ${registeredCourses}">
+            <td th:text="${course.name}"></td>
+            <td th:text="${course.description}"></td>
+            <td th:text="${course.startDate}"></td>
+            <td th:text="${course.endDate}"></td>
+            <td th:text="${course.ectsPoints}"></td>
+            <td th:text="${course.courseType}"></td>
+            <td>
+                <form th:action="@{'/students/courses/' + ${course.id} + '/unregister'}" method="post">
+                    <input type="hidden" name="studentId" th:value="${studentId}">
+                    <input type="hidden" name="courseId" th:value="${course.id}">
+                    <button type="submit" class="btn btn-danger">WYPISZ SIĘ</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{'/user-dashboard'}" class="btn btn-primary">Powrót do głównego menu</a>
+    </main>
 
-<footer th:replace="~{fragments::footer}" class="footer bg-primary text-center mt-auto fixed-bottom">
-  <div class="container text-white">
-    <small>Created by <a class="text-white" href="mailto:blazej.jendrzejewski@gmail.com">JavaSmugglers</a> 2023</small>
-  </div>
-</footer>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-</body>
-</html>
+</div>

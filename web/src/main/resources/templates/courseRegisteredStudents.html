@@ -1,0 +1,43 @@
+<div th:fragment="content" class="container mt-5">
+    <style>
+        .btn-operation {
+            display: flex;
+            text-align: center;
+            align-items: center;
+        }
+    </style>
+    <br>
+    <h4 class="text-center" th:text="${'Studenci zapisani na przedmiot: ' + courseName}"></h4>
+    <br>
+
+    <div th:if="${#lists.isEmpty(students)}" class="alert alert-warning">
+        Żaden student nie jest zapisany na ten przedmiot
+    </div>
+    <div th:unless="${#lists.isEmpty(students)}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">Numer Studenta</th>
+                <th class="text-center">Imię</th>
+                <th class="text-center">Nazwisko</th>
+                <th class="text-center">Email</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="student : ${students}">
+                <td class="text-center" th:text="${student.getId}"></td>
+                <td class="text-center" th:text="${student.getFirstName}"></td>
+                <td class="text-center" th:text="${student.getLastName}"></td>
+                <td class="text-center" th:text="${student.getEmail}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <div class="row">
+            <a th:href="@{/my-courses}" class="btn btn-primary btn-operation mr-2">Powrót do listy przedmiotów</a>
+        </div>
+    </div>
+</div>
+
+

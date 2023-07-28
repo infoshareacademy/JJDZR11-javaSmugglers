@@ -17,6 +17,7 @@ import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,9 +48,9 @@ public class ProfessorController {
     @Autowired
     StudentScheduleService studentScheduleService;
 
-    @GetMapping("students/{authToken}/register")
-    public String showProfessors(@PathVariable("authToken") String authToken, Model model) {
-        User student = userService.findByAuthToken(authToken);
+    @GetMapping("students/register")
+    public String showProfessors(Model model, Principal principal) {
+        User student = userService.findByEmail(principal.getName());
         Long studentID = student.getId();
         List<ProfessorDTO> professors = professorService.getAllProfessors();
         List<Long> registeredCourseIds = courseRegistrationService.findRegisteredCourseIdsByStudentId(studentID);
@@ -57,30 +58,31 @@ public class ProfessorController {
         model.addAttribute("professors", professors)
                 .addAttribute("studentId", studentID)
                 .addAttribute("registeredCourseIds", registeredCourseIds)
-                .addAttribute("authToken", authToken);
+                .addAttribute("authToken", student.getAuthToken())
+                .addAttribute("content", "professors");
 
-        return "professors";
+        return "main";
     }
 
 
-    @PostMapping("students/{authToken}/courses/{courseId}/register")
-    public String registerForCourse(@PathVariable("authToken") String authToken, @PathVariable("courseId") Long courseId, RedirectAttributes redirectAttributes) {
-        User student = userService.findByAuthToken(authToken);
+    @PostMapping("students/courses/{courseId}/register")
+    public String registerForCourse(@PathVariable("courseId") Long courseId, RedirectAttributes redirectAttributes, Principal principal) {
+        User student = userService.findByEmail(principal.getName());
         Long studentID = student.getId();
         boolean registrationStatus = courseRegistrationService.registerCourse(studentID, courseId);
 
         if (!registrationStatus) {
             redirectAttributes.addFlashAttribute("message", "Student is already registered for this course");
         }
-        return "redirect:/students/" + authToken + "/registered-courses";
+        return "redirect:/students/registered-courses";
     }
 
-    @GetMapping("students/{authToken}/schedule")
-    public String getStudentSchedule(@PathVariable("authToken") String authToken,
+    @GetMapping("students/schedule")
+    public String getStudentSchedule(Principal principal,
                                      @RequestParam(value = "weekOffset", defaultValue = "0") int weekOffset,
                                      @RequestParam(value = "selectedDate", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate selectedDate,
                                      Model model) {
-        User student = userService.findByAuthToken(authToken);
+        User student = userService.findByEmail(principal.getName());
         Long studentID = student.getId();
 
         LocalDate currentDate = selectedDate != null ? selectedDate : LocalDate.now();
@@ -92,18 +94,19 @@ public class ProfessorController {
         model.addAttribute("currentDate", currentDate);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
-        model.addAttribute("weekOffset", weekOffset);
-        return "student-schedule";
+        model.addAttribute("weekOffset", weekOffset)
+                .addAttribute("content", "student-schedule");
+        return "main";
     }
 
-    @PostMapping("students/{authToken}/schedule")
-    public String getStudentScheduleByDate(@PathVariable("authToken") String authToken,
+    @PostMapping("students/schedule")
+    public String getStudentScheduleByDate(Principal principal,
                                            @RequestParam(value = "weekOffset", defaultValue = "0") int weekOffset,
                                            @RequestParam("selectedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate selectedDate,
                                            Model model) {
-        User student = userService.findByAuthToken(authToken);
+        User student = userService.findByEmail(principal.getName());
         Long studentID = student.getId();
-        List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentID, selectedDate );
+        List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentID, selectedDate);
         model.addAttribute("schedule", schedule);
         model.addAttribute("selectedDate", selectedDate);
         model.addAttribute("weekOffset", weekOffset);
@@ -111,9 +114,9 @@ public class ProfessorController {
     }
 
 
-    @GetMapping("students/{studentId}/registered-courses")
-    public String showRegisteredCourses(@PathVariable("studentId") String authToken, Model model) {
-        User student = userService.findByAuthToken(authToken);
+    @GetMapping("students/registered-courses")
+    public String showRegisteredCourses(Model model, Principal principal) {
+        User student = userService.findByEmail(principal.getName());
 
         List<Course> registeredCourses = CourseRegistrationService.findAllByStudentId(student)
                 .stream()
@@ -121,14 +124,15 @@ public class ProfessorController {
                 .collect(Collectors.toList());
 
         model.addAttribute("registeredCourses", registeredCourses)
-                .addAttribute("authToken", authToken);
+                .addAttribute("authToken", student.getAuthToken())
+                .addAttribute("content", "registered-courses");
 
-        return "registered-courses";
+        return "main";
     }
 
-    @PostMapping("/students/{authToken}/courses/{courseId}/unregister")
-    public String unregisterFromCourse(@PathVariable("authToken") String authToken, @PathVariable("courseId") Long courseId) {
-        User student = userService.findByAuthToken(authToken);
+    @PostMapping("/students/courses/{courseId}/unregister")
+    public String unregisterFromCourse(@PathVariable("courseId") Long courseId, Principal principal) {
+        User student = userService.findByEmail(principal.getName());
 
         Course course = courseService.findByID(courseId);
 
@@ -136,7 +140,7 @@ public class ProfessorController {
 
         courseRegistrationService.delete(courseRegistration);
 
-        return "redirect:/students/" + authToken + "/registered-courses";
+        return "redirect:/students/registered-courses";
     }
 
 

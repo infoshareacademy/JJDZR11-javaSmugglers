@@ -18,15 +18,13 @@ import java.util.Random;
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-    private final CourseRepository courseRepository;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private static final String USER_NOT_FOUND = "USER WITH EMAIL %S NOT FOUND.";
 
 
-    public UserService(UserRepository userRepository, CourseRepository courseRepository) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.courseRepository = courseRepository;
     }
 
     @Override
@@ -45,6 +43,7 @@ public class UserService implements UserDetailsService {
     public User findByAuthToken (String authToken){
         return userRepository.findByAuthToken(authToken);
     }
+
 
     public List<User> getAllUsers()
     {
@@ -71,6 +70,11 @@ public class UserService implements UserDetailsService {
         Integer result = r.nextInt(high-low) + low;
         return (passwordEncoder.encode(result.toString())).replace("/", "q");
 
+    }
+
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(() ->
+                new UsernameNotFoundException(String.format(USER_NOT_FOUND, email)));
     }
 
 }

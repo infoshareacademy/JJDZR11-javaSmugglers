@@ -1,0 +1,69 @@
+<div th:fragment="content" class="container mt-5">
+    <style>
+        .btn-operation {
+            display: flex;
+            text-align: center;
+            align-items: center;
+
+        }
+
+    </style>
+    <br>
+    <h4 class="text-center" th:text="${'Wyniki egzaminów z przedmiotu: ' + courseName}"></h4>
+    <br>
+    <div th:if="${#lists.isEmpty(examResults)}" class="alert alert-warning">
+        Żaden student nie zdawał egzaminu z tego przedmiotu
+    </div>
+    <div th:unless="${#lists.isEmpty(examResults)}">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">Numer Studenta</th>
+                <th class="text-center">Imię</th>
+                <th class="text-center">Nazwisko</th>
+                <th class="text-center">Email</th>
+                <th class="text-center">Egzamin</th>
+
+                <th class="text-center">Data i godzina egzaminu</th>
+                <th class="text-center">Twój wynik</th>
+                <th class="text-center">Maksymalny wynik</th>
+                <th class="text-center">Twój procent</th>
+                <th class="text-center">Próg zdawalności</th>
+                <th class="text-center"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exam : ${examResults}">
+                <td class="text-center" th:text="${exam.studentId.getId}"></td>
+                <td class="text-center" th:text="${exam.studentId.getFirstName}"></td>
+                <td class="text-center" th:text="${exam.studentId.getLastName}"></td>
+                <td class="text-center" th:text="${exam.studentId.getEmail}"></td>
+
+                <td class="text-center" th:text="${exam.examId.getName}"></td>
+
+                <td class="text-center" th:text="${exam.getExamDateTime}"></td>
+                <td class="text-center" th:text="${exam.getStudentScore}"></td>
+                <td class="text-center" th:text="${exam.getMaxExamScore}"></td>
+                <td class="text-center" th:text="${exam.getPercentage} + '%'"></td>
+
+                <td class="text-center" th:text="${exam.examId.getPassingThreshold} + '%'"></td>
+                <td>
+                <span th:if="${exam.getPercentage >= exam.examId.getPassingThreshold}" th:text="'Zaliczone'"
+                      style="color: green;"></span>
+                    <span th:unless="${exam.getPercentage >= exam.examId.getPassingThreshold}"
+                          th:text="'Niezaliczone'" style="color: red;"></span>
+                </td>
+
+
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <br>
+    <div class="row">
+        <a th:href="@{/my-courses}" class="btn btn-primary btn-operation mr-2">Powrót do listy przedmiotów</a>
+    </div>
+</div>
+
+

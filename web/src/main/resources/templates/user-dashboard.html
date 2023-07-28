@@ -1,37 +1,99 @@
 <div th:fragment="content" class="container mt-5">
-  <style>
-    .btn-operation {
-      width: 300px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
 
-    .center {
-      text-align: center;
-    }
-  </style>
-  <h3 class="center" th:text="'Witaj '+ ${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+        h3, .tile p {
+            font-family: 'Sriracha', serif;
+        }
 
-  <br>
+        .tile {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #000;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            transition: transform .2s;
+            display: block;
 
-  <div class="center">
-    <a th:href="@{/students/{authToken}/schedule(authToken=*{authToken})}" class="btn btn-secondary btn-operation mb-4">
-      Zobacz plan lekcji
-    </a>
-    <a th:href="@{/students/{authToken}/register(authToken=*{authToken})}" class="btn btn-secondary btn-operation mb-4">
-      Zapisz się na zajęcia
-    </a>
-    <a th:href="@{/students/{authToken}/registered-courses(authToken=*{authToken})}" class="btn btn-secondary btn-operation mb-4">
-      Aktywne kursy
-    </a>
+        }
+
+        .tile p {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            color: black;
+
+        }
+
+        .tile img {
+            max-width: 100%;
+            max-height: 70%;
+        }
+
+        .tile:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        .centered-span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    </style>
+
+    <h3 class="text-center">Witaj</h3>
+    <h3 class="text-center" th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
     <br>
-    <a th:href="@{/showactiveexams/{authToken}(authToken=*{authToken})}" class="btn btn-info btn-operation mb-4">
-      Wyświetl aktywne egzaminy
-    </a>
     <br>
-    <a th:href="@{/userexamresults/{authToken}(authToken=*{authToken})}" class="btn btn-success btn-operation mb-4">
-      Wyświetl wyniki egzaminów
-    </a>
-  </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <span class="col-sm-4 centered-span">
+                <a th:href="@{/students/schedule}">
+                    <span class="tile">
+                        <p>Zobacz plan lekcji</p>
+                        <img src="timetable.png" alt="Zobacz plan lekcji"/>
+                    </span>
+                </a>
+            </span>
+            <span class="col-sm-4 centered-span">
+                <a th:href="@{/students/register}">
+                    <span class="tile">
+                        <p>Zapisz się na zajęcia</p>
+                        <img src="register.png" alt="Zapisz się na zajęcia"/>
+                    </span>
+                </a>
+            </span>
+            <span class="col-sm-4 centered-span">
+                <a th:href="@{/students/registered-courses}">
+                    <span class="tile">
+                        <p>Aktywne kursy</p>
+                        <img src="registered-courses.png" alt="Aktywne kursy"/>
+                    </span>
+                </a>
+            </span>
+        </div>
+        <br>
+        <br>
+        <div class="row justify-content-center">
+            <span class="col-sm-4 centered-span">
+                <a th:href="@{/showactiveexams}">
+                    <span class="tile">
+                        <p>Wyświetl aktywne egzaminy</p>
+                        <img src="exam.png" alt="Wyświetl aktywne egzaminy"/>
+                    </span>
+                </a>
+            </span>
+            <span class="col-sm-4 centered-span">
+                <a th:href="@{/userexamresults}">
+                    <span class="tile">
+                        <p>Wyświetl wyniki egzaminów</p>
+                        <img src="scores.png" alt="Wyświetl wyniki egzaminów"/>
+                    </span>
+                </a>
+            </span>
+        </div>
+    </div>
 </div>

@@ -1,4 +1,20 @@
 <div th:fragment="content" class="container mt-5 d-flex justify-content-center">
+    <script>
+        function validateDates() {
+            var startDate = document.getElementById("courseStartDate").value;
+            var endDate = document.getElementById("courseEndDate").value;
+
+            if (endDate < startDate) {
+                alert("Data zakończenia musi być późniejsza niż data rozpoczęcia!");
+                document.getElementById("courseEndDate").value = "";
+            }
+        }
+
+    </script>
+
+    </script>
+    <br>
+    <br>
     <form action="#" th:action="@{/addcourse}" method="post" class="w-100">
         <h2 class="text-center">Formularz dodania przedmiotu wraz z sesjami</h2>
         <h5 class="text-center">Uwaga! sesje zostaną dodane automatycznie na podstawie danych podanych poniżej.
@@ -25,6 +41,7 @@
                 pierwszych zajęć):</label>
             <div class="col-sm-2">
                 <input type="date" id="courseStartDate" th:field="*{course.startDate}" class="form-control" required>
+
             </div>
         </div>
 
@@ -32,7 +49,7 @@
             <label for="courseEndDate" class="col-sm-4 col-form-label text-end">Data zakończenia przedmiotu (data
                 ostatnich zajęć):</label>
             <div class="col-sm-2">
-                <input type="date" id="courseEndDate" th:field="*{course.endDate}" class="form-control" required>
+                <input type="date" id="courseEndDate" th:field="*{course.endDate}" class="form-control" required onchange="validateDates()">
             </div>
         </div>
 
@@ -80,7 +97,7 @@
         <div class="row mb-3">
             <label for="sessionEndTime" class="col-sm-4 col-form-label text-end">Godzina zakończenia:</label>
             <div class="col-sm-2">
-                <input type="time" id="sessionEndTime" name="sessionEndTime" class="form-control" required>
+                <input type="time" id="sessionEndTime" name="sessionEndTime" class="form-control" required >
             </div>
         </div>
 
@@ -93,7 +110,9 @@
 
         <div class="row justify-content-center mt-4">
             <div class="col-4">
-                <button type="button" class="btn btn-success w-50" th:data-auth-token="${authToken}" onclick="window.location.href='/DashboardProfessor/' + this.dataset.authToken">Powrót</button>
+                <button type="button" class="btn btn-success w-50" onclick="window.location.href='/DashboardProfessor'">
+                    Powrót
+                </button>
             </div>
             <div class="col-4">
                 <button type="submit" class="btn btn-primary w-50">Zapisz</button>
