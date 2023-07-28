@@ -469,7 +469,7 @@ public class MainController {
         course.setProfessorId(user);
         courseService.saveCourse(course);
         courseSessionService.addMultipleSession(frequency, startTime, endTime, location, course);
-        return "redirect:/professorTimetable";
+        return "redirect:/professor-courses";
     }
 
     @GetMapping("edit-course/{encodedID}")
@@ -493,14 +493,14 @@ public class MainController {
         existingCourse.setEctsPoints(course.getEctsPoints());
         existingCourse.setCourseType(course.getCourseType());
         courseService.saveCourse(existingCourse);
-        return "redirect:/professorTimetable";
+        return "redirect:/professor-courses";
     }
 
     @PostMapping("delete/course/{encodedID}")
     public String deleteCourse(@PathVariable("encodedID") String encodedID) {
         Long decodedID = PathEncoderDecoder.decodePath(encodedID);
         courseService.deleteCourse(decodedID);
-        return "redirect:/professorTimetable";
+        return "redirect:/professor-courses";
     }
 
     @GetMapping("edit-courseSession/{encodedID}")
@@ -541,14 +541,14 @@ public class MainController {
         existingCourseSession.setLocation(courseSession.getLocation());
         existingCourseSession.setSessionDate(courseSession.getSessionDate());
         courseSessionService.saveCourseSession(existingCourseSession);
-        return "redirect:/professorTimetable";
+        return "redirect:/professor-courses";
     }
 
     @PostMapping("delete/courseSession/{encodedID}")
     public String deleteCourseSession(@PathVariable("encodedID") String encodedID) {
         Long decodedID = PathEncoderDecoder.decodePath(encodedID);
         courseSessionService.deleteCourseSession(decodedID);
-        return "redirect:/professorTimetable";
+        return "redirect:/professor-courses";
     }
 
     @GetMapping("addcoursesession/{encodedCourseID}")
@@ -583,7 +583,7 @@ public class MainController {
 
         courseSessionService.saveCourseSession(courseSession);
 
-        return "redirect:/professorTimetable";
+        return "redirect:/professor-courses";
     }
 
 
