@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import pl.isa.javasmugglers.web.model.user.User;
 import pl.isa.javasmugglers.web.model.user.UserType;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity(name = "examResults")
 public class ExamResult {
 
@@ -31,15 +34,17 @@ public class ExamResult {
     private Exam examId;
     private Double studentScore;
     private Double maxExamScore;
+    private LocalDateTime examDateTime;
 
     public ExamResult() {
     }
 
-    public ExamResult(User studentId, Exam examId, Double studentScore, Double maxExamScore) {
+    public ExamResult(User studentId, Exam examId, Double studentScore, Double maxExamScore, LocalDateTime examDateTime) {
         this.studentId = studentId;
         this.examId = examId;
         this.studentScore = studentScore;
         this.maxExamScore = maxExamScore;
+        this.examDateTime = examDateTime;
     }
 
     public Long getId() {
@@ -84,4 +89,11 @@ public class ExamResult {
         this.maxExamScore = maxExamScore;
     }
 
+    public LocalDateTime getExamDateTime() {
+        return examDateTime;
+    }
+
+    public void setExamDateTime(LocalDateTime examDateTime) {
+        this.examDateTime = examDateTime;
+    }
 }

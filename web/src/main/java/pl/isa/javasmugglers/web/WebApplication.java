@@ -16,6 +16,7 @@ import pl.isa.javasmugglers.web.service.UserService;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 @EntityScan()
@@ -326,13 +327,15 @@ public class WebApplication {
     CommandLineRunner commandLineRunner8(ExamResultsRepository examResultsRepository, ExamRepository examRepository, UserRepository userRepository) {
         return args -> {
             Exam exam1 = examRepository.findById(1L).get();
-            User student1 = userRepository.findById(4L).get();
+            User student1 = userRepository.findById(2L).get();
             ExamResult student1Results = new ExamResult(
                     student1,
                     exam1,
                     5.0,
-                    5.0);
+                    5.0,
+                    LocalDateTime.of(2023, 7, 28, 14, 0));
             examResultsRepository.save(student1Results);
+
         };
     }
 

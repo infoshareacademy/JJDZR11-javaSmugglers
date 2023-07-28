@@ -20,16 +20,25 @@ public class ExamResultService {
         return examResultsRepository.save(examResult);
     }
 
-    public List<ExamResult> findUserExamResults (User user){
+    public List<ExamResult> findUserExamResults(User user) {
         return examResultsRepository.findAllByStudentId(user);
 
     }
 
-    public int calculatePercentageScore (double userScore, double maxScore){
+    public int calculatePercentageScore(double userScore, double maxScore) {
         return (int) Math.round(userScore / maxScore * 100);
     }
-    public void deleteByStudentId(long studentId){
+
+    public void deleteByStudentId(long studentId) {
         examResultsRepository.deleteExamResultByStudentId(studentId);
     }
+
+    /*    public List<ExamResult> findAllByStudentsList(List<User> studentsList){
+           return examResultsRepository.findAllByStudentList(studentsList);
+        }*/
+    public List<ExamResult> findAllByStudentsList(List<User> studentsList) {
+        return examResultsRepository.findAllByStudentIdIn(studentsList);
+    }
+
 
 }

@@ -18,18 +18,18 @@
     </style>
 
 
-    <div th:if="${#lists.isEmpty(examlist)}" class="alert alert-warning">
+    <div th:if="${#lists.isEmpty(students)}" class="alert alert-warning">
         Żaden student nie jest zarejestrowany na ten przedmiot
     </div>
-    <div th:unless="${#lists.isEmpty(examlist)}">
+    <div th:unless="${#lists.isEmpty(students)}">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th class="text-center">Przedmiot</th>
-                <th class="text-center">Typ</th>
-                <th class="text-center">Nazwa egzaminu</th>
-                <th class="text-center">Opis egzaminu</th>
-                <th class="text-center">Data rozpoczęcia</th>
+                <th class="text-center">Numer Studenta</th>
+                <th class="text-center">Imię</th>
+                <th class="text-center">Nazwisko</th>
+                <th class="text-center">Email</th>
+                <th class="text-center"></th>
                 <th class="text-center">Godzina rozpoczęcia</th>
                 <th class="text-center">Data zakończenia</th>
                 <th class="text-center">Godzina zakończenia</th>

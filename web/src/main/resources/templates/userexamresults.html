@@ -4,10 +4,11 @@
     <h4 th:text="${user.getFirstName() + ' ' + user.getLastName()}" style="text-align: center;"></h4>
     <h5 style="text-align: center;">Oto wyniki twoich egzaminów:</h5>
     <br>
-    <table class="table" >
+    <table class="table">
         <tr style="text-align: center;">
             <th>Przedmiot</th>
             <th>Nazwa egzaminu</th>
+            <th>Data</th>
             <th>Twój wynik</th>
             <th>Maksymalny wynik</th>
             <th>Procent</th>
@@ -17,6 +18,7 @@
         <tr th:each="result, i : ${examResults}" style="text-align: center;">
             <td th:text="${result.getExamId().getCourseId().getName()}"></td>
             <td th:text="${result.getExamId().getName()}"></td>
+            <td th:text="${examDateTimes[i.index]}"></td>
             <td th:text="${result.getStudentScore()}"></td>
             <td th:text="${result.getMaxExamScore()}"></td>
             <td th:text="${percentageScores[i.index]} + '%'"></td>

@@ -19,6 +19,7 @@ import pl.isa.javasmugglers.web.service.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -288,6 +289,7 @@ public class MainController {
         examResult.setMaxExamScore(maxScore);
         examResult.setStudentScore(userScore);
         examResult.setStudentId(user);
+        examResult.setExamDateTime(LocalDateTime.now());
 
         examResultService.save(examResult);
         return "redirect:/userexamresults";
@@ -296,22 +298,28 @@ public class MainController {
 
     @GetMapping("userexamresults")
     public String showExamResults(Model model, Principal principal) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         User user = userService.findByEmail(principal.getName());
         List<ExamResult> examResults = examResultService.findUserExamResults(user);
         List<Integer> percentageScores = new ArrayList<>();
+        List<String> examDateTimes = new ArrayList<>();
         for (ExamResult result : examResults) {
             int percentageScore = examResultService.calculatePercentageScore(
                     result.getStudentScore(),
                     result.getMaxExamScore());
+            String formattedDateTime = result.getExamDateTime().format(formatter);
             percentageScores.add(percentageScore);
+            examDateTimes.add(formattedDateTime);
         }
         model.addAttribute("examResults", examResults)
                 .addAttribute("percentageScores", percentageScores)
+                .addAttribute("examDateTimes", examDateTimes)
                 .addAttribute("user", user)
                 .addAttribute("content", "userexamresults")
                 .addAttribute("authToken", user.getAuthToken());
         return "main";
     }
+
 
 
     @GetMapping("/showactiveexams")
@@ -614,11 +622,15 @@ public class MainController {
 
     @GetMapping("student-list")
     public String showStudentList(@RequestParam("id") Long courseId, Model model, Principal principal){
-        User user = userService.findByEmail(principal.getName());
+        User Professor = userService.findByEmail(principal.getName());
         List<User> courseRegisteredStudentList = courseRegistrationService.courseRegisteredStudentsList(courseId);
+        List<ExamResult> courseExamResults = examResultService.findAllByStudentsList(courseRegisteredStudentList);
+        System.out.println("course students" + courseRegisteredStudentList.get(0).getEmail());
+        System.out.println("exam results" + courseExamResults.get(0).getStudentId());
 
         model.addAttribute("students", courseRegisteredStudentList)
-                .addAttribute();
+                .addAttribute("examResults", courseExamResults)
+                .addAttribute("content", "courseRegisteredStudents");
 
         return "main";
 
