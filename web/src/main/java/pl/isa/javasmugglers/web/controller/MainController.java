@@ -604,10 +604,12 @@ public class MainController {
         User Professor = userService.findByEmail(principal.getName());
         List<User> courseRegisteredStudentList = courseRegistrationService.courseRegisteredStudentsList(courseId);
         List<ExamResult> courseExamResults = examResultService.findAllByStudentsList(courseRegisteredStudentList);
+        Course course = courseService.findByID(courseId);
 
         System.out.println(courseRegisteredStudentList.get(0).getFirstName());
-        System.out.println(courseExamResults.get(0).getPercentage());
+        System.out.println(courseExamResults.get(0).getExamId().getCourseId().getName());
         model.addAttribute("examResults", courseExamResults)
+                .addAttribute("courseName", course.getName())
                 .addAttribute("content", "courseExamResults");
 
         return "main";
@@ -618,8 +620,11 @@ public class MainController {
     @GetMapping("student-list")
     public String showStudentList(@RequestParam("id") Long courseId, Model model, Principal principal) {
         User Professor = userService.findByEmail(principal.getName());
+        Course course = courseService.findByID(courseId);
+
         List<User> courseRegisteredStudentList = courseRegistrationService.courseRegisteredStudentsList(courseId);
         model.addAttribute("students", courseRegisteredStudentList)
+                .addAttribute("courseName", course.getName())
                 .addAttribute("content", "courseRegisteredStudents");
 
         return "main";

@@ -7,17 +7,10 @@
 
         }
 
-        .justify {
-            text-align: justify;
-        }
-
-        .center {
-            text-align: center;
-        }
-
     </style>
-
-
+    <br>
+    <h4 class="text-center" th:text="${'Wyniki egzaminów z przedmiotu: ' + courseName}"></h4>
+    <br>
     <div th:if="${#lists.isEmpty(examResults)}" class="alert alert-warning">
         Żaden student nie zdawał egzaminu z tego przedmiotu
     </div>

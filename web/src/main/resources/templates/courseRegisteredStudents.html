@@ -4,19 +4,11 @@
             display: flex;
             text-align: center;
             align-items: center;
-
         }
-
-        .justify {
-            text-align: justify;
-        }
-
-        .center {
-            text-align: center;
-        }
-
     </style>
-
+    <br>
+    <h4 class="text-center" th:text="${'Studenci zapisani na przedmiot: ' + courseName}"></h4>
+    <br>
 
     <div th:if="${#lists.isEmpty(students)}" class="alert alert-warning">
         Żaden student nie jest zapisany na ten przedmiot
