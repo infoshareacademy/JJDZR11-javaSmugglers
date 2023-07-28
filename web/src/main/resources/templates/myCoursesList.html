@@ -45,10 +45,17 @@
                 <td class="text-center align-middle" th:text="${course.getStartDate()}"></td>
                 <td class="text-center align-middle" th:text="${course.getEndDate()}"></td>
                 <td>
-                    <form th:action="@{/student-list(id=${course.getId()})}" method="get">
-                        <button type="submit" class="btn-danger btn-operation">Wyświetl studentów</button>
+                    <form th:action="@{/student-list}" method="get">
+                        <input type="hidden" name="id" th:value="${course.getId()}"/>
+                        <button type="submit" class="btn-info btn-operation mb-2">Wyświetl zapisanych studentów</button>
                     </form>
+                    <form th:action="@{/student-results-list}" method="get">
+                        <input type="hidden" name="id" th:value="${course.getId()}"/>
+                        <button type="submit" class="btn-warning btn-operation">Wyświetl wyniki egzaminów</button>
+                    </form>
+
                 </td>
+
             </tr>
             </tbody>
         </table>

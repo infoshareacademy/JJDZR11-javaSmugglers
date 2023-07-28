@@ -599,22 +599,32 @@ public class MainController {
     }
 
 
-    @GetMapping("student-list")
-    public String showStudentList(@RequestParam("id") Long courseId, Model model, Principal principal) {
+    @GetMapping("student-results-list")
+    public String showStudentResultsList(@RequestParam("id") Long courseId, Model model, Principal principal) {
         User Professor = userService.findByEmail(principal.getName());
         List<User> courseRegisteredStudentList = courseRegistrationService.courseRegisteredStudentsList(courseId);
         List<ExamResult> courseExamResults = examResultService.findAllByStudentsList(courseRegisteredStudentList);
-        System.out.println("course students" + courseRegisteredStudentList.get(0).getEmail());
-        System.out.println("exam results" + courseExamResults.get(0).getStudentId());
 
-        model.addAttribute("students", courseRegisteredStudentList)
-                .addAttribute("examResults", courseExamResults)
-                .addAttribute("content", "courseRegisteredStudents");
+        System.out.println(courseRegisteredStudentList.get(0).getFirstName());
+        System.out.println(courseExamResults.get(0).getPercentage());
+        model.addAttribute("examResults", courseExamResults)
+                .addAttribute("content", "courseExamResults");
 
         return "main";
 
 
     }
 
+    @GetMapping("student-list")
+    public String showStudentList(@RequestParam("id") Long courseId, Model model, Principal principal) {
+        User Professor = userService.findByEmail(principal.getName());
+        List<User> courseRegisteredStudentList = courseRegistrationService.courseRegisteredStudentsList(courseId);
+        model.addAttribute("students", courseRegisteredStudentList)
+                .addAttribute("content", "courseRegisteredStudents");
+
+        return "main";
+
+
+    }
 
 }
