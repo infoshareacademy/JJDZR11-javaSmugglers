@@ -57,7 +57,7 @@
                         <li th:each="answer : ${question.examAnswerList}" th:text="${answer.answerText}"></li>
                     </ol>
                 </td>
-                <td class="center">
+                <td>
                     <ol type="a">
                         <li th:each="answer : ${question.examAnswerList}"
                             th:text="${answer.isCorrect} ? 'Poprawna' : 'Niepoprawna'"></li>

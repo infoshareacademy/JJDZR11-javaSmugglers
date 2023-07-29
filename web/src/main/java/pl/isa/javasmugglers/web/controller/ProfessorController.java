@@ -46,6 +46,8 @@ public class ProfessorController {
     @Autowired
     ProfessorService professorService;
     @Autowired
+    ProfessorScheduleService professorScheduleService;
+    @Autowired
     StudentScheduleService studentScheduleService;
 
     @GetMapping("students/register")
@@ -109,8 +111,9 @@ public class ProfessorController {
         List<CourseSession> schedule = studentScheduleService.getStudentScheduleByDate(studentID, selectedDate);
         model.addAttribute("schedule", schedule);
         model.addAttribute("selectedDate", selectedDate);
-        model.addAttribute("weekOffset", weekOffset);
-        return "student-schedule";
+        model.addAttribute("weekOffset", weekOffset)
+                .addAttribute("content", "student-schedule");
+        return "main";
     }
 
 
@@ -143,6 +146,30 @@ public class ProfessorController {
         return "redirect:/students/registered-courses";
     }
 
+    @GetMapping("professors/schedule")
+    public String getProfessorSchedule(Principal principal, Model model) {
+        User professor = userService.findByEmail(principal.getName());
+        Long professorID = professor.getId();
+        LocalDate currentDate = LocalDate.now();
+        List<CourseSession> schedule = professorScheduleService.getProfessorSchedule(professorID);
+        model.addAttribute("schedule", schedule);
+        model.addAttribute("currentDate", currentDate)
+                .addAttribute("content", "professor-schedule");
+        return "main";
+    }
+
+    @PostMapping("professors/schedule")
+    public String getProfessorScheduleByDate(Principal principal,
+            @RequestParam("selectedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate selectedDate,
+            Model model) {
+        User professor = userService.findByEmail(principal.getName());
+        Long professorID = professor.getId();
+
+        List<CourseSession> schedule = professorScheduleService.getProfessorScheduleByDate(professorID, selectedDate);
+        model.addAttribute("schedule", schedule)
+                .addAttribute("content", "professor-schedule" );
+        return "main";
+    }
 
 }
 
