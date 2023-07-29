@@ -142,7 +142,29 @@ public class ProfessorController {
 
         return "redirect:/students/registered-courses";
     }
+    @GetMapping("professors/{authToken}/schedule")
+    public String getProfessorSchedule(@PathVariable("authToken") String authToken, Model model) {
+        User professor = userService.findByAuthToken(authToken);
+        Long professorID = professor.getId();
+        LocalDate currentDate = LocalDate.now();
+        List<CourseSession> schedule = professorScheduleService.getProfessorSchedule(professorID);
+        model.addAttribute("schedule", schedule);
+        model.addAttribute("currentDate", currentDate);
+        return "professor-schedule";
+    }
 
+    @PostMapping("professors/{authToken}/schedule")
+    public String getProfessorScheduleByDate(
+            @PathVariable("authToken") String authToken,
+            @RequestParam("selectedDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate selectedDate,
+            Model model) {
+        User professor = userService.findByAuthToken(authToken);
+        Long professorID = professor.getId();
+
+        List<CourseSession> schedule = professorScheduleService.getProfessorScheduleByDate(professorID, selectedDate);
+        model.addAttribute("schedule", schedule);
+        return "professor-schedule";
+    }
 
 }
 
