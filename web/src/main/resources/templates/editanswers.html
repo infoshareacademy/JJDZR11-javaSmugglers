@@ -1,8 +1,9 @@
 <div th:fragment="content" class="container">
-
+    <br>
+    <br>
     <h3>Edytuj odpowiedzi na pytanie:</h3>
     <h4 th:text="${examQuestion.questionText}"></h4>
-    <form th:action="@{/update-answers}" method="post" th:object="${examAnswers}">
+    <form id="answersForm" th:action="@{/update-answers}" method="post" th:object="${examAnswers}">
         <table>
             <thead>
             <tr>
@@ -15,7 +16,6 @@
             <tr th:each="answer, status : *{examAnswers}">
                 <td th:text="${alphabet[status.index]} + '.'"></td>
                 <td>
-
                     <input type="hidden" th:field="*{examAnswers[__${status.index}__].id}" th:value="${answer.id}"/>
                     <input type="hidden" th:field="*{examAnswers[__${status.index}__].questionId.id}"
                            th:value="${examQuestion.id}"/>
@@ -24,13 +24,43 @@
                 </td>
                 <td>
                     <input  type="checkbox" th:field="*{examAnswers[__${status.index}__].correct}"
-                           th:checked="${answer.correct}"/>
+                            th:checked="${answer.correct}"/>
                 </td>
             </tr>
-
             </tbody>
         </table>
+        <input type="hidden" id="type" name="type" value="">
         <button class="btn btn-primary mr-2" th:href="@{/questionlist/{encodedId}(encodedId=${T(pl.isa.javasmugglers.web.service.PathEncoderDecoder).encodePath(examQuestion.id)})}">Powrót</button>
         <button type="submit" class="btn btn-primary">Zapisz</button>
     </form>
+
+    <script>
+        function validateForm() {
+            const checkboxes = document.querySelectorAll('#answersForm input[type=checkbox]');
+            let isChecked = false;
+            let countChecked = 0;
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    isChecked = true;
+                    countChecked++;
+                }
+            });
+
+            if (!isChecked) {
+                alert('Proszę zaznaczyć co najmniej jedną odpowiedź jako prawidłową!');
+                return false;
+            }
+
+            const typeInput = document.getElementById('type');
+            if (countChecked > 1) {
+                typeInput.value = 'MULTIPLE';
+            } else {
+                typeInput.value = 'SINGLE';
+            }
+
+            return true;
+        }
+        document.getElementById('answersForm').onsubmit = validateForm;
+    </script>
 </div>

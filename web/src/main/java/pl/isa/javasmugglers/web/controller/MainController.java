@@ -2,31 +2,19 @@ package pl.isa.javasmugglers.web.controller;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.isa.javasmugglers.web.StudentConfig.ProfessorDTO;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import pl.isa.javasmugglers.web.StudentConfig.ProfessorDTO;
 import pl.isa.javasmugglers.web.model.*;
 import pl.isa.javasmugglers.web.model.user.User;
-import pl.isa.javasmugglers.web.repository.CourseRegistrationRepository;
-import pl.isa.javasmugglers.web.repository.CourseRepository;
-import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.model.user.UserStatus;
 import pl.isa.javasmugglers.web.model.user.UserType;
 import pl.isa.javasmugglers.web.repository.UserRepository;
 import pl.isa.javasmugglers.web.service.*;
 
-import java.time.LocalDate;
+import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
@@ -52,9 +40,9 @@ public class MainController {
     CourseSessionService courseSessionService;
 
 
-    @GetMapping("examlist/{authToken}")
-    String examlist(@PathVariable("authToken") String authToken, Model model) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("examlist")
+    String examlist(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         model.addAttribute("examlist", examService.listAllExamsByProfessorId(user.getId()))
                 .addAttribute("profID", user.getId())
                 .addAttribute("content", "examlist")
@@ -62,29 +50,29 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping("studentTimetable/{authToken}")
-    String studentTimetable(@PathVariable("authToken") String authToken, Model model) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("studentTimetable")
+    String studentTimetable(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         List<CourseSession> courseSessions = courseService.coursesListByStudentId(user.getId());
         model.addAttribute("studentTimetable", courseSessions)
                 .addAttribute("content", "studentTimetable")
                 .addAttribute("studentId", user.getId())
                 .addAttribute("user", user)
-                .addAttribute("authToken", authToken);
+                .addAttribute("authToken", user.getAuthToken());
         return "main";
     }
 
 
-    @GetMapping("professorTimetable/{authToken}")
-    String professorTimetable(@PathVariable("authToken") String authToken, Model model) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("professor-courses")
+    String professorCourses(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         List<Course> courseList = courseService.coursesListByProfessorId(user.getId());
         List<CourseSession> courseSessionList = courseSessionService.getCourseSessionByCourseID(courseList);
         model.addAttribute("professorCourseList", courseList)
                 .addAttribute("content", "professorCourseList")
                 .addAttribute("professorId", user.getId())
                 .addAttribute("user", user)
-                .addAttribute("authToken", authToken)
+                .addAttribute("authToken", user.getAuthToken())
                 .addAttribute("courseSessionList", courseSessionList);
         return "main";
     }
@@ -103,15 +91,15 @@ public class MainController {
 
         examService.saveExam(exam);
         String authToken = exam.getCourseId().getProfessorId().getAuthToken();
-        return "redirect:/examlist/" + authToken;
+        return "redirect:/examlist";
     }
 
-    @GetMapping("addexam/{authToken}")
-    public String showAddExamForm(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("addexam")
+    public String showAddExamForm(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         model.addAttribute("exam", new Exam())
                 .addAttribute("courseList", courseService.coursesListByProfessorId(user.getId()))
-                .addAttribute("authToken", authToken)
+                .addAttribute("authToken", user.getAuthToken())
                 .addAttribute("content", "addexam");
         return "main";
     }
@@ -158,8 +146,7 @@ public class MainController {
         existingExam.setPassingThreshold(exam.getPassingThreshold());
 
         examService.saveExam(existingExam);
-        String authToken = exam.getCourseId().getProfessorId().getAuthToken();
-        return "redirect:/examlist/" + authToken;
+        return "redirect:/examlist";
     }
 
     @GetMapping("questionlist/{encodedID}")
@@ -167,10 +154,12 @@ public class MainController {
         Long decodedId = PathEncoderDecoder.decodePath(encodedID);
         List<ExamQuestion> questionList = examQuestionService.findAllQuestionByExamID(decodedId);
         String profID = examService.findById(decodedId).getCourseId().getProfessorId().getAuthToken();
-        String examID = PathEncoderDecoder.encodePath(examService.findById(decodedId).getId());
+        Exam exam = examService.findById(decodedId);
+        String examID = PathEncoderDecoder.encodePath(exam.getId());
         model.addAttribute("questionList", questionList)
                 .addAttribute("profId", profID)
                 .addAttribute("examID", examID)
+                .addAttribute("exam", exam)
                 .addAttribute("content", "questionlist");
         return "main";
     }
@@ -218,13 +207,21 @@ public class MainController {
 
 
     @PostMapping("update-answers")
-    public String updateAnswers(@ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper) {
+    public String updateAnswers(@ModelAttribute("examAnswers") ExamAnswerWrapper examAnswerWrapper, @RequestParam String type) {
         for (ExamAnswer examAnswer : examAnswerWrapper.getExamAnswers()) {
             examAnswerService.saveAnswer(examAnswer);
         }
 
-        ExamQuestion questionID = examAnswerWrapper.getExamAnswers().get(0).getQuestionId();
-        Long currentExamID = examService.findByExamQuestion(questionID).getId();
+        Long questionID = examAnswerWrapper.getExamAnswers().get(0).getQuestionId().getId();
+        ExamQuestion question = examQuestionService.findByID(questionID);
+        try {
+            question.setType(ExamQuestion.questionType.valueOf(type));
+            examQuestionService.saveQuestion(question);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Nieprawidłowa wartość dla questionType: " + type);
+        }
+
+        Long currentExamID = examService.findByExamQuestion(question).getId();
         String encodedCurrentExamID = PathEncoderDecoder.encodePath(currentExamID);
         return "redirect:/questionlist/" + encodedCurrentExamID;
     }
@@ -261,10 +258,10 @@ public class MainController {
     }
 
 
-    @GetMapping("startexam/{authToken}/{examId}")
-    public String startExam(@PathVariable Long examId, @PathVariable String authToken, Model model) {
+    @GetMapping("startexam/{examId}")
+    public String startExam(@PathVariable Long examId, Model model, Principal principal) {
         Exam exam = examService.findById(examId);
-        User user = userService.findByAuthToken(authToken);
+        User user = userService.findByEmail(principal.getName());
         UserExamAnswers userExamAnswers = new UserExamAnswers();
 
 
@@ -279,38 +276,34 @@ public class MainController {
 
     }
 
-    @PostMapping("startexam/{authToken}/{examId}")
-    public String submitAnswers(@PathVariable Long examId, @PathVariable String authToken,
-                                @ModelAttribute UserExamAnswers userExamAnswers) {
+    @PostMapping("startexam/{examId}")
+    public String submitAnswers(@PathVariable Long examId,
+                                @ModelAttribute UserExamAnswers userExamAnswers,
+                                Principal principal) {
         Exam exam = examService.findById(examId);
-        User user = userService.findByAuthToken(authToken);
+        User user = userService.findByEmail(principal.getName());
         Double maxScore = examService.calculateExamMaxScore(exam);
         Double userScore = examService.calculateUserScore(userExamAnswers);
+        Integer percentage = examResultService.calculatePercentageScore(userScore, maxScore);
 
         ExamResult examResult = new ExamResult();
         examResult.setExamId(exam);
         examResult.setMaxExamScore(maxScore);
         examResult.setStudentScore(userScore);
         examResult.setStudentId(user);
+        examResult.setExamDateTime(LocalDateTime.now());
+        examResult.setPercentage(percentage);
 
         examResultService.save(examResult);
-        return "redirect:/userexamresults/" + authToken;
+        return "redirect:/userexamresults";
     }
 
 
-    @GetMapping("userexamresults/{authToken}")
-    public String showExamResults(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("userexamresults")
+    public String showExamResults(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         List<ExamResult> examResults = examResultService.findUserExamResults(user);
-        List<Integer> percentageScores = new ArrayList<>();
-        for (ExamResult result : examResults) {
-            int percentageScore = examResultService.calculatePercentageScore(
-                    result.getStudentScore(),
-                    result.getMaxExamScore());
-            percentageScores.add(percentageScore);
-        }
         model.addAttribute("examResults", examResults)
-                .addAttribute("percentageScores", percentageScores)
                 .addAttribute("user", user)
                 .addAttribute("content", "userexamresults")
                 .addAttribute("authToken", user.getAuthToken());
@@ -318,9 +311,9 @@ public class MainController {
     }
 
 
-    @GetMapping("/showactiveexams/{authToken}")
-    public String showActiveExams(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("/showactiveexams")
+    public String showActiveExams(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         List<CourseRegistration> registrations = courseRegistrationService.findAllRegisteredCourses(user);
         List<Course> registeredCourses = registrations.stream().map(CourseRegistration::getCourseId).toList();
         List<Exam> allRegisteredExams = examService.findAllByCourseList(registeredCourses);
@@ -343,10 +336,10 @@ public class MainController {
     }
 
     @PostMapping("delete/exam/{encodedID}")
-    public String deleteExam(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
+    public String deleteExam(@PathVariable("encodedID") String encodedID) {
         Long decodedID = PathEncoderDecoder.decodePath(encodedID);
         examService.deleteExam(decodedID);
-        return "redirect:/examlist/" + authToken;
+        return "redirect:/examlist";
     }
 
     @PostMapping("delete/question/{encodedID}")
@@ -368,18 +361,18 @@ public class MainController {
         return "registrationsuccesfull";
     }
 
-    @GetMapping("DashboardProfessor/{authToken}")
-    public String professorDashboard(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("DashboardProfessor")
+    public String professorDashboard(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user)
                 .addAttribute("content", "DashboardProfessor")
                 .addAttribute("authToken", user.getAuthToken());
         return "main";
     }
 
-    @GetMapping("user-dashboard/{authToken}")
-    public String userDashboard(Model model, @PathVariable("authToken") String authToken) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("user-dashboard")
+    public String userDashboard(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
         model.addAttribute("user", user)
                 .addAttribute("content", "user-dashboard")
                 .addAttribute("authToken", user.getAuthToken());
@@ -395,10 +388,12 @@ public class MainController {
     }
 
 
-    @GetMapping("user-dashboard/courses/{id}")
-    String courselist(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("CourseList", examService.listAllExamsByProfessorId(id))
-                .addAttribute("profID", id)
+    @GetMapping("user-dashboard/courses")
+    String courselist(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
+        Long profID = user.getId();
+        model.addAttribute("CourseList", examService.listAllExamsByProfessorId(profID))
+                .addAttribute("profID", profID)
                 .addAttribute("content", "courseList");
 
         return "main";
@@ -460,14 +455,14 @@ public class MainController {
     }
 
 
-    @GetMapping("addcourse/{authToken}")
-    public String showAddCourseForm(Model model, @PathVariable("authToken") String authToken, HttpSession session) {
-        User user = userService.findByAuthToken(authToken);
+    @GetMapping("addcourse")
+    public String showAddCourseForm(Model model, Principal principal, HttpSession session) {
+        User user = userService.findByEmail(principal.getName());
 
         session.setAttribute("user", user);
 
         model.addAttribute("course", new Course())
-                .addAttribute("authToken", authToken)
+                .addAttribute("authToken", user.getAuthToken())
                 .addAttribute("content", "addCourse");
         return "main";
     }
@@ -484,7 +479,7 @@ public class MainController {
         course.setProfessorId(user);
         courseService.saveCourse(course);
         courseSessionService.addMultipleSession(frequency, startTime, endTime, location, course);
-        return "redirect:/professorTimetable/" + user.getAuthToken();
+        return "redirect:/professor-courses";
     }
 
     @GetMapping("edit-course/{encodedID}")
@@ -508,15 +503,14 @@ public class MainController {
         existingCourse.setEctsPoints(course.getEctsPoints());
         existingCourse.setCourseType(course.getCourseType());
         courseService.saveCourse(existingCourse);
-        String authToken = existingCourse.getProfessorId().getAuthToken();
-        return "redirect:/professorTimetable/" + authToken;
+        return "redirect:/professor-courses";
     }
 
     @PostMapping("delete/course/{encodedID}")
-    public String deleteCourse(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
+    public String deleteCourse(@PathVariable("encodedID") String encodedID) {
         Long decodedID = PathEncoderDecoder.decodePath(encodedID);
         courseService.deleteCourse(decodedID);
-        return "redirect:/professorTimetable/" + authToken;
+        return "redirect:/professor-courses";
     }
 
     @GetMapping("edit-courseSession/{encodedID}")
@@ -552,21 +546,19 @@ public class MainController {
         java.sql.Time startTime = java.sql.Time.valueOf(startTimeString);
         java.sql.Time endTime = java.sql.Time.valueOf(endTimeString);
 
-
         existingCourseSession.setStartTime(startTime);
         existingCourseSession.setEndTime(endTime);
         existingCourseSession.setLocation(courseSession.getLocation());
         existingCourseSession.setSessionDate(courseSession.getSessionDate());
         courseSessionService.saveCourseSession(existingCourseSession);
-        String authToken = existingCourseSession.getCourseId().getProfessorId().getAuthToken();
-        return "redirect:/professorTimetable/" + authToken;
+        return "redirect:/professor-courses";
     }
 
     @PostMapping("delete/courseSession/{encodedID}")
-    public String deleteCourseSession(@PathVariable("encodedID") String encodedID, @RequestParam("authToken") String authToken) {
+    public String deleteCourseSession(@PathVariable("encodedID") String encodedID) {
         Long decodedID = PathEncoderDecoder.decodePath(encodedID);
         courseSessionService.deleteCourseSession(decodedID);
-        return "redirect:/professorTimetable/" + authToken;
+        return "redirect:/professor-courses";
     }
 
     @GetMapping("addcoursesession/{encodedCourseID}")
@@ -593,20 +585,59 @@ public class MainController {
 
         Course course = (Course) session.getAttribute("course");
 
-
         java.sql.Time startTime = java.sql.Time.valueOf(startTimeString + ":00");
         java.sql.Time endTime = java.sql.Time.valueOf(endTimeString + ":00");
         courseSession.setStartTime(startTime);
         courseSession.setEndTime(endTime);
         courseSession.setCourseId(course);
 
-
         courseSessionService.saveCourseSession(courseSession);
 
-        String authToken = courseSession.getCourseId().getProfessorId().getAuthToken();
-
-        return "redirect:/professorTimetable/" + authToken;
+        return "redirect:/professor-courses";
     }
 
+
+    @GetMapping("my-courses")
+    public String showMyCourses(Model model, Principal principal) {
+        User user = userService.findByEmail(principal.getName());
+        List<Course> coursesList = courseService.coursesListByProfessorId(user.getId());
+
+        System.out.println(coursesList.get(0).getName());
+        model.addAttribute("coursesList", coursesList)
+                .addAttribute("content", "myCoursesList");
+        return "main";
+    }
+
+
+    @GetMapping("student-results-list")
+    public String showStudentResultsList(@RequestParam("id") Long courseId, Model model, Principal principal) {
+        User Professor = userService.findByEmail(principal.getName());
+        List<User> courseRegisteredStudentList = courseRegistrationService.courseRegisteredStudentsList(courseId);
+        List<ExamResult> courseExamResults = examResultService.findAllByStudentsList(courseRegisteredStudentList);
+        Course course = courseService.findByID(courseId);
+
+        model.addAttribute("examResults", courseExamResults)
+                .addAttribute("courseName", course.getName())
+                .addAttribute("content", "courseExamResults");
+
+        return "main";
+
+
+    }
+
+    @GetMapping("student-list")
+    public String showStudentList(@RequestParam("id") Long courseId, Model model, Principal principal) {
+        User Professor = userService.findByEmail(principal.getName());
+        Course course = courseService.findByID(courseId);
+
+        List<User> courseRegisteredStudentList = courseRegistrationService.courseRegisteredStudentsList(courseId);
+        model.addAttribute("students", courseRegisteredStudentList)
+                .addAttribute("courseName", course.getName())
+                .addAttribute("content", "courseRegisteredStudents");
+
+        return "main";
+
+
+    }
 
 }

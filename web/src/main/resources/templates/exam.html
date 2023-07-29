@@ -1,11 +1,13 @@
 <div th:fragment="content" class="container"
      style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: left;">
+    <br>
+    <br>
     <span style="font-weight: bold;">Czas egzaminu do końca egzaminu: <span id="countdown"
                                                                             style="font-weight: bold;"></span></span>
 
     <p style="font-weight: bold;">Uwaga! Po skończonym czasie egzamin zostanie zakończony automatycznie!</p>
 
-    <form id="examForm" th:action="@{'/startexam/' + ${user.authToken} + '/' + ${exam.id}}" th:object="${answers}"
+    <form id="examForm" th:action="@{'/startexam/' + ${exam.id}}" th:object="${answers}"
           method="post">
 
         <input type="hidden" th:value="${user}" name="user"/>

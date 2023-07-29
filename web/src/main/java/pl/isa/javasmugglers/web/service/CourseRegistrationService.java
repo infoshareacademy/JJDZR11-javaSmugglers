@@ -66,5 +66,13 @@ public class CourseRegistrationService {
         courseRegistrationRepository.delete(courseRegistration);
     }
 
+    public List<User> courseRegisteredStudentsList(Long courseID){
+        Course course = courseRepository.findById(courseID).orElseThrow(()-> new IllegalArgumentException("Course with id: " + courseID + "not found"));
+        List<CourseRegistration> courseRegistrationList = courseRegistrationRepository.findAllByCourseId(course);
+        List<User> userList = courseRegistrationList.stream().map(CourseRegistration::getStudentId).toList();
+    return userList;
+    }
+
+
 }
 

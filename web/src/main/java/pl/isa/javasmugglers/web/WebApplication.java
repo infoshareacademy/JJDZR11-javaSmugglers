@@ -16,6 +16,7 @@ import pl.isa.javasmugglers.web.service.UserService;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @SpringBootApplication
 @EntityScan()
@@ -40,7 +41,6 @@ public class WebApplication {
                     UserType.STUDENT,
 
 
-
                     userService.generateAuthToken()
 
             );
@@ -49,10 +49,9 @@ public class WebApplication {
                     "Agata",
                     "Kowalska",
                     "agata@gmail.com",
-                    bCryptPasswordEncoder.encode("lato24"),
+                   bCryptPasswordEncoder.encode("lato24"),
                     UserStatus.ACTIVE,
                     UserType.PROFESOR,
-
 
 
                     userService.generateAuthToken()
@@ -68,7 +67,6 @@ public class WebApplication {
                     UserType.STUDENT,
 
 
-
                     userService.generateAuthToken()
 
             );
@@ -81,7 +79,6 @@ public class WebApplication {
                     UserStatus.ACTIVE,
                     UserType.PROFESOR,
                     userService.generateAuthToken()
-
 
 
             );
@@ -335,8 +332,11 @@ public class WebApplication {
                     student1,
                     exam1,
                     5.0,
-                    5.0);
+                    5.0,
+                    100,
+                    LocalDateTime.of(2023, 7, 28, 14, 0));
             examResultsRepository.save(student1Results);
+
         };
     }
 

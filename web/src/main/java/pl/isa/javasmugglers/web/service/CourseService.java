@@ -1,5 +1,6 @@
 package pl.isa.javasmugglers.web.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseRegistration;
@@ -18,15 +19,15 @@ public class CourseService {
     private CourseRepository courseRepository;
     private UserRepository userRepository;
     private CourseSessionRepository courseSessionRepository;
-    private CourseRegistrationRepository courseRegistrationeRepository;
+    private CourseRegistrationRepository courseRegistrationRepository;
 
     public CourseService(CourseRepository courseRepository, UserRepository userRepository,
                          CourseSessionRepository courseSessionRepository,
-                         CourseRegistrationRepository courseRegistrationeRepository) {
+                         CourseRegistrationRepository courseRegistrationRepository) {
         this.courseRepository = courseRepository;
         this.userRepository = userRepository;
         this.courseSessionRepository = courseSessionRepository;
-        this.courseRegistrationeRepository = courseRegistrationeRepository;
+        this.courseRegistrationRepository = courseRegistrationRepository;
     }
 
     public List<Course> coursesListByProfessorId(Long professorId) {
@@ -38,7 +39,7 @@ public class CourseService {
 
     public List<CourseSession> coursesListByStudentId(Long studentId) {
         User user = userRepository.findById(studentId).orElseThrow();
-        List<CourseRegistration> coursesByStudent = courseRegistrationeRepository.findAllByStudentId(user);
+        List<CourseRegistration> coursesByStudent = courseRegistrationRepository.findAllByStudentId(user);
         return coursesByStudent.stream()
                 .map(courseRegistration -> courseRepository.findById(courseRegistration.getId()).orElseThrow())
                 .map(course -> courseSessionRepository.findAllByCourseId(course))
@@ -52,7 +53,7 @@ public class CourseService {
                 "courseRepository=" + courseRepository +
                 ", userRepository=" + userRepository +
                 ", courseSessionRepository=" + courseSessionRepository +
-                ", courseRegistrationeRepository=" + courseRegistrationeRepository +
+                ", courseRegistrationeRepository=" + courseRegistrationRepository +
                 '}';
     }
 
@@ -78,4 +79,7 @@ public class CourseService {
         return (courseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid course ID: " + id)));
     }
 
+    public List<Course> findCoursesByProfessorId(Long professorId) {
+        return courseRepository.findCoursesByProfessorId(professorId);
+    }
 }

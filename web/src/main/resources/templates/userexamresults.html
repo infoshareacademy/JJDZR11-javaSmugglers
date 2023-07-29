@@ -1,10 +1,14 @@
 <div th:fragment="content" class="container mt-2 mb-2">
+    <br>
+    <br>
     <h4 th:text="${user.getFirstName() + ' ' + user.getLastName()}" style="text-align: center;"></h4>
     <h5 style="text-align: center;">Oto wyniki twoich egzaminów:</h5>
-    <table class="table" >
+    <br>
+    <table class="table">
         <tr style="text-align: center;">
             <th>Przedmiot</th>
             <th>Nazwa egzaminu</th>
+            <th>Data i godzina</th>
             <th>Twój wynik</th>
             <th>Maksymalny wynik</th>
             <th>Procent</th>
@@ -14,18 +18,20 @@
         <tr th:each="result, i : ${examResults}" style="text-align: center;">
             <td th:text="${result.getExamId().getCourseId().getName()}"></td>
             <td th:text="${result.getExamId().getName()}"></td>
+            <td th:text="${#temporals.format(result.examDateTime, 'dd-MM-yyyy') + ' g.' + #temporals.format(result.examDateTime, 'HH:mm')}"></td>
             <td th:text="${result.getStudentScore()}"></td>
             <td th:text="${result.getMaxExamScore()}"></td>
-            <td th:text="${percentageScores[i.index]} + '%'"></td>
+            <td th:text="${result.getPercentage} + '%'"></td>
             <td th:text="${result.getExamId().passingThreshold} + '%'"></td>
             <td>
-                <span th:if="${percentageScores[i.index] >= result.getExamId().passingThreshold}" th:text="'Zaliczone'"
+                <span th:if="${result.getPercentage >= result.getExamId().passingThreshold}" th:text="'Zaliczone'"
                       style="color: green;"></span>
-                <span th:unless="${percentageScores[i.index] >= result.getExamId().passingThreshold}"
+                <span th:unless="${result.getPercentage >= result.getExamId().passingThreshold}"
                       th:text="'Niezaliczone'" style="color: red;"></span>
             </td>
 
         </tr>
     </table>
-    <a th:href="@{/user-dashboard/{authToken}(authToken=${authToken})}" class="btn btn-success ">Powrót</a>
+    <br>
+    <a th:href="@{'/user-dashboard'}" class="btn btn-primary">Powrót do głównego menu</a>
 </div>
