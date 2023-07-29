@@ -1,5 +1,6 @@
 package pl.isa.javasmugglers.web.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.isa.javasmugglers.web.model.Course;
 import pl.isa.javasmugglers.web.model.CourseRegistration;
@@ -78,4 +79,12 @@ public class CourseService {
         return (courseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid course ID: " + id)));
     }
 
+    @Autowired
+    public CourseService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
+
+    public List<Course> findCoursesByProfessorId(Long professorId) {
+        return courseRepository.findCoursesByProfessorId(professorId);
+    }
 }

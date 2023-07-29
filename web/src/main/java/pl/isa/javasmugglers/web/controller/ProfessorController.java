@@ -46,6 +46,8 @@ public class ProfessorController {
     @Autowired
     ProfessorService professorService;
     @Autowired
+    ProfessorScheduleService professorScheduleService;
+    @Autowired
     StudentScheduleService studentScheduleService;
 
     @GetMapping("students/register")
