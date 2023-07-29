@@ -1,43 +1,36 @@
-<!DOCTYPE html>
-<html class="h-100" lang="pl">
-<head th:replace="~{fragments::head}"></head>
-<body class="h-100">
-<main class="flex-shrink-0">
-  <nav th:replace="~{fragments::navbar}"></nav>
-  <div class="container mt-5">
+<div th:fragment="content" class="container mt-5">
+    <br>
+    <br>
     <h2 class="text-center">Twój plan zajęć:</h2>
     <h5 class="text-center small">Wybierz datę, a następnie pojawi Ci się plan zajęć</h5>
-    <form th:action="@{/professors/{authToken}/schedule(authToken=${authToken})}" method="post">
-      <div class="form-group">
-        <input type="date" name="selectedDate" class="form-control custom-form-control" required />
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block">Wyświetl</button>
-      </div>
+    <form th:action="@{/professors/schedule}" method="post">
+        <div class="form-group">
+            <input type="date" name="selectedDate" class="form-control custom-form-control" required/>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Wyświetl</button>
+        </div>
     </form>
     <table class="table">
-      <thead class="thead-dark">
-      <tr>
-        <th scope="col">Kurs</th>
-        <th scope="col">Data</th>
-        <th scope="col">Godzina rozpoczęcia</th>
-        <th scope="col">Godzina zakończenia</th>
-        <th scope="col">Miejsce</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="courseSession : ${schedule}">
-        <td th:text="${courseSession.courseId.name}"></td>
-        <td th:text="${courseSession.sessionDate}"></td>
-        <td th:text="${courseSession.startTime}"></td>
-        <td th:text="${courseSession.endTime}"></td>
-        <td th:text="${courseSession.location}"></td>
-      </tr>
-      </tbody>
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Kurs</th>
+            <th scope="col">Data</th>
+            <th scope="col">Godzina rozpoczęcia</th>
+            <th scope="col">Godzina zakończenia</th>
+            <th scope="col">Miejsce</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="courseSession : ${schedule}">
+            <td th:text="${courseSession.courseId.name}"></td>
+            <td th:text="${courseSession.sessionDate}"></td>
+            <td th:text="${courseSession.startTime}"></td>
+            <td th:text="${courseSession.endTime}"></td>
+            <td th:text="${courseSession.location}"></td>
+        </tr>
+        </tbody>
     </table>
-    <a th:href="@{'/DashboardProfessor/' + ${authToken}}" class="btn btn-primary">Powrót do głównego menu</a>
-  </div>
-</main>
-<footer th:replace="~{fragments::footer}"></footer>
-</body>
-</html>
+    <a th:href="@{'/DashboardProfessor'}" class="btn btn-primary">Powrót do głównego menu</a>
+</div>
+

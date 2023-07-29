@@ -1,55 +1,67 @@
 <div th:fragment="content" class="container mt-5">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
 
-    h3, .tile p {
-      font-family: 'Sriracha', serif;
-    }
+        h3, .tile p {
+            font-family: 'Sriracha', serif;
+        }
 
-    .tile {
-      width: 250px;
-      height: 250px;
-      border: 2px solid #000;
-      text-align: center;
-      padding: 20px;
-      box-sizing: border-box;
-      margin-bottom: 20px;
-      transition: transform .2s;
-      display: block;
-    }
+        .tile {
+            width: 220px;
+            height: 220px;
+            border: 2px solid #000;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            transition: transform .2s;
+            display: block;
+        }
 
-    .tile p {
-      word-wrap: break-word;
-      overflow-wrap: break-word;
-      color: black;
-    }
+        .tile p {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            color: black;
+        }
 
-    .tile img {
-      max-width: 100%;
-      max-height: 70%;
-    }
+        .tile img {
+            max-width: 100%;
+            max-height: 70%;
+        }
 
-    .tile:hover {
-      transform: scale(1.05);
-      cursor: pointer;
-    }
+        .tile:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
 
-    .centered-span {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100%;
-    }
-  </style>
-  <br>
-  <br>
-  <h3 class="text-center">Witaj Profesorze</h3>
-  <h3 class="text-center" th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
-  <br>
-  <br>
-  <br>
-  <div class="container">
-    <div class="row justify-content-center">
+        .centered-span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    </style>
+    <br>
+    <br>
+    <h3 class="text-center">Witaj Profesorze</h3>
+    <h3 class="text-center" th:text="${user.getFirstName() + ' ' + user.getLastName()}"></h3>
+    <br>
+    <br>
+    <div class="container">
+
+        <div class="row justify-content-center">
+      <span class="col-sm-4 centered-span">
+        <a th:href="@{/professors/schedule}">
+          <span class="tile">
+            <p>Zobacz plan zajęć</p>
+            <img src="timetable.png" alt="Zobacz plan zajęć"/>
+          </span>
+        </a>
+      </span>
+            </span>
+        </div>
+        <br>
+        <div class="row justify-content-center">
       <span class="col-sm-4 centered-span">
         <a th:href="@{/professor-courses}">
           <span class="tile">
@@ -58,7 +70,7 @@
           </span>
         </a>
       </span>
-      <span class="col-sm-4 centered-span">
+            <span class="col-sm-4 centered-span">
         <a th:href="@{/examlist}">
           <span class="tile">
             <p>Dodaj lub edytuj egzaminy</p>
@@ -66,7 +78,7 @@
           </span>
         </a>
       </span>
-      <span class="col-sm-4 centered-span">
+            <span class="col-sm-4 centered-span">
         <a th:href="@{/my-courses}">
           <span class="tile">
             <p>Lista przedmiotów oraz zapisanych studentów</p>
@@ -74,39 +86,6 @@
           </span>
         </a>
       </span>
+        </div>
     </div>
-  </div>
 </div>
-
-
-<!--<div th:fragment="content" class="container mt-5">-->
-<!--  <style>-->
-<!--    .btn-operation {-->
-<!--      width: 300px;-->
-<!--      white-space: nowrap;-->
-<!--      overflow: hidden;-->
-<!--      text-overflow: ellipsis;-->
-<!--    }-->
-
-<!--    .center {-->
-<!--      text-align: center;-->
-<!--    }-->
-<!--  </style>-->
-<!--  <h3 class="center" th:text="'Witaj Profesorze '+ ${user.getFirstName() + ' ' + user.getLastName()}"></h3>-->
-
-<!--  <br>-->
-
-<!--  <div class="center">-->
-<!--    <a th:href="@{/professorTimetable/{authToken}(authToken=*{authToken})}" class="btn btn-info btn-operation mb-4">-->
-<!--      Dodaj lub edytuj przedmioty i zajęcia-->
-<!--    </a>-->
-<!--    <a th:href="@{/professors/{authToken}/schedule(authToken=*{authToken})}" class="btn btn-info btn-operation mb-4">-->
-<!--      Pokaż Plan Zajęć-->
-<!--    </a>-->
-<!--    <br>-->
-<!--    <a th:href="@{/examlist/{authToken}(authToken=*{authToken})}" class="btn btn-primary btn-operation mb-4">-->
-<!--      Dodaj lub edytuj egzaminy-->
-<!--    </a>-->
-
-<!--  </div>-->
-<!--</div>-->
